@@ -1,5 +1,7 @@
 # argument-map
 
+[English](README.md) | [简体中文](README.zh-CN.md)
+
 <div align="center">
 
 **Turn dense papers into an argument you can see.**

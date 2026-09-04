@@ -11,7 +11,7 @@ Source-checked claims. Interactive 3D reasoning. One self-contained HTML file.
 [![License](https://img.shields.io/github/license/Mojiajun2022/argument-map)](LICENSE)
 [![Python](https://img.shields.io/badge/python-3.9%2B-3776AB?logo=python&logoColor=white)](https://www.python.org/)
 
-[**Open the live demo**](https://Mojiajun2022.github.io/argument-map/demo.html) | [Quick start](#quick-start) | [How it works](#what-it-does)
+[**Open the live demo**](https://htmlpreview.github.io/?https://raw.githubusercontent.com/Mojiajun2022/argument-map/main/demo.html) | [Download demo HTML](demo.html) | [Quick start](#quick-start)
 
 ![argument-map demo](docs/overview.png)
 
@@ -633,9 +633,9 @@ python3 scripts/build_graph.py examples/tutorial-graph.json \
 
 The repository also includes pre-built screenshots from a real paper:
 
-![Full argument map](docs/overview.png)
+![Full argument map](overview.png)
 
-![Spine only](docs/spine.png)
+![Spine only](spine.png)
 
 ## Development
 

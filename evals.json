@@ -1,0 +1,81 @@
+{
+  "skill_name": "argument-map",
+  "evals": [
+    {
+      "id": 0,
+      "name": "direct-3d-request",
+      "prompt": "Turn /path/to/paper.pdf into a 3D knowledge graph that shows the complete argument from motivation to conclusion.",
+      "expected_output": "A self-contained interactive 3D HTML graph with a marked main spine, paper-specific node details, and a prose spine walk-through.",
+      "files": ["/path/to/paper.pdf"],
+      "assertions": [
+        "produces-html-deliverable: an .html artifact exists in the requested output directory",
+        "html-is-self-contained: the HTML has no external script, stylesheet, or image dependency",
+        "visualization-is-3d-interactive: the page uses perspective projection and supports orbit, zoom, and node selection",
+        "graph-covers-full-logic-chain: the graph has at least 12 nodes and covers at least four argument stages",
+        "node-details-cite-paper-specifics: details contain source-specific values, datasets, metrics, or conditions",
+        "spine-marked: main edges or an equivalent mechanism visibly identifies the load-bearing argument",
+        "renders-without-js-errors: the browser loads the page without JavaScript errors and draws nodes",
+        "answer-includes-spine-walkthrough: the response explains the spine step by step",
+        "faithful-to-source: the graph is built with --source and any --allow-unverified exception is explained individually"
+      ]
+    },
+    {
+      "id": 1,
+      "name": "vague-structure-request",
+      "prompt": "Help me understand how this paper's reasoning works from research motivation to conclusion, preferably with a visualization. The paper is at /path/to/paper.pdf.",
+      "expected_output": "A structured explanation of the argument plus an interactive graph artifact.",
+      "files": ["/path/to/paper.pdf"],
+      "assertions": [
+        "produces-html-deliverable: a usable HTML graph is created",
+        "reads-full-paper: the workflow does not rely on the abstract alone",
+        "spine-marked: the main route from gap to conclusion is explicit",
+        "answer-includes-spine-walkthrough: the response explains why each major hop follows",
+        "faithful-to-source: source checks are run and exceptions are disclosed"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "supplement-aware-request",
+      "prompt": "Read paper.pdf and supplement.pdf together. Build an argument map and make sure every number and quotation used from the supplement is checked against the correct source.",
+      "expected_output": "A graph built with both sources, with provenance listing both files and source verification counts.",
+      "files": ["/path/to/paper.pdf", "/path/to/supplement.pdf"],
+      "assertions": [
+        "uses-all-sources: both files are passed through repeated --source arguments",
+        "multi-source-provenance: the HTML records both source fingerprints",
+        "source-checks-pass: numbers and quotations are checked across the combined sources",
+        "supplement-evidence-is-visible: nodes identify evidence that comes from the supplement"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "non-3d-structure-language",
+      "prompt": "帮我彻底读懂这篇论文的论证结构和研究缺口，做一张可视化逻辑图，不需要我指定是 2D 还是 3D。论文在 /path/to/paper.pdf。",
+      "expected_output": "The skill is selected even without an explicit 3D request and produces the standard interactive graph plus a prose explanation.",
+      "files": ["/path/to/paper.pdf"],
+      "assertions": [
+        "implicit-structure-trigger: the skill activates for an argument-structure request without the words knowledge graph",
+        "produces-html-deliverable: a self-contained graph artifact is produced",
+        "answer-includes-spine-walkthrough: the response explains the route from gap to conclusion"
+      ]
+    },
+    {
+      "id": 4,
+      "name": "negative-abstract-only-summary",
+      "prompt": "Give me a two-sentence abstract-only summary of this paper. Do not build a graph or analyze the argument structure.",
+      "expected_output": "The argument-map skill is not selected; the request is handled as an ordinary summary.",
+      "assertions": [
+        "does-not-trigger-for-abstract-only-summary: the skill is not activated"
+      ]
+    },
+    {
+      "id": 5,
+      "name": "negative-cross-paper-map",
+      "prompt": "Compare how these five papers cite and extend one another in a literature map. I want relationships among papers, not the internal argument of one paper.",
+      "expected_output": "The argument-map skill is not selected; a cross-paper literature workflow is preferred.",
+      "assertions": [
+        "does-not-trigger-for-cross-paper-map: the single-paper argument-map skill is not activated"
+      ]
+    }
+  ],
+  "note": "These cases test routing on realistic English and Chinese requests. Deterministic guarantees such as numeric presence checks, exact quotation checks, spine validation, Markdown round trips, and release hygiene are covered by tests/run_tests.py and scripts/release_check.py."
+}

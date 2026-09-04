@@ -1,0 +1,39 @@
+{
+  "title": "SYNTHETIC FIXTURE — a graph over the fixture paper",
+  "title_zh": "合成夹具 —— 建立在夹具论文之上的图",
+  "short_title": "Fixture",
+  "summary": "Not a real paper. This graph exists so the test suite has a valid input to build, break in specific ways, and round-trip.",
+  "summary_zh": "不是真论文。这张图的存在是为了让测试套件有一个可构建、可定向弄坏、可往返的合法输入。",
+  "meta": {"authors": "Nobody et al.", "venue": "Fixtures", "year": "2026"},
+  "nodes": [
+    {"id": "bg", "type": "background", "importance": 3, "section": "§1",
+     "label": "背景", "label_en": "Background",
+     "detail": "夹具论文测得响应 3.45(2) 单位,样品质量 21.7 mg。",
+     "detail_en": "The fixture paper measures a response of 3.45(2) units on a sample of mass 21.7 mg.",
+     "quote": "An identical molecular field acts on all the sites"},
+    {"id": "prob", "type": "problem", "importance": 3, "section": "§1",
+     "label": "问题", "label_en": "The problem",
+     "detail": "无序参数 x = 0.031,低于 40 K 偏离预期规律。",
+     "detail_en": "The disorder parameter is x = 0.031 and below 40 K the response departs from the expected law.",
+     "quote": "the response is substantial across the whole range"},
+    {"id": "meth", "type": "method", "importance": 2, "section": "§2",
+     "label": "方法", "label_en": "Method",
+     "detail": "在 T = 12 K 测量。正文里出现一个 | 竖线 | 字符,用来测表格解析不会误吞。",
+     "detail_en": "Measured at T = 12 K. This detail carries a | pipe | character on purpose, to check the table parser does not swallow prose."},
+    {"id": "res", "type": "result", "importance": 3, "section": "§3",
+     "label": "结果", "label_en": "Result",
+     "detail": "响应为 3.45(2) 单位。",
+     "detail_en": "The response is 3.45(2) units."},
+    {"id": "concl", "type": "conclusion", "importance": 3, "section": "§4",
+     "label": "结论", "label_en": "Conclusion",
+     "detail": "第三近邻主导。",
+     "detail_en": "The third neighbour dominates.",
+     "quote": "the widget is dominated by the third neighbour"}
+  ],
+  "edges": [
+    {"source": "bg", "target": "prob", "relation": "motivates", "label": "引出", "label_en": "raises", "main": true},
+    {"source": "prob", "target": "meth", "relation": "addresses", "label": "针对", "label_en": "answered by", "main": true},
+    {"source": "meth", "target": "res", "relation": "produces", "label": "得到", "label_en": "gives", "main": true},
+    {"source": "res", "target": "concl", "relation": "leads_to", "label": "推出", "label_en": "leads to", "main": true}
+  ]
+}

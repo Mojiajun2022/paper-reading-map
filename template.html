@@ -1,0 +1,2439 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>__PAPER_TITLE__</title>
+<style>
+  :root {
+    --bg: #f6f5f2;
+    --bg-top: #f8f7f4;
+    --bg-bottom: #eeece7;
+    --paper: #f6f5f2;
+    --ink: #23262b;
+    --ink-dim: #6b6f76;
+    --card: rgba(255, 255, 255, 0.82);
+    --card-border: rgba(35, 38, 43, 0.13);
+    --chip: rgba(35, 38, 43, 0.05);
+    --accent: #5566a8;
+    --accent-ink: #ffffff;
+    --spine: #33383f;
+    --edge: #a9a49b;
+    --halo: #f6f5f2;
+    --grid: #23262b;
+    --light: 0;
+    --t-background: #5c7d9e;
+    --t-related: #8d9096;
+    --t-problem: #b3766a;
+    --t-hypothesis: #8a7a9e;
+    --t-method: #58857f;
+    --t-experiment: #a8905f;
+    --t-result: #648a6b;
+    --t-conclusion: #a86d85;
+    --t-limitation: #85786a;
+    --t-future: #648994;
+    --t-unknown: #8d9096;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #12141a;
+      --bg-top: #171a21;
+      --bg-bottom: #0f1116;
+      --paper: #12141a;
+      --ink: #e6e8ec;
+      --ink-dim: #9aa0aa;
+      --card: rgba(20, 23, 29, 0.78);
+      --card-border: rgba(255, 255, 255, 0.10);
+      --chip: rgba(255, 255, 255, 0.06);
+      --accent: #7d8fc4;
+      --accent-ink: #10131a;
+      --spine: #c8cedb;
+      --edge: #4e545f;
+      --halo: #12141a;
+      --grid: #cfd6e4;
+      --light: 1;
+      --t-background: #7f9bbb;
+      --t-related: #8f949c;
+      --t-problem: #c8907c;
+      --t-hypothesis: #a494b4;
+      --t-method: #74a49c;
+      --t-experiment: #bfab84;
+      --t-result: #8aad8e;
+      --t-conclusion: #c08fa4;
+      --t-limitation: #ab9a86;
+      --t-future: #85a7b2;
+      --t-unknown: #8f949c;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #12141a;
+    --bg-top: #171a21;
+    --bg-bottom: #0f1116;
+    --paper: #12141a;
+    --ink: #e6e8ec;
+    --ink-dim: #9aa0aa;
+    --card: rgba(20, 23, 29, 0.78);
+    --card-border: rgba(255, 255, 255, 0.10);
+    --chip: rgba(255, 255, 255, 0.06);
+    --accent: #7d8fc4;
+    --accent-ink: #10131a;
+    --spine: #c8cedb;
+    --edge: #4e545f;
+    --halo: #12141a;
+    --grid: #cfd6e4;
+    --light: 1;
+    --t-background: #7f9bbb;
+    --t-related: #8f949c;
+    --t-problem: #c8907c;
+    --t-hypothesis: #a494b4;
+    --t-method: #74a49c;
+    --t-experiment: #bfab84;
+    --t-result: #8aad8e;
+    --t-conclusion: #c08fa4;
+    --t-limitation: #ab9a86;
+    --t-future: #85a7b2;
+    --t-unknown: #8f949c;
+  }
+  :root[data-theme="blueprint"] {
+    --bg: #0d1524;
+    --bg-top: #14203a;
+    --bg-bottom: #0a111e;
+    --paper: #0d1524;
+    --ink: #dde6f5;
+    --ink-dim: #8b9bb5;
+    --card: rgba(16, 26, 45, 0.78);
+    --card-border: rgba(150, 185, 255, 0.16);
+    --chip: rgba(150, 185, 255, 0.08);
+    --accent: #6f9ae0;
+    --accent-ink: #0a111e;
+    --spine: #c6d8f5;
+    --edge: #4a5c7a;
+    --halo: #0d1524;
+    --grid: #9dc0ff;
+    --light: 1;
+    --t-background: #7f9bbb;
+    --t-related: #8f949c;
+    --t-problem: #c8907c;
+    --t-hypothesis: #a494b4;
+    --t-method: #74a49c;
+    --t-experiment: #bfab84;
+    --t-result: #8aad8e;
+    --t-conclusion: #c08fa4;
+    --t-limitation: #ab9a86;
+    --t-future: #85a7b2;
+    --t-unknown: #8f949c;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; letter-spacing: 0 !important; }
+  [hidden] { display: none !important; }
+  button:focus-visible, input:focus-visible, [tabindex]:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+  html, body { height: 100%; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: -apple-system, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", system-ui, sans-serif;
+    overflow: hidden;
+  }
+  #gl, #lbl { position: fixed; inset: 0; width: 100%; height: 100%; display: block; }
+  #gl { cursor: grab; touch-action: none; }
+  #gl.dragging { cursor: grabbing; }
+  #gl.panning { cursor: move; }
+  #lbl { pointer-events: none; }
+  #fallback { position: fixed; inset: 0; display: none; place-items: center; color: var(--ink-dim); font-size: 14px; }
+
+  .overlay { position: fixed; z-index: 2; }
+  .glass {
+    background: var(--card); border: 1px solid var(--card-border);
+    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  }
+  #hdr {
+    top: 22px; left: 22px; width: min(460px, calc(100vw - 44px)); max-width: calc(100vw - 44px);
+    border-radius: 4px; padding: 15px 17px;
+  }
+  /* the card sits on top of the graph, so it has to be foldable, resizable, and able to
+     scroll its own text rather than growing until it covers the argument */
+  #hdr-body { overflow-y: auto; overscroll-behavior: contain; max-height: 40vh; }
+  #hdr.folded #hdr-body, #hdr.folded #hdr-grip { display: none; }
+  #hdr.folded h1 { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  #hdr-fold {
+    position: absolute; top: 9px; right: 8px; z-index: 1; width: 24px; height: 22px;
+    display: grid; place-items: center; padding: 0; cursor: pointer;
+    background: none; border: none; color: var(--ink-dim); opacity: 0.55;
+  }
+  #hdr-fold:hover { opacity: 1; }
+  #hdr-fold svg { transition: transform 0.18s ease; }
+  #hdr.folded #hdr-fold svg { transform: rotate(-90deg); }
+  #hdr h1 { padding-right: 26px; }
+  #hdr-grip {
+    position: absolute; right: 1px; bottom: 1px; width: 15px; height: 15px;
+    cursor: nwse-resize; opacity: 0.4; touch-action: none;
+    background:
+      linear-gradient(135deg, transparent 45%, var(--ink-dim) 45%, var(--ink-dim) 55%, transparent 55%),
+      linear-gradient(135deg, transparent 72%, var(--ink-dim) 72%, var(--ink-dim) 82%, transparent 82%);
+  }
+  #hdr-grip:hover { opacity: 0.85; }
+  #hdr h1 { font-size: 15px; line-height: 1.5; font-weight: 600; letter-spacing: 0.01em; }
+  #hdr .summary { font-size: 12.5px; color: var(--ink-dim); margin-top: 8px; line-height: 1.65; }
+  #hdr .meta { font-size: 10.5px; color: var(--ink-dim); margin-top: 9px; opacity: 0.75; letter-spacing: 0.04em; }
+  #hdr .prov {
+    font-size: 10px; color: var(--ink-dim); margin-top: 10px; padding-top: 9px;
+    border-top: 1px solid var(--card-border); letter-spacing: 0.03em; line-height: 1.55;
+  }
+  #hdr .prov b { font-weight: 600; color: var(--t-result); }
+  #hdr .prov.unverified b { color: var(--t-problem); }
+
+  #toolbar { top: 22px; right: 22px; display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
+  #toolbar button {
+    font: inherit; font-size: 11.5px; padding: 7px 12px; border-radius: 3px; cursor: pointer;
+    border: 1px solid var(--card-border); background: var(--card); color: var(--ink-dim);
+    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); transition: color .18s, background .18s;
+  }
+  #toolbar button:hover { color: var(--ink); }
+  #toolbar button.on { background: var(--accent); border-color: transparent; color: var(--accent-ink); }
+  #toolbar button:disabled { opacity: 0.4; cursor: default; }
+  /* the open panel would otherwise sit on top of the toolbar */
+  body.panel-open #toolbar { right: calc(min(370px, 100vw) + 22px); }
+
+  #bt-search { width: 32px; padding-left: 0 !important; padding-right: 0 !important; display: grid; place-items: center; }
+  #bt-search svg { width: 14px; height: 14px; }
+
+  #search {
+    position: fixed; top: 62px; right: 22px; z-index: 4; width: min(330px, calc(100vw - 44px));
+    border-radius: 4px; padding: 10px; display: none;
+  }
+  #search.open { display: block; }
+  body.panel-open #search { right: calc(min(370px, 100vw) + 22px); }
+  #search-row { display: flex; align-items: center; gap: 7px; }
+  #search-row svg { width: 14px; height: 14px; flex: 0 0 auto; color: var(--ink-dim); }
+  #search-input {
+    min-width: 0; flex: 1; font: inherit; font-size: 12px; color: var(--ink);
+    background: transparent; border: none; outline: none;
+  }
+  #search-input::placeholder { color: var(--ink-dim); }
+  #search-close {
+    width: 24px; height: 24px; display: grid; place-items: center; padding: 0;
+    font: inherit; font-size: 17px; line-height: 1; color: var(--ink-dim);
+    background: transparent; border: none; cursor: pointer;
+  }
+  #search-close:hover { color: var(--ink); }
+  #search-status { min-height: 15px; margin: 7px 2px 3px; font-size: 10.5px; color: var(--ink-dim); }
+  #search-results { max-height: min(48vh, 360px); overflow-y: auto; overscroll-behavior: contain; }
+  .search-result {
+    width: 100%; display: flex; align-items: baseline; gap: 8px; padding: 7px 8px;
+    text-align: left; font: inherit; font-size: 12px; color: var(--ink);
+    background: transparent; border: 1px solid transparent; border-radius: 3px; cursor: pointer;
+  }
+  .search-result:hover, .search-result[aria-selected="true"] { background: var(--chip); border-color: var(--card-border); }
+  .search-result .dot { width: 7px; height: 7px; flex: 0 0 auto; border-radius: 50%; align-self: center; }
+  .search-result .name { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .search-result .section { margin-left: auto; flex: 0 0 auto; font-size: 10px; color: var(--ink-dim); }
+  #search-empty { padding: 10px 8px; font-size: 12px; color: var(--ink-dim); }
+
+  #settings {
+    position: fixed; top: 62px; right: 22px; z-index: 4; border-radius: 4px; padding: 14px 16px;
+    min-width: 190px; display: none;
+  }
+  #settings.open { display: block; }
+  #settings .act {
+    display: block; width: 100%; margin-top: 4px; padding: 7px 10px; text-align: left;
+    font-size: 12px; border-radius: 3px; cursor: pointer; color: var(--ink);
+    background: var(--chip); border: 1px solid var(--card-border);
+  }
+  #settings .act:hover { border-color: var(--ink-dim); }
+  #settings .act.warn { border-color: var(--t-problem); color: var(--t-problem); }
+  #settings .act .sub { display: block; margin-top: 2px; font-size: 10.5px; color: var(--ink-dim); }
+  #settings h4 { font-size: 10px; font-weight: 600; color: var(--ink-dim); letter-spacing: 0.08em;
+    text-transform: uppercase; margin: 0 0 7px; }
+  #settings h4:not(:first-child) { margin-top: 14px; }
+  #settings .seg { display: flex; flex-wrap: wrap; gap: 4px; }
+  #settings .seg button {
+    font: inherit; font-size: 11px; padding: 5px 9px; border-radius: 3px; cursor: pointer;
+    border: 1px solid var(--card-border); background: transparent; color: var(--ink-dim);
+  }
+  #settings .seg button.on { background: var(--accent); border-color: transparent; color: var(--accent-ink); }
+  @media (max-width: 820px) { #settings { top: 56px; right: 12px; } }
+  @media (max-width: 820px) {
+    #search { top: 56px; right: 12px; }
+    body.panel-open #search { right: 12px; }
+  }
+  @media (min-width: 641px) and (max-width: 820px) {
+    body.panel-open #search { right: calc(min(370px, 100vw) + 12px); }
+  }
+
+  #hud {
+    right: 22px; bottom: 22px; padding: 9px 11px; pointer-events: none;
+    font: 11px/1.6 ui-monospace, SFMono-Regular, Menlo, monospace; white-space: pre; color: var(--ink-dim);
+  }
+  #legend { left: 22px; bottom: 22px; display: flex; gap: 5px; flex-wrap: wrap; max-width: min(560px, calc(100vw - 44px)); }
+  .chip {
+    display: inline-flex; align-items: center; gap: 6px; font-size: 11px; padding: 5px 10px;
+    border-radius: 3px; cursor: pointer; user-select: none; color: var(--ink-dim);
+    background: var(--card); border: 1px solid var(--card-border);
+    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); transition: opacity .2s;
+  }
+  .chip .dot { width: 7px; height: 7px; border-radius: 50%; }
+  .chip .n { opacity: 0.6; }
+  .chip.off { opacity: 0.3; }
+
+  #hint {
+    bottom: 22px; left: 50%; transform: translateX(-50%); white-space: nowrap;
+    font-size: 11px; color: var(--ink-dim); border-radius: 3px; padding: 6px 14px; transition: opacity 1.2s;
+  }
+  #hint.fade { opacity: 0; pointer-events: none; }
+
+  #panel {
+    position: fixed; top: 0; right: 0; height: 100%; width: min(370px, 100vw); z-index: 3;
+    background: var(--card); border-left: 1px solid var(--card-border);
+    backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+    transform: translateX(105%); transition: transform 0.32s cubic-bezier(.2,.8,.2,1);
+    padding: 22px; overflow-y: auto;
+  }
+  #panel.open { transform: translateX(0); }
+  #panel .close { position: absolute; top: 14px; right: 16px; font-size: 18px; background: none; border: none; color: var(--ink-dim); cursor: pointer; padding: 4px 8px; }
+  #panel .badge { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; color: var(--ink-dim); margin-bottom: 12px; letter-spacing: 0.06em; }
+  #panel .badge i { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+  #panel h2 { font-size: 18px; line-height: 1.4; margin-bottom: 8px; }
+  #panel .sec { display: inline-block; font-size: 11px; color: var(--ink-dim); background: var(--chip); border-radius: 6px; padding: 3px 8px; margin-bottom: 14px; }
+  #panel .detail { font-size: 13px; line-height: 1.8; white-space: pre-wrap; }
+  /* the paper's own sentence, located on its own page — the strongest thing the panel can say,
+     so it is set apart rather than folded into the prose */
+  #panel .quote {
+    margin: 14px 0 0; padding: 10px 0 10px 13px; border-left: 2px solid var(--t-result);
+    font-size: 12.5px; line-height: 1.75; color: var(--ink); font-style: italic;
+  }
+  #panel .quote cite {
+    display: block; margin-top: 7px; font-style: normal; font-size: 10.5px;
+    color: var(--ink-dim); letter-spacing: 0.04em;
+  }
+  #panel h3 { font-size: 11.5px; color: var(--ink-dim); margin: 20px 0 8px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; }
+  #panel .link { display: flex; align-items: baseline; gap: 8px; font: inherit; font-size: 12.5px; line-height: 1.5; padding: 8px 10px; border-radius: 4px; cursor: pointer; margin-bottom: 2px; width: 100%; border: 0; background: none; color: var(--ink); text-align: left; }
+  #panel .link:hover { background: var(--chip); }
+  #panel .link .rel { color: var(--ink-dim); font-size: 11px; flex-shrink: 0; }
+  #panel .link .ldot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; align-self: center; }
+  #panel figure { margin: 16px 0 4px; cursor: zoom-in; }
+  #panel figure img {
+    width: 100%; display: block; border: 1px solid var(--card-border); border-radius: 3px;
+    background: #fff;   /* the plots are drawn for paper; a white mat keeps them legible in dark mode */
+  }
+  #panel figure figcaption { font-size: 10.5px; color: var(--ink-dim); margin-top: 6px; letter-spacing: 0.03em; }
+
+  #lightbox {
+    position: fixed; inset: 0; z-index: 9; display: grid; place-items: center;
+    background: rgba(0, 0, 0, 0.72); cursor: zoom-out; padding: 24px;
+    -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px);
+  }
+  #lightbox[hidden], #hdr-prov[hidden] { display: none; }
+  #lightbox img { max-width: 100%; max-height: 100%; background: #fff; border-radius: 3px; }
+  #lightbox .cap {
+    position: absolute; bottom: 14px; left: 50%; transform: translateX(-50%);
+    font-size: 11.5px; color: #fff; opacity: 0.8; letter-spacing: 0.04em;
+  }
+
+  /* below this the header and the toolbar would collide on one row */
+  @media (max-width: 820px) {
+    #toolbar, body.panel-open #toolbar {
+      top: 12px; left: 12px; right: 12px;
+      justify-content: flex-start; flex-wrap: nowrap; overflow-x: auto;
+    }
+    #toolbar button { flex-shrink: 0; }
+    #hdr { top: 62px; left: 12px; width: calc(100vw - 24px); max-width: calc(100vw - 24px); }
+  }
+  @media (max-width: 640px) {
+    #hdr h1 { font-size: 13.5px; }
+    #hdr .summary { display: none; }
+    #panel { top: auto; bottom: 0; height: min(58vh, 100%); width: 100vw; border-left: none; border-top: 1px solid var(--card-border); transform: translateY(105%); }
+    #panel.open { transform: translateY(0); }
+    #hint { display: none; }
+    body.panel-open #legend { display: none; }
+    #search { left: 12px; right: 12px; width: auto; }
+  }
+  #view-modes { display: flex; flex: 0 0 auto; gap: 0; }
+  #view-modes button { border-radius: 0; }
+  #view-modes button:first-child { border-radius: 3px 0 0 3px; }
+  #view-modes button:last-child { border-radius: 0 3px 3px 0; }
+  #reader { position: fixed; inset: 74px 0 0; overflow-y: auto; padding: 12px 24px 80px; background: var(--bg); }
+  #reader-inner { max-width: 960px; margin: auto; }
+  #reader-head { border-bottom: 1px solid var(--card-border); padding-bottom: 20px; }
+  #reader-title { font-size: 22px; line-height: 1.4; margin-bottom: 12px; }
+  #reader-summary { font-size: 14px; line-height: 1.7; }
+  #reader-provenance { margin-top: 12px; font-size: 12px; color: var(--ink-dim); line-height: 1.6; }
+  .read-node { padding: 24px 0; border-bottom: 1px solid var(--card-border); scroll-margin-top: 16px; overflow-wrap: anywhere; }
+  .read-node[data-selected="true"] { border-left: 3px solid var(--accent); padding-left: 16px; }
+  .read-node h2 { font-size: 17px; line-height: 1.5; margin: 8px 0; }
+  .read-node h3 { font-size: 12px; color: var(--ink-dim); margin-top: 16px; }
+  .read-node .detail { font-size: 14px; line-height: 1.8; white-space: pre-wrap; }
+  .read-node .badge { font-size: 12px; color: var(--ink-dim); }
+  .read-node .sec { font-size: 12px; color: var(--ink-dim); margin-bottom: 8px; }
+  .read-node .quote { margin: 14px 0; padding: 6px 14px; border-left: 2px solid var(--t-result); line-height: 1.7; font-size: 13px; }
+  .read-node cite { display: block; font-style: normal; color: var(--ink-dim); font-size: 12px; }
+  .read-node figure { margin-top: 16px; }
+  .read-node figure img { max-width: 100%; max-height: 600px; background: white; }
+  .read-node figcaption { font-size: 12px; color: var(--ink-dim); }
+  .read-node .link { display: block; font: inherit; font-size: 13px; text-align: left; color: var(--ink); background: none; border: 0; padding: 8px 0; cursor: pointer; }
+  .read-node .link:hover { color: var(--accent); }
+  .relation-reason { display: block; margin-top: 4px; color: var(--ink-dim); font-size: 12px; line-height: 1.6; }
+  .evidence-status { margin: 12px 0; font-size: 12px; line-height: 1.6; color: var(--ink-dim); }
+  .evidence-status.partial, .quote.unmatched { color: var(--t-problem); border-color: var(--t-problem); }
+  .evidence-status.matched { color: var(--t-result); }
+  #panel, #hdr, #reader, #search { overflow-wrap: anywhere; }
+  #panel h2 { padding-right: 22px; }
+  #spine-nav { position: fixed; z-index: 2; bottom: 18px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 10px; padding: 4px 8px; }
+  #spine-nav button { width: 34px; height: 34px; font-size: 22px; color: var(--ink); background: transparent; border: 0; cursor: pointer; }
+  #spine-nav button:disabled { opacity: 0.3; cursor: default; }
+  #spine-position { min-width: 72px; text-align: center; font-size: 12px; }
+  body.reading #gl, body.reading #lbl, body.reading #hdr, body.reading #legend,
+  body.reading #panel, body.reading #hud, #hint { display: none; }
+  body.reading #toolbar { left: 22px; right: 22px; justify-content: flex-start; }
+  body.reading #bt-rotate, body.reading #bt-labels, body.reading #bt-reset { display: none; }
+  body.reading #spine-nav { left: auto; right: 22px; transform: none; }
+  @media (max-width: 1100px) {
+    #toolbar, body.panel-open #toolbar { top: 12px; left: 12px; right: 12px; justify-content: flex-start; flex-wrap: nowrap; overflow-x: auto; }
+    #toolbar button { flex-shrink: 0; }
+    #hdr { top: 62px; left: 12px; width: min(460px, calc(100vw - 24px)); }
+    #settings, #search, body.panel-open #search { top: 56px; right: 12px; max-width: calc(100vw - 24px); }
+    #legend { bottom: 64px; }
+  }
+  @media (max-width: 640px) {
+    #reader { inset: 56px 0 0; padding: 12px 16px 76px; }
+    #reader-title { font-size: 19px; }
+    #legend { bottom: 64px; left: 12px; max-width: calc(100vw - 24px); }
+    #spine-nav { bottom: 10px; }
+    body.panel-open:not(.reading) #spine-nav { bottom: calc(58vh + 8px); }
+    body.reading #toolbar { left: 12px; right: 12px; }
+  }
+  @media print {
+    body { overflow: visible; color: #111; background: #fff; }
+    #toolbar, #spine-nav, #settings, #search, #lightbox { display: none !important; }
+    #reader { position: static; overflow: visible; padding: 0; background: #fff; }
+    .read-node { break-inside: avoid; }
+    .read-node .link { color: #111; }
+  }
+</style>
+
+<canvas id="gl"></canvas>
+<canvas id="lbl"></canvas>
+<div id="fallback"></div>
+<header id="hdr" class="overlay glass">
+  <button id="hdr-fold" aria-expanded="true"><svg viewBox="0 0 10 6" width="10" height="6" aria-hidden="true"><path d="M1 1l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></button>
+  <h1 id="hdr-title"></h1>
+  <div id="hdr-body">
+    <div class="summary" id="hdr-summary"></div>
+    <div class="meta" id="hdr-meta"></div>
+    <div class="prov" id="hdr-prov" hidden></div>
+  </div>
+  <div id="hdr-grip" aria-hidden="true"></div>
+</header>
+<div id="toolbar" class="overlay">
+  <div id="view-modes" role="group" aria-label="View"><button id="view-graph" aria-pressed="true">Graph</button><button id="view-reading" aria-pressed="false">Reading</button></div>
+  <button id="bt-search" title="Search nodes" aria-label="Search nodes" aria-expanded="false"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="m15.5 15.5 5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+  <button id="bt-rotate"></button>
+  <button id="bt-spine"></button>
+  <button id="bt-labels" class="on"></button>
+  <button id="bt-reset"></button>
+  <button id="bt-settings" title="Settings">⚙</button>
+</div>
+<div id="search" class="glass" role="search">
+  <div id="search-row">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="m15.5 15.5 5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+    <input id="search-input" type="search" autocomplete="off" spellcheck="false" role="combobox" aria-controls="search-results" aria-autocomplete="list" aria-expanded="true">
+    <button id="search-close" type="button" aria-label="Close search">×</button>
+  </div>
+  <div id="search-status" role="status" aria-live="polite"></div>
+  <div id="search-results" role="listbox"></div>
+</div>
+<div id="settings" class="glass">
+  <button class="act" id="st-png"></button>
+  <button class="act" id="st-print"></button>
+  <h4 id="st-lang-h"></h4>
+  <div class="seg" id="st-lang"></div>
+  <h4 id="st-theme-h"></h4>
+  <div class="seg" id="st-theme"></div>
+</div>
+<div id="legend" class="overlay"></div>
+<div id="hud" class="overlay glass" hidden></div>
+<div id="hint" class="overlay glass"></div>
+<div id="lightbox" hidden><img id="lightbox-img" alt=""><div class="cap" id="lightbox-cap"></div></div>
+<main id="reader" hidden><div id="reader-inner"><header id="reader-head"><h1 id="reader-title"></h1><p id="reader-summary"></p><p id="reader-provenance"></p></header><div id="reader-nodes"></div></div></main>
+<nav id="spine-nav" class="glass" aria-label="Spine"><button id="spine-prev">&#8592;</button><span id="spine-position" role="status"></span><button id="spine-next">&#8594;</button></nav>
+<aside id="panel" inert aria-hidden="true">
+  <button class="close" id="panel-close">✕</button>
+  <div id="panel-body"></div>
+</aside>
+
+<script>
+"use strict";
+const DATA = __GRAPH_JSON__;
+
+/* ---------- language ---------- */
+const STRINGS = {
+  en: {
+    graphView: "Graph", readingView: "Reading", print: "Print reading view", previous: "Previous spine node", next: "Next spine node",
+    spineNode: "Main argument", supportNode: "Supporting material", unverifiedQuote: "Quotation not located",
+    nodeStatus: { matched: "Text matches found", partial: "Unmatched evidence", no_evidence: "No numbers or quotation to check", unverified: "Not checked against a source" },
+    noNumbers: "No numeric tokens", noQuotes: "No quotations supplied", evidenceScope: "Evidence scope", allSources: "All supplied sources",
+    rotate: "Auto-rotate", spine: "Spine only", labels: "Labels", reset: "Reset view",
+    search: "Search nodes", searchClose: "Close search", searchPlaceholder: "Find a node...", searchEmpty: "No matching nodes",
+    searchCount: n => `${n} match${n === 1 ? "" : "es"}`,
+    hint: "Drag to orbit · Right-drag or Shift-drag to pan · Scroll to zoom · Click a node",
+    noWebGL: "This browser has no WebGL, so the 3D graph cannot be drawn.",
+    leadsTo: "Outgoing relations", comesFrom: "Incoming relations", enlarge: "click to enlarge",
+    start: "start", end: "end", page: n => `p. ${n}`, noSpine: "No spine is marked in this graph",
+    verifyHint: "Re-check against the current source with build_graph.py --verify",
+    lang: "Language", theme: "Theme",
+    png: "Save as PNG", pngSub: (w, h) => `${w} x ${h}, with the title and the source line`, fold: "Collapse", unfold: "Expand",
+    themeNames: { auto: "Auto", light: "Light", dark: "Dark", blueprint: "Blueprint" },
+    provSrc: "source", provFound: (ok, tot) => `${ok}/${tot} numbers found in the source`,
+    provQuotes: (ok, tot) => `${ok}/${tot} quotations located`,
+    provUnchecked: "numbers unverified",
+    provNone: "No source file bound", provNoneTail: "numbers unverified, and not re-checkable later",
+    types: { background: "Background", related: "Related work", problem: "Problem",
+      hypothesis: "Hypothesis", method: "Method", experiment: "Experiment", result: "Result",
+      conclusion: "Conclusion", limitation: "Limitation", future: "Future work", unknown: "Other" },
+    rels: { motivates: "motivates", addresses: "addresses", proposes: "proposes", uses: "uses",
+      produces: "produces", supports: "supports", refutes: "refutes", leads_to: "leads to",
+      compares: "compares", limits: "limits" },
+  },
+  zh: {
+    graphView: "图谱", readingView: "阅读", print: "打印阅读视图", previous: "上一个主线节点", next: "下一个主线节点",
+    spineNode: "主线论证", supportNode: "支撑材料", unverifiedQuote: "引文未定位",
+    nodeStatus: { matched: "已找到文本匹配", partial: "存在未匹配证据", no_evidence: "没有可核验的数字或引文", unverified: "未对照来源核验" },
+    noNumbers: "无数字标记", noQuotes: "未提供引文", evidenceScope: "证据范围", allSources: "全部已提供来源",
+    rotate: "自动旋转", spine: "只看主线", labels: "标签", reset: "重置视角",
+    search: "搜索节点", searchClose: "关闭搜索", searchPlaceholder: "查找节点……", searchEmpty: "没有匹配的节点",
+    searchCount: n => `${n} 个匹配节点`,
+    hint: "拖拽旋转 · 右键或 Shift 拖拽平移 · 滚轮缩放 · 点击节点看详情",
+    noWebGL: "这个浏览器不支持 WebGL,无法渲染 3D 图谱。",
+    leadsTo: "出向关系", comesFrom: "入向关系", enlarge: "点击放大",
+    start: "起点", end: "终点", page: n => `第 ${n} 页`, noSpine: "这张图没有标出主线",
+    verifyHint: "用 build_graph.py --verify 可对照当前源文件重新核验",
+    lang: "语言", theme: "主题",
+    png: "导出 PNG", pngSub: (w, h) => `${w} x ${h},带标题与来源行`, fold: "收起", unfold: "展开",
+    themeNames: { auto: "自动", light: "浅色", dark: "深色", blueprint: "靛蓝" },
+    provSrc: "源文件", provFound: (ok, tot) => `${ok}/${tot} 个数字在原文中找到`,
+    provQuotes: (ok, tot) => `${ok}/${tot} 条引文已定位`,
+    provUnchecked: "数字未核验",
+    provNone: "未绑定源文件", provNoneTail: "图中数字未经核验,也无法事后复核",
+    types: { background: "背景", related: "相关工作", problem: "问题", hypothesis: "假设",
+      method: "方法", experiment: "实验", result: "结果", conclusion: "结论",
+      limitation: "局限", future: "展望", unknown: "其它" },
+    rels: { motivates: "引出", addresses: "针对", proposes: "提出", uses: "采用",
+      produces: "得到", supports: "支持", refutes: "反驳", leads_to: "推出",
+      compares: "对比", limits: "限制" },
+  },
+};
+function store(k, v) { try { if (v === undefined) return localStorage.getItem(k); localStorage.setItem(k, v); } catch (e) { return null; } }
+let LANG = (store("p3g-lang") === "zh" || store("p3g-lang") === "en") ? store("p3g-lang") : "en";
+/* ---------- localized content ----------
+   The chrome comes from STRINGS; the paper's own words come from the data file. A graph may
+   carry a `_en` / `_zh` twin of any text field, and this picks the one for the current
+   language, falling back to the bare field — so a single-language graph still renders in
+   both interfaces, it just keeps speaking its own language. */
+const L = (o, k) => {
+  if (!o) return "";
+  const v = o[k + "_" + LANG];
+  return (v == null || v === "" ? o[k] : v) || "";
+};
+// a CJK glyph is about twice as wide as a latin one, so a label budget has to count width;
+// counting characters would clip "Kitaev anisotropy" and let 16 Chinese characters through
+const cjk = c => c.charCodeAt(0) > 0x2e7f;
+const vwidth = s => { let w = 0; for (const c of s) w += cjk(c) ? 2 : 1; return w; };
+function clipLabel(s, budget) {
+  if (vwidth(s) <= budget) return s;
+  let out = "", w = 0;
+  for (const c of s) { const cw = cjk(c) ? 2 : 1; if (w + cw > budget - 1) break; out += c; w += cw; }
+  return out + "\u2026";
+}
+// English labels run about twice as wide as the Chinese ones this layout was tuned for, so a
+// long one is set on two lines: half the width for twice the height, and height is the cheap
+// axis here — the stages spread sideways and the vertical gaps are mostly empty.
+// The break is only ever taken at a space, so a Chinese label (which has none) is untouched.
+const WRAP_AT = 20;
+function wrapLabel(s) {
+  s = clipLabel(s, 32);
+  if (vwidth(s) <= WRAP_AT || !s.includes(" ")) return [s];
+  const mid = vwidth(s) / 2;
+  let at = -1, best = Infinity, w = 0;
+  for (let i = 0; i < s.length; i++) {
+    if (s[i] === " ") { const d = Math.abs(w - mid); if (d < best) { best = d; at = i; } }
+    w += cjk(s[i]) ? 2 : 1;
+  }
+  return at < 0 ? [s] : [s.slice(0, at), s.slice(at + 1)];
+}
+const T = () => STRINGS[LANG];
+const typeName = t => T().types[t] || t;
+// the author's own verb wins over the generic vocabulary — "clears the ground first" says
+// more than "leads to", and SKILL.md asks for that verb precisely so that it gets used
+const relName = e => L(e, "label") || T().rels[e.relation] || e.relation || "";
+
+/* ---------- render state that readTheme() touches, so it has to exist before its first call ---------- */
+let geomDirty = true, lastFocusId = null, lastFloorY = null, ribCount = 0, lineCount = 0;
+// The layout is shaped by fillFrame() ~300 lines before resize() ever runs, so this has to
+// be right the moment it is declared. Leaving it at 1 meant every graph was shaped for a
+// square window and the frame-filling never actually read the frame.
+let viewAspect = (window.innerWidth / window.innerHeight) || 1;
+let fitAspect = 0;                 // the aspect the cloud was last shaped for
+const touchGeom = () => { geomDirty = true; };
+let lastFont = "";
+const twBase = new Map();          // string widths, measured once each at a reference size
+const bmpCache = new Map();        // baked label bitmaps, keyed by weight+text
+let bmpDpr = 0;
+
+/* ---------- vocab ---------- */
+const TYPES = {
+  background: { zh: "背景", stage: 0 },
+  related:    { zh: "相关工作", stage: 0 },
+  problem:    { zh: "问题", stage: 1 },
+  hypothesis: { zh: "假设", stage: 2 },
+  method:     { zh: "方法", stage: 3 },
+  experiment: { zh: "实验", stage: 4 },
+  result:     { zh: "结果", stage: 5 },
+  conclusion: { zh: "结论", stage: 6 },
+  limitation: { zh: "局限", stage: 7 },
+  future:     { zh: "展望", stage: 8 },
+};
+const REL_ZH = {
+  motivates: "引出", addresses: "针对", proposes: "提出", uses: "采用",
+  produces: "得到", supports: "支持", refutes: "反驳", leads_to: "推出",
+  compares: "对比", limits: "限制",
+};
+
+/* ---------- theme ---------- */
+const C = {};
+function cssVar(name) { return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
+function hexRgb(hex) {
+  const m = /^#?([0-9a-f]{6})$/i.exec(hex);
+  if (!m) return [0.5, 0.5, 0.5];
+  const v = parseInt(m[1], 16);
+  return [((v >> 16) & 255) / 255, ((v >> 8) & 255) / 255, (v & 255) / 255];
+}
+function css(rgb, a) { return `rgba(${Math.round(rgb[0] * 255)},${Math.round(rgb[1] * 255)},${Math.round(rgb[2] * 255)},${a})`; }
+function readTheme() {
+  C.type = {};
+  for (const t of Object.keys(TYPES)) C.type[t] = hexRgb(cssVar(`--t-${t}`));
+  C.type.unknown = hexRgb(cssVar("--t-unknown"));
+  C.ink = hexRgb(cssVar("--ink"));
+  C.inkDim = hexRgb(cssVar("--ink-dim"));
+  C.edge = hexRgb(cssVar("--edge"));
+  C.accent = hexRgb(cssVar("--accent"));
+  C.spine = hexRgb(cssVar("--spine"));
+  C.paper = hexRgb(cssVar("--paper"));
+  C.grid = hexRgb(cssVar("--grid"));
+  C.halo = cssVar("--halo");
+  C.haloRgb = hexRgb(C.halo);
+  C.bgTop = hexRgb(cssVar("--bg-top"));
+  C.bgBottom = hexRgb(cssVar("--bg-bottom"));
+  C.dark = cssVar("--light") === "1";
+  geomDirty = true; twBase.clear(); bmpCache.clear();   // metrics and baked glyphs are both per-theme
+}
+readTheme();
+try {
+  matchMedia("(prefers-color-scheme: dark)").addEventListener("change", readTheme);
+  new MutationObserver(readTheme).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+} catch (e) { /* older browsers */ }
+const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+/* ---------- model ---------- */
+const nodes = (DATA.nodes || []).map((n, i) => ({
+  ...n,
+  type: TYPES[n.type] ? n.type : "unknown",
+  importance: Math.min(3, Math.max(1, n.importance || 2)),
+  x: 0, y: 0, z: 0, vx: 0, vy: 0, vz: 0,
+  px: 0, py: 0, pr: 0, pz: 0,
+  idx: i,
+}));
+const byId = new Map(nodes.map(n => [n.id, n]));
+const edges = (DATA.edges || [])
+  .filter(e => byId.has(e.source) && byId.has(e.target))
+  .map((e, i) => ({
+    a: byId.get(e.source), b: byId.get(e.target),
+    relation: e.relation, label: e.label, label_en: e.label_en, label_zh: e.label_zh,
+    reason: e.reason, reason_en: e.reason_en, reason_zh: e.reason_zh,
+    get rel() { return relName(this); },
+    main: !!e.main, phase: (i * 0.618) % 1, bow: ((i * 7) % 3) - 1,
+    pts: [], mid: [0, 0, 0], tanEnd: [0, 0, 1], end: [0, 0, 0],
+  }));
+const neighbors = new Map(nodes.map(n => [n.id, new Set()]));
+for (const e of edges) { neighbors.get(e.a.id).add(e.b.id); neighbors.get(e.b.id).add(e.a.id); }
+const spineIds = new Set();
+for (const e of edges) if (e.main) { spineIds.add(e.a.id); spineIds.add(e.b.id); }
+let readingMode = false;
+const reader = document.getElementById("reader");
+const readerNodes = document.getElementById("reader-nodes");
+const btGraph = document.getElementById("view-graph");
+const btReading = document.getElementById("view-reading");
+const mainNodes = nodes.filter(n => spineIds.has(n.id));
+const mainDegree = new Map(mainNodes.map(n => [n.id, 0]));
+for (const e of edges) if (e.main) mainDegree.set(e.b.id, mainDegree.get(e.b.id) + 1);
+const readySpine = mainNodes.filter(n => !mainDegree.get(n.id));
+const spineOrder = [];
+while (readySpine.length) {
+  readySpine.sort((a, b) => a.idx - b.idx);
+  const n = readySpine.shift(); spineOrder.push(n);
+  for (const e of edges) if (e.main && e.a === n) {
+    mainDegree.set(e.b.id, mainDegree.get(e.b.id) - 1);
+    if (!mainDegree.get(e.b.id)) readySpine.push(e.b);
+  }
+}
+const readingOrder = [...spineOrder, ...nodes.filter(n => !spineOrder.includes(n))];
+
+/* ---------- node search ----------
+   A paper can have more nodes than comfortably fit as visible labels. Search keeps the
+   graph useful at that scale without adding a second navigation model: choosing a result
+   simply uses the same detail panel and camera focus as clicking the node. */
+const btSearch = document.getElementById("bt-search");
+const searchPanel = document.getElementById("search");
+const searchInput = document.getElementById("search-input");
+const searchStatus = document.getElementById("search-status");
+const searchResults = document.getElementById("search-results");
+const searchClose = document.getElementById("search-close");
+let searchItems = [], searchIndex = 0;
+const foldSearch = value => String(value ?? "").toLocaleLowerCase();
+function searchCorpus(n) {
+  return [n.id, n.section, n.section_en, n.section_zh, n.quote, n.label, n.label_en, n.label_zh,
+          n.detail, n.detail_en, n.detail_zh].filter(Boolean).map(foldSearch).join(" ");
+}
+function findNodes(query) {
+  const q = foldSearch(query).trim();
+  if (!q) return nodes.slice();
+  const terms = q.split(/\s+/).filter(Boolean);
+  return nodes.map(n => {
+    const label = [n.label, n.label_en, n.label_zh].filter(Boolean).map(foldSearch).join(" ");
+    const corpus = searchCorpus(n);
+    if (!terms.every(term => corpus.includes(term))) return null;
+    let rank = 4;
+    if (label === q) rank = 0;
+    else if (label.startsWith(q)) rank = 1;
+    else if (label.includes(q)) rank = 2;
+    else if (String(n.id).toLocaleLowerCase() === q) rank = 3;
+    return { n, rank };
+  }).filter(Boolean).sort((a, b) => a.rank - b.rank || a.n.idx - b.n.idx).map(x => x.n);
+}
+function renderSearchResults() {
+  const matches = findNodes(searchInput.value);
+  searchItems = matches;
+  searchIndex = Math.max(0, Math.min(searchIndex, searchItems.length - 1));
+  searchStatus.textContent = searchInput.value.trim()
+    ? T().searchCount(matches.length)
+    : T().searchCount(nodes.length);
+  while (searchResults.firstChild) searchResults.removeChild(searchResults.firstChild);
+  if (!searchItems.length) {
+    const empty = document.createElement("div");
+    empty.id = "search-empty";
+    empty.textContent = T().searchEmpty;
+    searchResults.appendChild(empty);
+    return;
+  }
+  searchItems.forEach((n, i) => {
+    const b = document.createElement("button");
+    b.type = "button"; b.className = "search-result"; b.dataset.id = n.id;
+    b.id = `search-option-${n.idx}`; b.tabIndex = -1;
+    b.setAttribute("role", "option"); b.setAttribute("aria-selected", String(i === searchIndex));
+    const dot = document.createElement("span"); dot.className = "dot";
+    dot.style.background = css(C.type[n.type] || C.type.unknown, 1);
+    const name = document.createElement("span"); name.className = "name";
+    name.textContent = L(n, "label") || n.id;
+    b.append(dot, name);
+    const section = L(n, "section");
+    if (section) { const sec = document.createElement("span"); sec.className = "section"; sec.textContent = section; b.appendChild(sec); }
+    b.addEventListener("click", () => { closeSearch(); select(n); });
+    searchResults.appendChild(b);
+  });
+  markSearchIndex();
+}
+function markSearchIndex() {
+  searchResults.querySelectorAll(".search-result").forEach((el, i) => {
+    el.setAttribute("aria-selected", String(i === searchIndex));
+  });
+  const active = searchResults.querySelectorAll(".search-result")[searchIndex];
+  if (active) { searchInput.setAttribute("aria-activedescendant", active.id); active.scrollIntoView({ block: "nearest" }); }
+  else searchInput.removeAttribute("aria-activedescendant");
+}
+function openSearch() {
+  if (typeof toggleSettings === "function") toggleSettings(false);
+  searchPanel.classList.add("open"); btSearch.classList.add("on"); btSearch.setAttribute("aria-expanded", "true");
+  searchInput.setAttribute("aria-label", T().search);
+  renderSearchResults();
+  searchInput.focus(); searchInput.select();
+}
+function closeSearch() { const restore = searchPanel.contains(document.activeElement); searchPanel.classList.remove("open"); btSearch.classList.remove("on"); btSearch.setAttribute("aria-expanded", "false"); if (restore) btSearch.focus(); }
+btSearch.addEventListener("click", () => {
+  if (searchPanel.classList.contains("open")) closeSearch(); else openSearch();
+});
+searchClose.addEventListener("click", closeSearch);
+searchInput.addEventListener("input", () => { searchIndex = 0; renderSearchResults(); });
+searchInput.addEventListener("keydown", ev => {
+  if (ev.key === "Escape") { ev.preventDefault(); ev.stopImmediatePropagation(); closeSearch(); return; }
+  ev.stopPropagation();
+  if (!searchItems.length) return;
+  if (ev.key === "ArrowDown" || ev.key === "ArrowUp") {
+    ev.preventDefault(); searchIndex = (searchIndex + (ev.key === "ArrowDown" ? 1 : -1) + searchItems.length) % searchItems.length; markSearchIndex();
+  } else if (ev.key === "Enter") {
+    ev.preventDefault(); const n = searchItems[searchIndex]; if (n) { closeSearch(); select(n); }
+  }
+});
+addEventListener("keydown", ev => {
+  const active = document.activeElement;
+  if (ev.key === "/" && !ev.ctrlKey && !ev.metaKey && !ev.altKey && active !== searchInput && active?.tagName !== "INPUT" && active?.tagName !== "TEXTAREA" && !active?.isContentEditable) {
+    ev.preventDefault(); openSearch();
+  } else if (ev.key === "Escape" && searchPanel.classList.contains("open")) {
+    ev.stopImmediatePropagation(); closeSearch();
+  }
+});
+addEventListener("pointerdown", ev => {
+  if (!searchPanel.classList.contains("open")) return;
+  if (ev.target.closest && (ev.target.closest("#search") || ev.target.closest("#bt-search"))) return;
+  closeSearch();
+}, true);
+
+// where the argument starts: the spine's root — a node the spine leaves but never enters
+const mainOut = new Set(), mainIn = new Set();
+for (const e of edges) if (e.main) { mainOut.add(e.a.id); mainIn.add(e.b.id); }
+const earliest = (a, b) => effStage(a) - effStage(b) || b.importance - a.importance;
+const roots = nodes.filter(n => mainOut.has(n.id) && !mainIn.has(n.id));
+const leads = nodes.filter(n => edges.some(e => e.a === n));
+const startNode = (roots.length ? roots : leads.length ? leads : nodes).slice().sort(earliest)[0] || null;
+// and where it lands: the spine's tip — a node the spine enters but never leaves
+const latest = (a, b) => effStage(b) - effStage(a) || b.importance - a.importance;
+const tips = nodes.filter(n => mainIn.has(n.id) && !mainOut.has(n.id));
+const arrivals = nodes.filter(n => edges.some(e => e.b === n));
+let endNode = (tips.length ? tips : arrivals).slice().sort(latest)[0] || null;
+if (endNode === startNode) endNode = null;   // a one-node chain gets an entry mark only
+const STUB = 84;   // length of the lead-in / lead-out that marks them
+
+function effStage(n) {
+  if (typeof n.stage === "number") return n.stage;
+  return (TYPES[n.type] || {}).stage ?? 3;
+}
+const usedStages = [...new Set(nodes.map(effStage))].sort((a, b) => a - b);
+const SPACING = 260;
+const slotX = new Map(usedStages.map((s, i) => [s, (i - (usedStages.length - 1) / 2) * SPACING]));
+const slotCaption = usedStages.map(st => {
+  const counts = {};
+  for (const n of nodes) if (effStage(n) === st) counts[n.type] = (counts[n.type] || 0) + 1;
+  const tops = Object.entries(counts).sort((a, b) => b[1] - a[1]).slice(0, 1).map(([t]) => t);
+  return { x: slotX.get(st), stage: st, types: tops };
+});
+let seed = 7;
+const rnd = () => { seed = (seed * 16807) % 2147483647; return seed / 2147483647; };
+for (const n of nodes) {
+  n.sx = slotX.get(effStage(n));
+  n.x = n.sx + (rnd() - 0.5) * 60;
+  n.y = (rnd() - 0.5) * 320;
+  n.z = (rnd() - 0.5) * 320;
+  n.r = 9 + n.importance * 5.5;
+}
+
+/* ---------- force layout ---------- */
+let alpha = 1;
+function tick() {
+  const REP = 30000, SPRING = 0.012, REST = 175;
+  for (let i = 0; i < nodes.length; i++) {
+    const a = nodes[i];
+    for (let j = i + 1; j < nodes.length; j++) {
+      const b = nodes[j];
+      let dx = a.x - b.x, dy = a.y - b.y, dz = a.z - b.z;
+      const d2 = dx * dx + dy * dy + dz * dz + 40;
+      const f = (REP / d2) * alpha, d = Math.sqrt(d2);
+      dx /= d; dy /= d; dz /= d;
+      a.vx += dx * f * 0.25; a.vy += dy * f; a.vz += dz * f;
+      b.vx -= dx * f * 0.25; b.vy -= dy * f; b.vz -= dz * f;
+    }
+  }
+  for (const e of edges) {
+    let dx = e.b.x - e.a.x, dy = e.b.y - e.a.y, dz = e.b.z - e.a.z;
+    const d = Math.sqrt(dx * dx + dy * dy + dz * dz) + 1e-6;
+    const f = (d - REST) * SPRING * alpha;
+    dx /= d; dy /= d; dz /= d;
+    e.a.vx += dx * f * 0.3; e.a.vy += dy * f; e.a.vz += dz * f;
+    e.b.vx -= dx * f * 0.3; e.b.vy -= dy * f; e.b.vz -= dz * f;
+  }
+  for (const n of nodes) {
+    n.vx += (n.sx - n.x) * 0.08 * alpha;
+    n.vy -= n.y * 0.0025 * alpha;   // weak, or the cloud collapses back into a band
+    n.vz -= n.z * 0.0025 * alpha;
+    n.vx *= 0.82; n.vy *= 0.82; n.vz *= 0.82;
+    n.x += n.vx; n.y += n.vy; n.z += n.vz;
+  }
+  alpha *= 0.995;
+}
+// Settle first, THEN fill the frame. Stretching a cloud that is still moving just hands the
+// gravity four hundred more ticks to pull it flat again: measured on a portrait window, the
+// old order reached 0.55 of the target ratio and was back to 0.32 by the time the sim
+// stopped. Nine hundred ticks costs a couple of milliseconds and leaves nothing to undo.
+for (let i = 0; i < 900; i++) tick();
+
+// The camera always refits, so merely spreading the graph does not thin out the labels —
+// the zoom just follows. What does help is using the frame: a long flat chain wastes the
+// screen's height, so stretch the cloud along the two axes the chain has not already used.
+function fillFrame() {
+  const c = centroid();
+  let xr = 0, yr = 0, zr = 0;
+  for (const n of nodes) {
+    xr = Math.max(xr, Math.abs(n.x - c[0]));
+    yr = Math.max(yr, Math.abs(n.y - c[1]));
+    zr = Math.max(zr, Math.abs(n.z - c[2]));
+  }
+  if (xr < 1) return;
+  // How much height is free: fitGoal compares the xz radius against the y radius, so any
+  // y under rh/aspect costs no zoom at all — the camera stays width-driven and nothing on
+  // screen gets smaller. Measured on a 1.14 viewport, taking 0.85 of that room lifted the
+  // frame's vertical use from 36% to 54% and cut label overlap from 3795 to 546 px², with
+  // the camera distance unmoved. Going the whole way flips the constraint: the fit starts
+  // following height instead, and the picture loses width.
+  let rh = 0;
+  for (const n of nodes) rh = Math.max(rh, Math.hypot(n.x - c[0], n.z - c[2]));
+  const room = rh / Math.max(0.6, viewAspect);
+  const ky = yr > 1 ? Math.min(3, Math.max(1, room * 0.85 / yr)) : 1;
+  const kz = zr > 1 ? Math.min(3, Math.max(1, room * 0.55 / zr)) : 1;
+  for (const n of nodes) {
+    n.y = c[1] + (n.y - c[1]) * ky;
+    n.z = c[2] + (n.z - c[2]) * kz;
+  }
+  fitAspect = viewAspect;
+}
+fillFrame();
+alpha = 0.02;      // just enough to relax the overlaps the stretch opened up
+
+/* ---------- math ---------- */
+const V = {
+  sub: (a, b) => [a[0] - b[0], a[1] - b[1], a[2] - b[2]],
+  add: (a, b) => [a[0] + b[0], a[1] + b[1], a[2] + b[2]],
+  scale: (a, s) => [a[0] * s, a[1] * s, a[2] * s],
+  dot: (a, b) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2],
+  cross: (a, b) => [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0]],
+  len: a => Math.hypot(a[0], a[1], a[2]),
+  norm: a => { const l = Math.hypot(a[0], a[1], a[2]) || 1; return [a[0] / l, a[1] / l, a[2] / l]; },
+};
+function perspective(fovy, aspect, near, far) {
+  const f = 1 / Math.tan(fovy / 2), nf = 1 / (near - far);
+  return [f / aspect, 0, 0, 0, 0, f, 0, 0, 0, 0, (far + near) * nf, -1, 0, 0, 2 * far * near * nf, 0];
+}
+function lookAt(eye, target, up) {
+  const z = V.norm(V.sub(eye, target)), x = V.norm(V.cross(up, z)), y = V.cross(z, x);
+  return [x[0], y[0], z[0], 0, x[1], y[1], z[1], 0, x[2], y[2], z[2], 0,
+    -V.dot(x, eye), -V.dot(y, eye), -V.dot(z, eye), 1];
+}
+function mat4mul(a, b) {
+  const o = new Array(16);
+  for (let c = 0; c < 4; c++) for (let r = 0; r < 4; r++)
+    o[c * 4 + r] = a[r] * b[c * 4] + a[4 + r] * b[c * 4 + 1] + a[8 + r] * b[c * 4 + 2] + a[12 + r] * b[c * 4 + 3];
+  return o;
+}
+function xform(m, p) {
+  return [m[0] * p[0] + m[4] * p[1] + m[8] * p[2] + m[12], m[1] * p[0] + m[5] * p[1] + m[9] * p[2] + m[13],
+    m[2] * p[0] + m[6] * p[1] + m[10] * p[2] + m[14], m[3] * p[0] + m[7] * p[1] + m[11] * p[2] + m[15]];
+}
+function modelTS(t, s) { return [s, 0, 0, 0, 0, s, 0, 0, 0, 0, s, 0, t[0], t[1], t[2], 1]; }
+function modelBasis(t, zAxis, rx, ry, rz) {
+  const z = V.norm(zAxis);
+  let x = V.cross([0, 1, 0], z);
+  if (V.len(x) < 1e-4) x = V.cross([1, 0, 0], z);
+  x = V.norm(x);
+  const y = V.cross(z, x);
+  return [x[0] * rx, x[1] * rx, x[2] * rx, 0, y[0] * ry, y[1] * ry, y[2] * ry, 0, z[0] * rz, z[1] * rz, z[2] * rz, 0, t[0], t[1], t[2], 1];
+}
+
+/* ---------- WebGL setup ---------- */
+const glc = document.getElementById("gl");
+const gl = glc.getContext("webgl", { antialias: true, alpha: false, premultipliedAlpha: false });
+if (!gl) {
+  // show the notice AND make every GL helper below a no-op, or init throws past the notice
+  document.getElementById("fallback").style.display = "grid";
+  document.getElementById("gl").style.display = "none";
+  document.getElementById("lbl").style.display = "none";
+}
+function makeProgram(vs, fs) {
+  if (!gl) return null;
+  const p = gl.createProgram();
+  for (const [type, src] of [[gl.VERTEX_SHADER, vs], [gl.FRAGMENT_SHADER, fs]]) {
+    const s = gl.createShader(type);
+    gl.shaderSource(s, src); gl.compileShader(s);
+    if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(s));
+    gl.attachShader(p, s);
+  }
+  gl.linkProgram(p);
+  if (!gl.getProgramParameter(p, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(p));
+  const info = { p, a: {}, u: {} };
+  const na = gl.getProgramParameter(p, gl.ACTIVE_ATTRIBUTES);
+  for (let i = 0; i < na; i++) { const n = gl.getActiveAttrib(p, i).name; info.a[n] = gl.getAttribLocation(p, n); }
+  const nu = gl.getProgramParameter(p, gl.ACTIVE_UNIFORMS);
+  for (let i = 0; i < nu; i++) { const n = gl.getActiveUniform(p, i).name; info.u[n] = gl.getUniformLocation(p, n); }
+  return info;
+}
+const FOG = `
+  uniform vec3 uFog; uniform float uFogNear, uFogFar;
+  vec3 applyFog(vec3 c, float d) { return mix(c, uFog, smoothstep(uFogNear, uFogFar, d)); }`;
+
+// lit meshes: spheres, arrow cones, flow particles
+const LIT = makeProgram(`
+  attribute vec3 aPos, aNrm;
+  uniform mat4 uModel, uView, uProj;
+  varying vec3 vN, vP;
+  void main() {
+    vec4 wp = uModel * vec4(aPos, 1.0);
+    vec4 vp = uView * wp;
+    vN = normalize(mat3(uView) * mat3(uModel) * aNrm);
+    vP = vp.xyz;
+    gl_Position = uProj * vp;
+  }`, `
+  precision mediump float;
+  varying vec3 vN, vP;
+  uniform vec3 uColor; uniform float uAlpha, uEmissive, uAmbient, uKey, uRim;
+  ${FOG}
+  void main() {
+    vec3 N = normalize(vN), Vd = normalize(-vP);
+    vec3 L1 = normalize(vec3(-0.45, 0.85, 0.55));
+    vec3 L2 = normalize(vec3(0.8, -0.1, -0.3));
+    float diff = max(dot(N, L1), 0.0) * uKey + max(dot(N, L2), 0.0) * 0.28 * uKey;
+    vec3 H = normalize(L1 + Vd);
+    float spec = pow(max(dot(N, H), 0.0), 90.0) * 0.85 + pow(max(dot(N, H), 0.0), 10.0) * 0.18;
+    float fres = pow(1.0 - max(dot(N, Vd), 0.0), 3.0);
+    float ao = 0.82 + 0.18 * N.y;
+    vec3 base = uColor;
+    vec3 col = base * (uAmbient + diff) * ao
+             + spec * mix(vec3(1.0), base, 0.25) * uKey
+             + fres * uRim * mix(base, vec3(1.0), 0.55)
+             + base * uEmissive;
+    col = applyFog(col, -vP.z);
+    gl_FragColor = vec4(col, uAlpha);
+  }`);
+
+// camera-facing ribbons for edges
+const RIB = makeProgram(`
+  attribute vec3 aPos, aTan, aCol;
+  attribute float aSide, aAlpha, aWidth, aMain;
+  uniform mat4 uView, uProj; uniform float uPxScale, uMinM, uMinN;
+  varying vec3 vCol; varying float vSide, vAlpha, vDepth;
+  void main() {
+    vec4 vp = uView * vec4(aPos, 1.0);
+    vec3 vt = normalize(mat3(uView) * aTan);
+    vec3 perp = cross(vt, vec3(0.0, 0.0, 1.0));
+    if (length(perp) < 1e-3) perp = vec3(1.0, 0.0, 0.0);
+    perp = normalize(perp);
+    // world-unit width, but never thinner than a few screen pixels when far away
+    float minW = mix(uMinN, uMinM, aMain) * max(1.0, -vp.z) * uPxScale;
+    vp.xyz += perp * aSide * max(aWidth, minW);
+    vCol = aCol; vSide = aSide; vAlpha = aAlpha; vDepth = -vp.z;
+    gl_Position = uProj * vp;
+  }`, `
+  precision mediump float;
+  varying vec3 vCol; varying float vSide, vAlpha, vDepth;
+  ${FOG}
+  void main() {
+    float soft = 1.0 - vSide * vSide;
+    soft = smoothstep(0.0, 0.6, soft);
+    float a = vAlpha * soft;
+    vec3 col = applyFog(vCol, vDepth);
+    gl_FragColor = vec4(col, a);
+  }`);
+
+// full-screen background wash
+const BG = makeProgram(`
+  attribute vec2 aPos;
+  varying vec2 vUV;
+  void main() { vUV = aPos * 0.5 + 0.5; gl_Position = vec4(aPos, 0.999, 1.0); }`, `
+  precision mediump float;
+  varying vec2 vUV;
+  uniform vec3 uTop, uBottom, uTint, uLine;
+  uniform vec2 uShift;
+  uniform float uAspect, uGlow, uGridA, uGridN;
+  void main() {
+    vec3 col = mix(uBottom, uTop, pow(vUV.y, 1.3));
+    vec2 d = (vUV - vec2(0.5, 0.58)) * vec2(uAspect, 1.0);
+    float pool = exp(-dot(d, d) * 2.4);
+    col += uTint * uGlow * pool;
+    // a fine backplate grid, drifting a little with the camera so it belongs to the scene
+    vec2 uv = vUV * vec2(uGridN * uAspect, uGridN) + uShift;
+    vec2 g = abs(fract(uv) - 0.5);
+    float minor = 1.0 - smoothstep(0.0, 0.04, min(g.x, g.y));
+    vec2 gm = abs(fract(uv / 5.0) - 0.5);
+    float major = 1.0 - smoothstep(0.0, 0.012, min(gm.x, gm.y));
+    col = mix(col, uLine, clamp(uGridA * (minor * 0.55 + major) * (0.25 + 0.75 * pool), 0.0, 1.0));
+    gl_FragColor = vec4(col, 1.0);
+  }`);
+
+// floor grid lines
+const LINE = makeProgram(`
+  attribute vec3 aPos; attribute float aFade, aMajor;
+  uniform mat4 uView, uProj;
+  varying float vFade, vDepth, vMajor;
+  void main() { vec4 vp = uView * vec4(aPos, 1.0); vFade = aFade; vMajor = aMajor; vDepth = -vp.z; gl_Position = uProj * vp; }`, `
+  precision mediump float;
+  varying float vFade, vDepth, vMajor;
+  uniform vec3 uColor; uniform float uAlpha;
+  ${FOG}
+  void main() {
+    float a = uAlpha * pow(max(0.0, 1.0 - vFade), 2.2) * mix(1.0, 3.2, vMajor);
+    gl_FragColor = vec4(applyFog(uColor, vDepth), a);
+  }`);
+
+/* geometry */
+function discGeo(segs) {  // flat unit circle in the xy plane, facing +z
+  const pos = [0, 0, 0], nrm = [0, 0, 1], idx = [];
+  for (let s = 0; s <= segs; s++) {
+    const th = 2 * Math.PI * s / segs;
+    pos.push(Math.cos(th), Math.sin(th), 0); nrm.push(0, 0, 1);
+  }
+  for (let s = 1; s <= segs; s++) idx.push(0, s, s + 1);
+  return { pos, nrm, idx };
+}
+function coneGeo(segs) {  // base at z=0 radius 1, apex at z=1
+  const pos = [], nrm = [], idx = [];
+  for (let s = 0; s <= segs; s++) {
+    const th = 2 * Math.PI * s / segs, c = Math.cos(th), sn = Math.sin(th);
+    const n = V.norm([c, sn, 1]);
+    pos.push(c, sn, 0); nrm.push(...n);
+    pos.push(0, 0, 1); nrm.push(...n);
+  }
+  for (let s = 0; s < segs; s++) idx.push(s * 2, s * 2 + 1, s * 2 + 2);
+  const b0 = pos.length / 3;
+  pos.push(0, 0, 0); nrm.push(0, 0, -1);
+  for (let s = 0; s <= segs; s++) { const th = 2 * Math.PI * s / segs; pos.push(Math.cos(th), Math.sin(th), 0); nrm.push(0, 0, -1); }
+  for (let s = 0; s < segs; s++) idx.push(b0, b0 + 2 + s, b0 + 1 + s);
+  return { pos, nrm, idx };
+}
+function uploadGeo(g) {
+  if (!gl) return null;
+  const vb = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, vb); gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(g.pos), gl.STATIC_DRAW);
+  const nb = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, nb); gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(g.nrm), gl.STATIC_DRAW);
+  const ib = gl.createBuffer(); gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, ib); gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(g.idx), gl.STATIC_DRAW);
+  return { vb, nb, ib, n: g.idx.length };
+}
+const DISC = uploadGeo(discGeo(56));
+const CONE = uploadGeo(coneGeo(3));   // 3 sides reads as a flat chevron from any angle
+const ribBuf = gl && gl.createBuffer(), lineBuf = gl && gl.createBuffer();
+const bgBuf = gl && gl.createBuffer();
+if (gl) {
+  gl.bindBuffer(gl.ARRAY_BUFFER, bgBuf);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
+}
+
+/* ---------- camera ---------- */
+const cam = { yaw: -0.55, pitch: 0.3, dist: 1500, t: [0, 0, 0] };
+const goal = { t: [0, 0, 0], dist: 1500 };
+let viewOX = 0, goalOX = 0;   // pan that keeps the selected node clear of the panel
+let viewOY = 0, goalOY = 0;
+function centroid() {
+  const c = [0, 0, 0];
+  for (const n of nodes) { c[0] += n.x; c[1] += n.y; c[2] += n.z; }
+  const k = nodes.length || 1;
+  return [c[0] / k, c[1] / k, c[2] / k];
+}
+function fitGoal() {
+  const c = centroid();
+  goal.t = c;
+  // horizontal extent is measured in the xz plane so the fit holds at any yaw
+  let rh = 0, rv = 0;
+  for (const n of nodes) {
+    // the start marker's lead-in sticks out past the node, so it has to fit too
+    const pad = n.r + (n === startNode || n === endNode ? STUB + 40 : 0);
+    rh = Math.max(rh, Math.hypot(n.x - c[0], n.z - c[2]) + pad);
+    rv = Math.max(rv, Math.abs(n.y - c[1]) + n.r);
+  }
+  const tf = Math.tan(FOV / 2);
+  const need = Math.max(rh / (tf * Math.max(0.25, aspect || 1)), rv / tf);
+  // labels stick out past the nodes, and they take proportionally more room on a narrow screen
+  goal.dist = Math.max(500, Math.min(9000, need * (aspect < 1 ? 1.16 : 1.04)));
+}
+let booted = false;
+const FOV = 38 * Math.PI / 180;
+let W = 0, H = 0, DPR = 1, aspect = 1, proj = null, view = null, eye = [0, 0, 0], camRight = [1, 0, 0], camUp = [0, 1, 0], camFwd = [0, 0, -1];
+
+const lbl = document.getElementById("lbl");
+const ctx = lbl.getContext("2d");
+// Both canvases are redrawn every frame, so their pixel count is the single biggest lever on
+// a weak GPU. Rather than guess the machine, watch the real frame interval and back the
+// resolution off only when it is actually too slow — then creep back up when it is not.
+let renderScale = 1, frameAcc = [], lastScaleChange = 0, keepView = false;
+function watchFrameRate(now) {
+  if (frameAcc.length && now - frameAcc[0] > 1500) {
+    const dts = [];
+    for (let i = 1; i < frameAcc.length; i++) dts.push(frameAcc[i] - frameAcc[i - 1]);
+    dts.sort((a, b) => a - b);
+    const med = dts[Math.floor(dts.length / 2)] || 16;
+    frameAcc = [now];
+    if (now - lastScaleChange > 2500) {
+      if (med > 24 && renderScale > 0.62) { renderScale = Math.max(0.62, renderScale - 0.2); lastScaleChange = now; keepView = true; resize(); keepView = false; }
+      else if (med < 15 && renderScale < 1) { renderScale = Math.min(1, renderScale + 0.2); lastScaleChange = now; keepView = true; resize(); keepView = false; }
+    }
+  }
+  frameAcc.push(now);
+  if (frameAcc.length > 200) frameAcc.shift();
+}
+
+function resize() {
+  DPR = Math.min(2, window.devicePixelRatio || 1) * renderScale;
+  W = window.innerWidth; H = window.innerHeight; aspect = viewAspect = W / H;
+  glc.width = W * DPR; glc.height = H * DPR;
+  lbl.width = W * DPR; lbl.height = H * DPR;
+  ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+  lastFont = "";
+  if (DPR !== bmpDpr) { bmpCache.clear(); bmpDpr = DPR; }   // baked at the old scale, would blur
+  if (gl) gl.viewport(0, 0, glc.width, glc.height);
+  proj = perspective(FOV, aspect, 20, 30000);
+  geomDirty = true;
+  // reshape when the window changes character — a portrait window affords far more height
+  // than a landscape one — but not on every pixel of a drag
+  if (booted && fitAspect && Math.abs(Math.log(viewAspect / fitAspect)) > 0.3) {
+    fillFrame();
+    alpha = Math.max(alpha, 0.08);
+  }
+  if (booted && !selected && !keepView) fitGoal();
+}
+resize();
+addEventListener("resize", resize);
+fitGoal(); cam.t = goal.t.slice(); cam.dist = goal.dist;
+updateCamera();   // valid view/proj before the first frame, so a click can never race the loop
+
+function updateCamera() {
+  const cp = Math.cos(cam.pitch), sp = Math.sin(cam.pitch);
+  eye = [cam.t[0] + cam.dist * cp * Math.sin(cam.yaw), cam.t[1] + cam.dist * sp, cam.t[2] + cam.dist * cp * Math.cos(cam.yaw)];
+  view = lookAt(eye, cam.t, [0, 1, 0]);
+  camFwd = V.norm(V.sub(cam.t, eye));
+  camRight = V.norm(V.cross(camFwd, [0, 1, 0]));
+  camUp = V.cross(camRight, camFwd);
+}
+function projectPt(p) {
+  const c = xform(mat4mul(proj, view), p);
+  const w = Math.max(1e-3, c[3]);
+  return { x: (c[0] / w * 0.5 + 0.5) * W, y: (1 - (c[1] / w * 0.5 + 0.5)) * H, w, behind: c[3] < 20 };
+}
+function pixelsPerUnit(w) { return proj[5] * H / 2 / w; }
+
+/* ---------- state ---------- */
+let hover = null, selected = null;
+let drift = 0;                      // eased auto-rotation speed
+// Curves, ribbons and the floor are all in WORLD space — rotating the camera does not change
+// a single vertex. Rebuilding and re-uploading them every frame was pure waste.
+const hiddenTypes = new Set();
+let spineMode = false, labelsOn = true, autoRotate = false;
+let dragging = false, moved = 0, lastX = 0, lastY = 0;
+const pointers = new Map();
+let pinchD = 0, pinchCX = 0, pinchCY = 0, panning = false;
+
+// Move the look-at point across the view plane. Scaled by distance so the scene keeps up
+// with the cursor exactly, at any zoom.
+function pan(dxPx, dyPx) {
+  const wpp = 2 * Math.tan(FOV / 2) * cam.dist / H;   // world units per screen pixel
+  for (let i = 0; i < 3; i++) {
+    const d = -camRight[i] * dxPx * wpp + camUp[i] * dyPx * wpp;
+    cam.t[i] += d;
+    goal.t[i] += d;     // move both, or the eased target drags the view back
+  }
+}
+booted = true;
+
+function nodeVis(n) {
+  const focus = hover || selected;
+  // A searched or panel-selected node remains visible even when its type is filtered;
+  // otherwise the search can succeed but leave its target visually inaccessible.
+  if (focus && n === focus) return 1;
+  if (hiddenTypes.has(n.type)) return 0.06;
+  if (spineMode && !spineIds.has(n.id)) return 0.08;
+  if (focus) return (n === focus || neighbors.get(focus.id).has(n.id)) ? 1 : 0.14;
+  return 1;
+}
+function edgeVis(e) {
+  if (hiddenTypes.has(e.a.type) || hiddenTypes.has(e.b.type)) return 0.03;
+  if (spineMode && !e.main) return 0.05;
+  const focus = hover || selected;
+  if (focus) return (e.a === focus || e.b === focus) ? 1 : 0.08;
+  return 1;
+}
+
+/* ---------- edge curves ---------- */
+const SEGS = 22;
+function bez(p0, p1, p2, t) {
+  const u = 1 - t;
+  return [u * u * p0[0] + 2 * u * t * p1[0] + t * t * p2[0], u * u * p0[1] + 2 * u * t * p1[1] + t * t * p2[1], u * u * p0[2] + 2 * u * t * p1[2] + t * t * p2[2]];
+}
+function bezTan(p0, p1, p2, t) {
+  return V.norm([2 * (1 - t) * (p1[0] - p0[0]) + 2 * t * (p2[0] - p1[0]), 2 * (1 - t) * (p1[1] - p0[1]) + 2 * t * (p2[1] - p1[1]), 2 * (1 - t) * (p1[2] - p0[2]) + 2 * t * (p2[2] - p1[2])]);
+}
+function updateCurves() {
+  for (const e of edges) {
+    const A = [e.a.x, e.a.y, e.a.z], B = [e.b.x, e.b.y, e.b.z];
+    const d = V.sub(B, A), L = V.len(d) || 1, dir = V.scale(d, 1 / L);
+    const mid = V.scale(V.add(A, B), 0.5);
+    let side = V.cross(dir, [0, 1, 0]);
+    if (V.len(side) < 1e-3) side = [1, 0, 0];
+    side = V.norm(side);
+    const lift = Math.min(90, L * 0.22);
+    const ctrl = V.add(mid, V.add(V.scale([0, 1, 0], lift * 0.75), V.scale(side, lift * 0.45 * e.bow)));
+    const t0 = bezTan(A, ctrl, B, 0), t1 = bezTan(A, ctrl, B, 1);
+    const head = (e.main ? 15 : 11);
+    const p0 = V.add(A, V.scale(t0, e.a.r * 1.04));
+    const apex = V.sub(B, V.scale(t1, e.b.r * 1.04));
+    const p2 = V.sub(apex, V.scale(t1, head * 0.9));
+    e.pts.length = 0;
+    for (let i = 0; i <= SEGS; i++) {
+      const t = i / SEGS;
+      e.pts.push({ p: bez(p0, ctrl, p2, t), tan: bezTan(p0, ctrl, p2, t), t });
+    }
+    e.mid = bez(p0, ctrl, p2, 0.5);
+    e.tanEnd = t1; e.apex = apex; e.head = head;
+  }
+}
+
+// short flowchart stubs: one arrow entering the start node, one leaving the end node.
+// Both point along +X, so the pair also reads as the direction the argument travels.
+const FWD = [1, 0, 0], BACK = [-1, 0, 0], HEAD = 15;
+function markerPoints(node, entering) {
+  if (!node) return null;
+  const p = [node.x, node.y, node.z];
+  if (entering) {
+    const apex = V.add(p, V.scale(BACK, node.r + 5));
+    const base = V.add(apex, V.scale(BACK, HEAD));
+    const tail = V.add(p, V.scale(BACK, node.r + STUB));
+    return { base, from: tail, to: base, caption: tail, side: -1 };
+  }
+  const apex = V.add(p, V.scale(FWD, node.r + STUB));
+  const base = V.add(apex, V.scale(BACK, HEAD));
+  return { base, from: V.add(p, V.scale(FWD, node.r + 5)), to: base, caption: apex, side: 1 };
+}
+
+/* ---------- draw helpers ---------- */
+function useLit(m, color, alpha, emissive) {
+  gl.uniformMatrix4fv(LIT.u.uModel, false, m);
+  gl.uniform3fv(LIT.u.uColor, color);
+  gl.uniform1f(LIT.u.uAlpha, alpha);
+  gl.uniform1f(LIT.u.uEmissive, emissive);
+}
+function bindGeo(prog, g) {
+  gl.bindBuffer(gl.ARRAY_BUFFER, g.vb); gl.enableVertexAttribArray(prog.a.aPos); gl.vertexAttribPointer(prog.a.aPos, 3, gl.FLOAT, false, 0, 0);
+  gl.bindBuffer(gl.ARRAY_BUFFER, g.nb); gl.enableVertexAttribArray(prog.a.aNrm); gl.vertexAttribPointer(prog.a.aNrm, 3, gl.FLOAT, false, 0, 0);
+  gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, g.ib);
+}
+function setFog(prog, near, far) {
+  gl.uniform3fv(prog.u.uFog, C.bgBottom);
+  gl.uniform1f(prog.u.uFogNear, near);
+  gl.uniform1f(prog.u.uFogFar, far);
+}
+function attrib(prog, name, size, stride, offset) {
+  const loc = prog.a[name];
+  if (loc === undefined || loc < 0) return;
+  gl.enableVertexAttribArray(loc);
+  gl.vertexAttribPointer(loc, size, gl.FLOAT, false, stride * 4, offset * 4);
+}
+function drawBackground() {
+  gl.useProgram(BG.p);
+  gl.uniform3fv(BG.u.uTop, C.bgTop); gl.uniform3fv(BG.u.uBottom, C.bgBottom);
+  gl.uniform3fv(BG.u.uTint, C.accent); gl.uniform3fv(BG.u.uLine, C.grid);
+  gl.uniform1f(BG.u.uAspect, aspect);
+  gl.uniform1f(BG.u.uGlow, C.dark ? 0.11 : 0.05);
+  gl.uniform1f(BG.u.uGridA, C.dark ? 0.13 : 0.085);
+  gl.uniform1f(BG.u.uGridN, 34);
+  gl.uniform2f(BG.u.uShift, cam.yaw * 0.9, -cam.pitch * 0.9);
+  gl.bindBuffer(gl.ARRAY_BUFFER, bgBuf);
+  attrib(BG, "aPos", 2, 2, 0);
+  gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+}
+
+/* ---------- render ---------- */
+/* ---------- frame stats (press F) ----------
+   A page that is slow and a page that is being throttled by its viewer look identical from
+   the inside: both animate badly. The only way to tell them apart is to read the real frame
+   interval next to the work actually done in that frame. js far below frame means the page
+   is waiting to be shown, not computing. */
+const hud = document.getElementById("hud");
+const GPU_NAME = (() => {
+  try { const d = gl && gl.getExtension("WEBGL_debug_renderer_info");
+        return d ? gl.getParameter(d.UNMASKED_RENDERER_WEBGL) : "GPU unknown"; }
+  catch (e) { return "GPU unknown"; }
+})();
+let hudOn = false, hudT = [], hudCpu = 0, hudN = 0, hudLast = 0;
+addEventListener("keydown", ev => {
+  if (ev.target.matches && ev.target.matches("input, textarea, [contenteditable]")) return;
+  if (ev.key !== "f" && ev.key !== "F" || ev.metaKey || ev.ctrlKey) return;
+  hudOn = !hudOn; hud.hidden = !hudOn; hudT = []; hudCpu = 0; hudN = 0;
+});
+function hudFrame(now, cpuMs) {
+  if (!hudOn) return;
+  hudT.push(now); hudCpu += cpuMs; hudN++;
+  if (hudT.length > 150) hudT.shift();
+  if (now - hudLast < 400 || hudT.length < 5) return;
+  hudLast = now;
+  const d = [];
+  for (let i = 1; i < hudT.length; i++) d.push(hudT[i] - hudT[i - 1]);
+  d.sort((a, b) => a - b);
+  const med = d[Math.floor(d.length / 2)], p95 = d[Math.min(d.length - 1, Math.floor(d.length * 0.95))];
+  hud.textContent =
+    `${(1000 / med).toFixed(0)} fps   frame ${med.toFixed(1)}ms   p95 ${p95.toFixed(1)}ms\n` +
+    `js ${(hudCpu / hudN).toFixed(2)}ms   scale ${renderScale.toFixed(2)}   ${glc.width}x${glc.height}\n` +
+    `${nodes.length} nodes  ${edges.length} edges  ${ribCount} ribbon verts\n${GPU_NAME}`;
+  hudCpu = 0; hudN = 0;
+}
+
+const t0 = performance.now();
+let lastNow = 0;
+let floorY = -200, floorGoal = -200;
+let animationFrame = 0;
+function scheduleRender() {
+  if (gl && !readingMode && !document.hidden && !animationFrame) animationFrame = requestAnimationFrame(render);
+}
+function render(now, once = false) {
+  if (!once) animationFrame = 0;
+  if (!gl || (!once && (readingMode || document.hidden))) return;
+  const cpu0 = performance.now();
+  const time = (now - t0) / 1000;
+  watchFrameRate(now);
+  // ease by elapsed time, not by frame: a throttled tab would otherwise crawl to its target
+  // clamp BOTH ends: a negative dt (tab restore, clock change) makes every easing
+  // coefficient negative, and the camera then runs away from its target exponentially
+  const dt = lastNow ? Math.max(0, Math.min(0.1, (now - lastNow) / 1000)) : 1 / 60;
+  lastNow = now;
+  const ease = tau => 1 - Math.exp(-dt / tau);
+  const kT = ease(0.24), kD = ease(0.19), kO = ease(0.17);
+  if (alpha > 0.012) { tick(); tick(); }
+  // ramp the drift instead of gating it: the pointer sweeping across a node flips `hover`,
+  // and a hard stop/start reads as stutter no matter how high the frame rate is
+  const wantDrift = autoRotate && !dragging && !selected && !hover;
+  drift += ((wantDrift ? 0.042 : 0) - drift) * ease(0.3);
+  cam.yaw += drift * dt;
+  for (let i = 0; i < 3; i++) cam.t[i] += (goal.t[i] - cam.t[i]) * kT;
+  cam.dist += (goal.dist - cam.dist) * kD;
+  viewOX += (goalOX - viewOX) * kO;
+  viewOY += (goalOY - viewOY) * kO;
+  // shear the pan into the projection so geometry, labels and picking all agree
+  proj[8] = -2 * viewOX / W;
+  proj[9] = 2 * viewOY / H;
+  updateCamera();
+  let minY = Infinity;
+  for (const n of nodes) minY = Math.min(minY, n.y - n.r);
+  floorGoal = minY - 70;
+  floorY += (floorGoal - floorY) * ease(0.33);
+
+  const focus = hover || selected;
+  const stubs = [
+    startNode && nodeVis(startNode) > 0.2 ? markerPoints(startNode, true) : null,
+    endNode && nodeVis(endNode) > 0.2 ? markerPoints(endNode, false) : null,
+  ].filter(Boolean);
+  const dark = C.dark;
+  const fogNear = cam.dist * 0.75, fogFar = cam.dist * 2.6;
+  const focusId = focus ? focus.id : null;
+  if (alpha > 0.012 || focusId !== lastFocusId || Math.abs((lastFloorY ?? 1e9) - floorY) > 0.5) geomDirty = true;
+  lastFocusId = focusId; lastFloorY = floorY;
+  if (geomDirty) updateCurves();
+
+  // depth clearing obeys the write mask, so the mask has to be open before the clear
+  gl.depthMask(true);
+  gl.clear(gl.DEPTH_BUFFER_BIT);
+  gl.disable(gl.DEPTH_TEST); gl.depthMask(false);
+  gl.enable(gl.BLEND);
+  drawBackground();
+
+  // floor grid
+  {
+    if (geomDirty) {
+    const R = Math.max(900, (usedStages.length - 1) * SPACING * 0.5 + 500), step = 60;
+    const pts = [];
+    const c = centroid();
+    let i = 0;
+    for (let x = -R; x <= R; x += step, i++) {
+      const m = i % 5 === 0 ? 1 : 0, f = Math.hypot(x, R) / R;
+      pts.push(c[0] + x, floorY, c[2] - R, f, m, c[0] + x, floorY, c[2] + R, f, m);
+    }
+    i = 0;
+    for (let z = -R; z <= R; z += step, i++) {
+      const m = i % 5 === 0 ? 1 : 0, f = Math.hypot(R, z) / R;
+      pts.push(c[0] - R, floorY, c[2] + z, f, m, c[0] + R, floorY, c[2] + z, f, m);
+    }
+    // one bright rule under each logic stage, so the floor reads as the argument's axis
+    for (const cap of slotCaption) {
+      pts.push(cap.x, floorY, c[2] - R, 0.55, 1, cap.x, floorY, c[2] + R, 0.55, 1);
+    }
+    // fade is per-vertex distance ratio; midpoints get interpolated (good enough for a grid)
+    gl.useProgram(LINE.p);
+    gl.uniformMatrix4fv(LINE.u.uView, false, view); gl.uniformMatrix4fv(LINE.u.uProj, false, proj);
+    gl.uniform3fv(LINE.u.uColor, C.grid); gl.uniform1f(LINE.u.uAlpha, dark ? 0.095 : 0.065);
+    setFog(LINE, fogNear, fogFar);
+    gl.bindBuffer(gl.ARRAY_BUFFER, lineBuf); gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(pts), gl.DYNAMIC_DRAW);
+    lineCount = pts.length / 5;
+    } else { gl.bindBuffer(gl.ARRAY_BUFFER, lineBuf); }
+    attrib(LINE, "aPos", 3, 5, 0); attrib(LINE, "aFade", 1, 5, 3); attrib(LINE, "aMajor", 1, 5, 4);
+    gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+    gl.drawArrays(gl.LINES, 0, lineCount);
+  }
+
+  // nodes: unlit discs turned to face the camera, each with a paper-coloured
+  // separation ring so overlapping dots stay legible without any shading
+  gl.useProgram(LIT.p);
+  gl.uniformMatrix4fv(LIT.u.uView, false, view); gl.uniformMatrix4fv(LIT.u.uProj, false, proj);
+  gl.uniform1f(LIT.u.uAmbient, 1); gl.uniform1f(LIT.u.uKey, 0); gl.uniform1f(LIT.u.uRim, 0);
+  setFog(LIT, fogNear, fogFar);
+  gl.enable(gl.DEPTH_TEST); gl.depthMask(true);
+  gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+  bindGeo(LIT, DISC);
+  const byDepth = nodes.slice().sort((a, b) =>
+    V.dot(V.sub([b.x, b.y, b.z], eye), camFwd) - V.dot(V.sub([a.x, a.y, a.z], eye), camFwd));
+  for (const n of byDepth) {
+    const vis = nodeVis(n);
+    if (vis < 0.03) continue;
+    const p = [n.x, n.y, n.z];
+    const toEye = V.norm(V.sub(eye, p));
+    const col = C.type[n.type] || C.type.unknown;
+    const onSpine = spineIds.has(n.id);
+    const disc = (center, r, c, a) => {
+      useLit(modelBasis(center, toEye, r, r, 1), c, a, 0);
+      gl.drawElements(gl.TRIANGLES, DISC.n, gl.UNSIGNED_SHORT, 0);
+    };
+    // faded-out nodes shrink to small dots — a large disc at low alpha reads as a smudge
+    const dim = vis < 0.5;
+    // importance also reads as opacity, so minor points recede without being cut
+    const imp = n.importance === 1 ? 0.48 : n.importance === 2 ? 0.76 : 1;
+    // each layer sits a little nearer the camera than the last so depth ordering is unambiguous
+    if (n === focus) disc(p, n.r * 1.8, col, 0.85 * vis);
+    if (onSpine && !dim) disc(V.add(p, V.scale(toEye, 1.2)), n.r * 1.34, C.spine, vis * imp);
+    if (!dim) disc(V.add(p, V.scale(toEye, 2.4)), n.r * (onSpine ? 1.24 : 1.3), C.paper, vis * imp);
+    disc(V.add(p, V.scale(toEye, 3.6)), dim ? n.r * 0.62 : n.r, col, (dim ? vis * 1.6 : vis) * imp);
+    // peripheral nodes are drawn hollow, so weight in the picture matches weight in the argument
+    if (n.importance === 1 && !dim) disc(V.add(p, V.scale(toEye, 4.8)), n.r * 0.52, C.paper, vis);
+  }
+  // arrowheads: flat chevrons, same weight as the line they close
+  bindGeo(LIT, CONE);
+  for (const e of edges) {
+    const vis = edgeVis(e);
+    if (vis < 0.2) continue;
+    const r = e.head * 0.3;
+    const base = V.sub(e.apex, V.scale(e.tanEnd, e.head));
+    useLit(modelBasis(base, e.tanEnd, r, r, e.head), e.main ? C.spine : C.edge, vis, 0);
+    gl.drawElements(gl.TRIANGLES, CONE.n, gl.UNSIGNED_SHORT, 0);
+  }
+  for (const s of stubs) {
+    const r = HEAD * 0.3;
+    useLit(modelBasis(s.base, FWD, r, r, HEAD), C.spine, 1, 0);
+    gl.drawElements(gl.TRIANGLES, CONE.n, gl.UNSIGNED_SHORT, 0);
+  }
+
+  // edges (ribbons): depth test on, no depth write, one draw call
+  {
+    const STRIDE = 15;
+    const arr = geomDirty ? [] : null;
+    if (arr) {
+    const pushV = (p, tan, side, t, col, a, w, main, ph) => arr.push(p[0], p[1], p[2], tan[0], tan[1], tan[2], side, t, col[0], col[1], col[2], a, w, main, ph);
+    for (const e of edges) {
+      const vis = edgeVis(e);
+      if (vis < 0.02) continue;
+      // one weight, one colour: the spine is inked, everything else is a neutral hairline
+      const col = e.main ? C.spine : C.edge;
+      const a = (e.main ? 0.8 : 0.34) * vis;
+      const w = e.main ? 1.5 : 0.8;
+      const first = e.pts[0];
+      pushV(first.p, first.tan, -1, 0, col, 0, 0, 0, 0); // degenerate join
+      for (const q of e.pts) {
+        pushV(q.p, q.tan, -1, q.t, col, a, w, e.main ? 1 : 0, 0);
+        pushV(q.p, q.tan, 1, q.t, col, a, w, e.main ? 1 : 0, 0);
+      }
+      const last = e.pts[SEGS];
+      pushV(last.p, last.tan, 1, 1, col, 0, 0, 0, 0); // degenerate join
+    }
+    for (const s of stubs) {
+      const c = C.spine, a = 0.7, w = 1.3;
+      pushV(s.from, FWD, -1, 0, c, 0, 0, 1, 0);
+      pushV(s.from, FWD, -1, 0, c, a, w, 1, 0);
+      pushV(s.from, FWD, 1, 0, c, a, w, 1, 0);
+      pushV(s.to, FWD, -1, 1, c, a, w, 1, 0);
+      pushV(s.to, FWD, 1, 1, c, a, w, 1, 0);
+      pushV(s.to, FWD, 1, 1, c, 0, 0, 1, 0);
+    }
+    }
+    if (arr) { gl.bindBuffer(gl.ARRAY_BUFFER, ribBuf); gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(arr), gl.DYNAMIC_DRAW); ribCount = arr.length / 15; }
+    if (ribCount) {
+      gl.useProgram(RIB.p);
+      gl.uniformMatrix4fv(RIB.u.uView, false, view); gl.uniformMatrix4fv(RIB.u.uProj, false, proj);
+      gl.uniform1f(RIB.u.uPxScale, 2 / (proj[5] * H)); gl.uniform1f(RIB.u.uMinM, 1.1); gl.uniform1f(RIB.u.uMinN, 0.6);
+      setFog(RIB, fogNear, fogFar);
+      gl.bindBuffer(gl.ARRAY_BUFFER, ribBuf);
+      attrib(RIB, "aPos", 3, STRIDE, 0); attrib(RIB, "aTan", 3, STRIDE, 3); attrib(RIB, "aSide", 1, STRIDE, 6); attrib(RIB, "aT", 1, STRIDE, 7);
+      attrib(RIB, "aCol", 3, STRIDE, 8); attrib(RIB, "aAlpha", 1, STRIDE, 11); attrib(RIB, "aWidth", 1, STRIDE, 12); attrib(RIB, "aMain", 1, STRIDE, 13); attrib(RIB, "aPhase", 1, STRIDE, 14);
+      gl.depthMask(false);
+      gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+      gl.drawArrays(gl.TRIANGLE_STRIP, 0, ribCount);
+    }
+  }
+
+  geomDirty = false;
+  drawLabels(focus, fogNear, fogFar, stubs, dt);
+  hudFrame(now, performance.now() - cpu0);
+  if (!once) scheduleRender();
+}
+
+/* ---------- 2D overlay: labels, relation labels, stage captions ---------- */
+const isEnd = n => n === startNode || n === endNode;
+// ctx.roundRect only landed in Safari 16.4 / Firefox 112; without this the whole loop dies there
+function roundRectPath(x, y, w, h, r) {
+  ctx.beginPath();
+  if (ctx.roundRect) { ctx.roundRect(x, y, w, h, r); return; }
+  ctx.moveTo(x + r, y);
+  ctx.arcTo(x + w, y, x + w, y + h, r);
+  ctx.arcTo(x + w, y + h, x, y + h, r);
+  ctx.arcTo(x, y + h, x, y, r);
+  ctx.arcTo(x, y, x + w, y, r);
+  ctx.closePath();
+}
+function setFont(f) { if (f !== lastFont) { ctx.font = f; lastFont = f; } }
+// measureText was 60% of a rotating frame. Caching by (text, size) did not help because the
+// size changes continuously with depth — so measure each string ONCE at a reference size and
+// scale, which canvas metrics do linearly. One call per distinct string, ever.
+const REF = 100;
+const fontAt = (weight, px) => `${weight}${px}px -apple-system, "PingFang SC", sans-serif`;
+function textWidth(text, weight, fs) {
+  if (!Number.isFinite(fs)) return NaN;
+  const k = weight + "\u0000" + text;
+  let base = twBase.get(k);
+  if (base === undefined) {
+    setFont(fontAt(weight, REF));
+    base = ctx.measureText(text).width;
+    twBase.set(k, base);
+  }
+  return base * fs / REF;
+}
+// strokeText is the next big cost after measureText: outlining a CJK glyph re-tessellates it
+// from scratch every single frame. Node labels only ever span 9.5-16px, so bake each one ONCE
+// at the top of that range and blit it scaled. Near labels — the largest, and the ones the eye
+// is actually on — come out close to 1:1; far ones are downscaled, but they are fogged and
+// half-faded already, so the softness lands exactly where it does not read.
+// Halo and ink are baked separately because their alphas move independently: the halo tracks
+// labelA alone, the ink also carries importance and fog.
+const BAKE_FS = 16, BAKE_PAD = 6, BMP_CAP = 400;
+function bakedText(lines, weight, kind) {
+  const k = kind + "\u0000" + weight + "\u0000" + lines.join("\n");
+  const hit = bmpCache.get(k);
+  if (hit) return hit;
+  let wide = 0;
+  for (const ln of lines) wide = Math.max(wide, textWidth(ln, weight, BAKE_FS));
+  const cw = wide + BAKE_PAD * 2;
+  const ch = lines.length * BAKE_FS * 1.25 + BAKE_FS * 0.55 + BAKE_PAD * 2;
+  if (!Number.isFinite(cw) || cw <= 0) return null;
+  const layer = paint => {
+    const c = document.createElement("canvas");
+    c.width = Math.ceil(cw * DPR); c.height = Math.ceil(ch * DPR);
+    const g = c.getContext("2d");
+    if (!g) return null;
+    g.setTransform(DPR, 0, 0, DPR, 0, 0);
+    g.textAlign = "center"; g.textBaseline = "middle";
+    g.font = fontAt(weight, BAKE_FS);
+    // each line centred on the bitmap, the block centred on the node
+    lines.forEach((ln, i) => paint(g, ln, cw / 2, ch / 2 + (i - (lines.length - 1) / 2) * BAKE_FS * 1.25));
+    return c;
+  };
+  const haloed = kind === "halo";
+  const halo = haloed ? layer((g, ln, x, y) => {
+    g.lineWidth = 4; g.lineJoin = "round"; g.strokeStyle = css(C.haloRgb, 1); g.strokeText(ln, x, y);
+  }) : null;
+  const ink = layer((g, ln, x, y) => { g.fillStyle = css(haloed ? C.ink : C.inkDim, 1); g.fillText(ln, x, y); });
+  if (!ink || (haloed && !halo)) return null;           // no 2d context — fall back to live text
+  if (bmpCache.size >= BMP_CAP) bmpCache.clear();       // labels are few; a plain flush is enough
+  const e = { halo, ink, cw, ch };
+  bmpCache.set(k, e);
+  return e;
+}
+// alpha is the only thing that varies per frame, and globalAlpha costs nothing
+function blit(bmp, cx, cy, fs, aHalo, aInk) {
+  const sc = fs / BAKE_FS, dw = bmp.cw * sc, dh = bmp.ch * sc;
+  const dx = cx - dw / 2, dy = cy - dh / 2;
+  if (bmp.halo && aHalo > 0) { ctx.globalAlpha = aHalo; ctx.drawImage(bmp.halo, dx, dy, dw, dh); }
+  ctx.globalAlpha = aInk; ctx.drawImage(bmp.ink, dx, dy, dw, dh);
+  ctx.globalAlpha = 1;
+}
+// the header is deliberately NOT in this list: it covers the top third, and reserving it
+// squeezed every label into the lower band — measured 30 -> 26 labels kept and one
+// overlapping pair -> seven. Sliding under a title card the reader has already read is
+// the lesser evil; the small chrome below is what actually swallows labels.
+const chromeEls = ["#toolbar", "#search", "#settings", "#legend", "#hint", "#panel", "#hud"]
+  .map(q => document.querySelector(q));
+function drawLabels(focus, fogNear, fogFar, stubs, dt) {
+  const ease = tau => 1 - Math.exp(-dt / tau);
+  ctx.clearRect(0, 0, W, H);
+  ctx.textAlign = "center"; ctx.textBaseline = "middle";
+  const fogA = d => 1 - 0.75 * Math.min(1, Math.max(0, (d - fogNear) / (fogFar - fogNear)));
+  const s0 = pixelsPerUnit(cam.dist);
+
+  // stage captions on the floor; their boxes are reserved so node labels dodge them
+  const capRects = [];
+  // The overlay chrome is opaque, so anything drawn underneath it is simply gone. Collect the
+  // boxes first: the floor captions check them before drawing, and they are reserved against
+  // the node labels further down. The panel, when closed, sits off-screen and reserves nothing.
+  const chromeRects = [];
+  for (const el of chromeEls) {
+    if (!el || el.hidden) continue;
+    const r = el.getBoundingClientRect();
+    if (r.width > 0 && r.height > 0) chromeRects.push({ x: r.left, y: r.top, w: r.width, h: r.height });
+  }
+  // a caption showing half a word reads as a rendering fault; drop it instead
+  const buried = r => {
+    for (const q of chromeRects) {
+      const ox = Math.min(r.x + r.w, q.x + q.w) - Math.max(r.x, q.x);
+      const oy = Math.min(r.y + r.h, q.y + q.h) - Math.max(r.y, q.y);
+      if (ox > 0 && oy > 0 && ox * oy > r.w * r.h * 0.25) return true;
+    }
+    return false;
+  };
+  let capRight = -Infinity;
+  const cz = centroid()[2];
+  // spine mode is meant to be bare: the chain is its own axis, so the floor captions go away
+  const caps = (spineMode ? [] : slotCaption)
+    .filter(cap => nodes.some(n => effStage(n) === cap.stage && nodeVis(n) > 0.5))
+    .map(cap => ({ cap, p: projectPt([cap.x, floorY - 45, cz + 300]) }))
+    .filter(c => !c.p.behind)
+    .sort((a, b) => a.p.x - b.p.x);     // left to right on screen, whatever the yaw
+  for (const { cap, p } of caps) {
+    const text = cap.types.map(typeName).join(" · ");
+    const k = pixelsPerUnit(p.w) / s0;
+    const fs = Math.max(9, Math.min(14, 12 * k));
+    const tw = textWidth(text, "", fs) + 8;
+    // compare the LEFT edge, not the centre — English stage names are long enough to collide
+    if (p.x - tw / 2 < capRight + 12) continue;
+    const box = { x: p.x - tw / 2, y: p.y - fs * 0.75, w: tw, h: fs * 1.5 };
+    if (buried(box)) continue;                       // it would come out half-hidden under the legend
+    const cb = bakedText([text], "", "plain");
+    if (cb) blit(cb, p.x, p.y, fs, 0, 0.5 * fogA(p.w));
+    else { setFont(fontAt("", fs)); ctx.fillStyle = css(C.inkDim, 0.5 * fogA(p.w)); ctx.fillText(text, p.x, p.y); }
+    capRects.push(box);
+    capRight = p.x + tw / 2;
+  }
+
+  // "起点" / "终点" sit at the far ends of the two stubs, so the chain is unambiguous
+  for (const s of stubs) {
+    const text = s.side < 0 ? T().start : T().end;
+    const p = projectPt(s.caption);
+    if (p.behind) continue;
+    const fs = Math.max(10, Math.min(14, 12 * (pixelsPerUnit(p.w) / s0)));
+    const tw = textWidth(text, "600 ", fs);
+    const lx = p.x + s.side * (tw / 2 + 8);
+    const sb = bakedText([text], "600 ", "halo");
+    if (sb) blit(sb, lx, p.y, fs, 1, 0.85 * fogA(p.w));
+    else {
+      setFont(fontAt("600 ", fs));
+      ctx.lineWidth = 4; ctx.strokeStyle = C.halo; ctx.lineJoin = "round";
+      ctx.strokeText(text, lx, p.y);
+      ctx.fillStyle = css(C.ink, 0.85 * fogA(p.w));
+      ctx.fillText(text, lx, p.y);
+    }
+    capRects.push({ x: lx - tw / 2 - 4, y: p.y - fs * 0.8, w: tw + 8, h: fs * 1.6 });
+  }
+
+  capRects.push(...chromeRects);
+
+  for (const n of nodes) {
+    const p = projectPt([n.x, n.y, n.z]);
+    n.px = p.x; n.py = p.y; n.pz = p.w; n.pr = n.r * pixelsPerUnit(p.w); n.behind = p.behind;
+  }
+  if (labelsOn) {
+    // Placement is STICKY. Recomputing a fresh greedy layout every frame makes labels hop
+    // between slots as the camera turns — the allocation order changes, so does who gets
+    // first pick. So: the ordering carries no camera-dependent term, a label keeps the slot
+    // it had until that slot becomes genuinely bad, and it fades in and out instead of
+    // popping. What jitters here is far more distracting than a slightly worse packing.
+    const order = nodes.slice().sort((a, b) => (b === focus) - (a === focus)
+      || isEnd(b) - isEnd(a) || b.importance - a.importance || a.idx - b.idx);
+    const placed = nodes.map(n => ({ x: n.px - n.pr, y: n.py - n.pr, w: n.pr * 2, h: n.pr * 2 })).concat(capRects);
+    // early-exit once we are past the tolerance: the caller only needs "is it free" or
+    // "which is least bad", and this loop used to run tens of thousands of times a frame
+    const overlap = (r, limit) => {
+      let sum = 0;
+      for (let i = 0; i < placed.length; i++) {
+        const q = placed[i];
+        if (r.x >= q.x + q.w || r.x + r.w <= q.x || r.y >= q.y + q.h || r.y + r.h <= q.y) continue;
+        sum += (Math.min(r.x + r.w, q.x + q.w) - Math.max(r.x, q.x)) *
+               (Math.min(r.y + r.h, q.y + q.h) - Math.max(r.y, q.y));
+        if (sum > limit) return sum;
+      }
+      return sum;
+    };
+    const fade = ease(0.16);
+    for (const n of order) {
+      const k = pixelsPerUnit(n.pz) / s0;
+      const needed = n.importance === 1 ? 1.0 : 0.7;
+      const eligible = !n.behind && nodeVis(n) >= 0.2 && (k >= needed || n === focus || isEnd(n));
+      // nothing off-screen deserves a measureText
+      if (n.behind || n.px < -200 || n.px > W + 200 || n.py < -80 || n.py > H + 80) { n.labelA = 0; continue; }
+      if (!eligible) {
+        n.labelA = (n.labelA || 0) * (1 - fade);
+        if (n.labelA < 0.02) { n.labelA = 0; continue; }
+      }
+      const wasHidden = !(n.labelA > 0.02);
+      const fs = Math.min(16, Math.max(9.5, 12 * k));
+      const lines = wrapLabel(L(n, "label"));
+      const weight = n.importance >= 3 ? "600 " : "";
+      let tw = 0;
+      for (const ln of lines) tw = Math.max(tw, textWidth(ln, weight, fs));
+      tw += 8;
+      const th = lines.length * fs * 1.25;
+      // a non-finite measurement must not take the render loop down with it
+      if (!Number.isFinite(tw) || !Number.isFinite(th)) { n.labelA = 0; continue; }
+      // the slots are offsets to the block's CENTRE, so they move with its height
+      const below = n.py + n.pr + th / 2 + fs * 0.33, above = n.py - n.pr - th / 2 - fs * 0.13;
+      const cands = [
+        [n.px, below], [n.px, above],
+        [n.px + n.pr + tw / 2 + 2, n.py], [n.px - n.pr - tw / 2 - 2, n.py],
+        [n.px, below + th], [n.px, above - th],
+        [n.px + tw / 2, below + th], [n.px - tw / 2, above - th],
+      ];
+      if (n.idx % 2) cands.unshift(cands.splice(1, 1)[0]);
+      // reserve the rect where the label will actually be DRAWN. A label whose node is near
+      // the edge gets its x clamped back into frame, and testing the unclamped position let
+      // several of them clamp onto the same column and pile up — the dodger never saw it.
+      const clampX = x => Math.max(tw / 2 + 6, Math.min(W - tw / 2 - 6, x));
+      const rectAt = c => ({ x: clampX(c[0]) - tw / 2, y: c[1] - th / 2, w: tw, h: th });
+
+      // keep last frame's slot unless it has gone bad, and only move for a clear improvement
+      const tol = tw * th * 0.04;
+      const cap = tol * 5;
+      let slot = (n.labelSlot >= 0 && n.labelSlot < cands.length) ? n.labelSlot : -1;
+      let pen = slot >= 0 ? overlap(rectAt(cands[slot]), tol) : Infinity;
+      if (pen > tol) {
+        let bs = 0, bp = Infinity;
+        for (let i = 0; i < cands.length; i++) {
+          const p2 = overlap(rectAt(cands[i]), Math.min(bp, cap));
+          if (p2 < bp) { bp = p2; bs = i; }
+          if (p2 <= tol) break;
+        }
+        if (slot < 0 || bp < pen - tol) { slot = bs; pen = bp; }
+      }
+      if (!(slot >= 0 && slot < cands.length)) { slot = 0; pen = overlap(rectAt(cands[0]), cap); }
+      n.labelSlot = slot;
+
+      // a label that can only sit on top of something else is dropped, unless it is the spine's
+      const crowded = pen > tol * 4;
+      const keep = eligible && (!crowded || n === focus || (n.importance >= 3 && spineIds.has(n.id)));
+      n.labelA = (n.labelA || 0) + ((keep ? 1 : 0) - (n.labelA || 0)) * fade;
+      if (n.labelA < 0.02) { n.labelA = 0; continue; }
+      if (keep) placed.push(rectAt(cands[slot]));
+
+      // When a label does have to move, glide it there. The offset is kept relative to the
+      // node, so the label tracks its dot exactly while only the slot change is animated.
+      const spot = cands[slot];
+      const tox = spot[0] - n.px, toy = spot[1] - n.py;
+      if (n.labelOX === undefined || wasHidden) { n.labelOX = tox; n.labelOY = toy; }
+      else {
+        const dx = tox - n.labelOX, dy = toy - n.labelOY;
+        const dist = Math.hypot(dx, dy);
+        if (dist > 0.05) {
+          // eased, but also speed-capped: a long hop must not lurch on its first frame
+          const move = Math.min(dist * ease(0.14), 110 * dt, dist);
+          n.labelOX += dx / dist * move;
+          n.labelOY += dy / dist * move;
+        }
+      }
+      const px = n.px + n.labelOX, py = n.py + n.labelOY;
+      // nudge labels that would run off the edge back into frame rather than clipping them
+      const lx = clampX(px);
+      const impA = n.importance === 1 ? 0.55 : n.importance === 2 ? 0.82 : 1;
+      const a = n.labelA * impA * Math.min(1, 0.3 + 0.7 * fogA(n.pz));
+      const bmp = bakedText(lines, weight, "halo");
+      if (bmp) blit(bmp, lx, py, fs, n.labelA, a);
+      else {
+        setFont(fontAt(weight, fs));
+        ctx.lineWidth = 4; ctx.strokeStyle = css(C.haloRgb, n.labelA); ctx.lineJoin = "round";
+        lines.forEach((ln, i) => {
+          const ly = py + (i - (lines.length - 1) / 2) * fs * 1.25;
+          ctx.strokeText(ln, lx, ly);
+          ctx.fillStyle = css(C.ink, a);
+          ctx.fillText(ln, lx, ly);
+          ctx.strokeStyle = css(C.haloRgb, n.labelA);
+        });
+      }
+    }
+  }
+
+  if (focus) {
+    for (const e of edges) {
+      if (!(e.a === focus || e.b === focus) || !e.rel) continue;
+      const p = projectPt(e.mid);
+      if (p.behind) continue;
+      const fs = 11;
+      ctx.font = `${fs}px -apple-system, "PingFang SC", sans-serif`;
+      const tw = ctx.measureText(e.rel).width + 12;
+      ctx.fillStyle = css(C.paper, 0.94);
+      roundRectPath(p.x - tw / 2, p.y - 9, tw, 18, 2); ctx.fill();
+      ctx.lineWidth = 1; ctx.strokeStyle = css(C.inkDim, 0.3); ctx.stroke();
+      ctx.fillStyle = css(e.main ? C.ink : C.inkDim, 1);
+      ctx.fillText(e.rel, p.x, p.y + 0.5);
+    }
+  }
+}
+
+/* ---------- picking ---------- */
+function pick(mx, my) {
+  const ndcX = ((mx - viewOX) / W) * 2 - 1, ndcY = 1 - ((my - viewOY) / H) * 2;
+  const tf = Math.tan(FOV / 2);
+  const dir = V.norm(V.add(camFwd, V.add(V.scale(camRight, ndcX * tf * aspect), V.scale(camUp, ndcY * tf))));
+  let best = null, bd = Infinity;
+  for (const n of nodes) {
+    if (nodeVis(n) < 0.2) continue;
+    const oc = V.sub([n.x, n.y, n.z], eye);
+    const tca = V.dot(oc, dir);
+    if (tca < 0) continue;
+    const d2 = V.dot(oc, oc) - tca * tca;
+    const r = n.r * 1.25;
+    if (d2 > r * r) continue;
+    if (tca < bd) { bd = tca; best = n; }
+  }
+  return best;
+}
+glc.addEventListener("contextmenu", ev => ev.preventDefault());
+glc.addEventListener("pointerdown", ev => {
+  try { glc.setPointerCapture(ev.pointerId); } catch (e) { /* capture is best-effort */ }
+  pointers.set(ev.pointerId, [ev.clientX, ev.clientY]);
+  dragging = true; moved = 0; lastX = ev.clientX; lastY = ev.clientY;
+  // right button, middle button or shift held → pan instead of orbit
+  panning = ev.button === 1 || ev.button === 2 || ev.shiftKey;
+  if (pointers.size === 2) {
+    const [p1, p2] = [...pointers.values()];
+    pinchD = Math.hypot(p1[0] - p2[0], p1[1] - p2[1]);
+    pinchCX = (p1[0] + p2[0]) / 2; pinchCY = (p1[1] + p2[1]) / 2;
+    moved = 999;  // a two-finger gesture is never a tap
+  }
+  glc.classList.toggle("panning", panning);
+  glc.classList.add("dragging");
+});
+glc.addEventListener("pointermove", ev => {
+  if (pointers.has(ev.pointerId)) pointers.set(ev.pointerId, [ev.clientX, ev.clientY]);
+  if (pointers.size === 2) {
+    // two fingers do both at once, as they do everywhere else: spread zooms, slide pans
+    const [p1, p2] = [...pointers.values()];
+    const d = Math.hypot(p1[0] - p2[0], p1[1] - p2[1]);
+    const cx = (p1[0] + p2[0]) / 2, cy = (p1[1] + p2[1]) / 2;
+    if (pinchD > 0) {
+      goal.dist = Math.max(400, Math.min(7000, goal.dist * pinchD / d));
+      pan(cx - pinchCX, cy - pinchCY);
+    }
+    pinchD = d; pinchCX = cx; pinchCY = cy;
+    return;
+  }
+  if (dragging) {
+    const dx = ev.clientX - lastX, dy = ev.clientY - lastY;
+    moved += Math.abs(dx) + Math.abs(dy);
+    if (panning || ev.shiftKey) pan(dx, dy);
+    else {
+      cam.yaw -= dx * 0.005;
+      cam.pitch = Math.max(-1.2, Math.min(1.35, cam.pitch + dy * 0.0042));
+    }
+    lastX = ev.clientX; lastY = ev.clientY;
+  } else {
+    hover = pick(ev.clientX, ev.clientY);
+    glc.style.cursor = hover ? "pointer" : "grab";
+  }
+});
+function endPointer(ev) {
+  pointers.delete(ev.pointerId);
+  if (pointers.size < 2) pinchD = 0;
+  if (pointers.size === 1) {
+    // one finger lifted out of a pinch — re-seat the drag origin, or the camera snaps
+    const [p] = [...pointers.values()];
+    lastX = p[0]; lastY = p[1]; moved = 999;
+    return;
+  }
+  if (dragging && moved < 6) { const n = pick(ev.clientX, ev.clientY); if (n) select(n); else deselect(); }
+  if (pointers.size === 0) {
+    dragging = false; panning = false;
+    glc.classList.remove("dragging", "panning");
+  }
+}
+glc.addEventListener("pointerleave", () => {
+  if (!dragging && hover) { hover = null; glc.style.cursor = "grab"; }
+});
+glc.addEventListener("pointerup", endPointer);
+glc.addEventListener("pointercancel", endPointer);
+glc.addEventListener("wheel", ev => {
+  ev.preventDefault();
+  goal.dist = Math.max(400, Math.min(7000, goal.dist * Math.exp(ev.deltaY * 0.0012)));
+}, { passive: false });
+
+/* ---------- panel ---------- */
+const panel = document.getElementById("panel");
+const panelBody = document.getElementById("panel-body");
+function esc(s) { return String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c])); }
+const FIGURES = DATA.figures || {};
+// A quotation is shown only when the build located it: an unlocated one never reaches the page,
+// and printing one without its page would make an unchecked claim look like a checked one.
+function quoteHtml(n) {
+  if (!n.quote) return "";
+  const located = DATA.source && n.quote_page && n.quote_file;
+  const at = located ? `${n.quote_file} · ${T().page(n.quote_page)}` : T().unverifiedQuote;
+  return `<blockquote class="quote${located ? "" : " unmatched"}">${esc(n.quote)}<cite>${esc(at)}</cite></blockquote>`;
+}
+function evidenceHtml(n) {
+  const status = DATA.source && n.verification_status || "unverified";
+  const count = Number.isFinite(n.numbers_checked) ? T().provFound(n.numbers_verified, n.numbers_checked) : "";
+  const scope = n.evidence_file ? `${n.evidence_file}${n.evidence_page ? " · " + T().page(n.evidence_page) : ""}` : T().allSources;
+  return `<p class="evidence-status ${esc(status)}">${esc(T().nodeStatus[status] || T().nodeStatus.unverified)}${count ? " · " + esc(count) : ""}${DATA.source ? `<br>${esc(T().evidenceScope)}: ${esc(scope)}` : ""}</p>`;
+}
+function relationHtml(n, outgoing) {
+  return edges.filter(e => outgoing ? e.a === n : e.b === n).map(e => {
+    const target = outgoing ? e.b : e.a;
+    const reason = L(e, "reason");
+    return `<button class="link" type="button" data-id="${esc(target.id)}"><span>${outgoing ? "→" : "←"} ${esc(e.rel)}: ${esc(L(target, "label"))}${reason ? `<span class="relation-reason">${esc(reason)}</span>` : ""}</span></button>`;
+  }).join("");
+}
+function wireNodeContent(container) {
+  container.querySelectorAll(".link").forEach(el => el.addEventListener("click", () => select(byId.get(el.dataset.id))));
+  container.querySelectorAll("figure").forEach(el => {
+    el.tabIndex = 0; el.setAttribute("role", "button");
+    el.addEventListener("click", () => openLightbox(el.dataset.figure));
+    el.addEventListener("keydown", ev => { if (ev.key === "Enter" || ev.key === " ") { ev.preventDefault(); openLightbox(el.dataset.figure); } });
+  });
+}
+function figureHtml(n) {
+  const f = FIGURES[n.figure];
+  if (!f || !f.uri) return "";
+  const cap = L(f, "label");
+  return `<figure data-figure="${esc(n.figure)}"><img src="${esc(f.uri)}" alt="${esc(cap)}" loading="lazy">
+    <figcaption>${esc(cap)}${cap ? " · " : ""}${esc(T().enlarge)}</figcaption></figure>`;
+}
+const lightbox = document.getElementById("lightbox");
+const lightboxImg = document.getElementById("lightbox-img");
+const lightboxCap = document.getElementById("lightbox-cap");
+function openLightbox(key) {
+  const f = FIGURES[key];
+  if (!f || !f.uri) return;
+  lightboxImg.src = f.uri;
+  lightboxCap.textContent = L(f, "label");
+  lightbox.hidden = false;
+}
+function closeLightbox() { lightbox.hidden = true; lightboxImg.src = ""; }
+lightbox.addEventListener("click", closeLightbox);
+addEventListener("keydown", ev => {
+  if (ev.key !== "Escape") return;
+  if (!lightbox.hidden) closeLightbox();
+  else if (selected) deselect();
+});
+
+function select(n) {
+  if (!n) return;
+  const changed = selected !== n;
+  selected = n; hover = null;
+  hiddenTypes.delete(n.type);
+  document.querySelectorAll(".chip").forEach(el => { const on = !hiddenTypes.has(el.dataset.type); el.classList.toggle("off", !on); el.setAttribute("aria-pressed", String(on)); });
+  if (spineMode && !spineIds.has(n.id)) { spineMode = false; btSpine.classList.remove("on"); btSpine.setAttribute("aria-pressed", "false"); }
+  syncSpineNav();
+  if (readingMode) {
+    renderReader();
+    const row = document.getElementById(`read-node-${n.idx}`);
+    if (row) { row.focus({preventScroll:true}); row.scrollIntoView({block:"start", behavior:"auto"}); }
+    return;
+  }
+  goal.t = [n.x, n.y, n.z];
+  // lean in, but never so far that the rest of the argument leaves the frame
+  if (changed) goal.dist = Math.max(goal.dist * 0.85, Math.min(goal.dist, 1300));
+  // half the panel's real size: a side panel on desktop, a bottom sheet on a phone
+  goalOX = W > 640 ? -Math.min(370, W) / 2 : 0;
+  goalOY = W > 640 ? 0 : -Math.min(H * 0.58, H) / 2;
+  document.body.classList.add("panel-open");
+  const col = C.type[n.type] || C.type.unknown;
+  const tzh = typeName(n.type);
+  const outs = relationHtml(n, true), ins = relationHtml(n, false);
+  panelBody.innerHTML = `
+    <span class="badge"><i style="background:${css(col, 1)}"></i>${esc(tzh)}</span>
+    <h2>${esc(L(n, "label"))}</h2>
+    ${L(n, "section") ? `<span class="sec">${esc(L(n, "section"))}</span>` : ""}
+    <div class="detail">${esc(L(n, "detail"))}</div>
+    ${evidenceHtml(n)}
+    ${quoteHtml(n)}
+    ${figureHtml(n)}
+    ${outs ? `<h3>${esc(T().leadsTo)}</h3>${outs}` : ""}
+    ${ins ? `<h3>${esc(T().comesFrom)}</h3>${ins}` : ""}`;
+  wireNodeContent(panelBody);
+  panel.classList.add("open");
+  panel.inert = false; panel.setAttribute("aria-hidden", "false");
+  if (changed) panel.scrollTop = 0;
+}
+function deselect() {
+  selected = null;
+  panel.classList.remove("open");
+  panel.inert = true; panel.setAttribute("aria-hidden", "true");
+  document.body.classList.remove("panel-open");
+  goalOX = 0; goalOY = 0;
+  fitGoal();
+  syncSpineNav();
+  if (readingMode) renderReader();
+}
+document.getElementById("panel-close").addEventListener("click", deselect);
+
+function renderReader() {
+  document.getElementById("reader-title").textContent = L(DATA, "title");
+  document.getElementById("reader-summary").textContent = L(DATA, "summary");
+  document.getElementById("reader-provenance").textContent = document.getElementById("hdr-prov").textContent;
+  const visible = readingOrder.filter(n => (!spineMode || spineIds.has(n.id)) && !hiddenTypes.has(n.type));
+  readerNodes.innerHTML = visible.map(n => {
+    const outs = relationHtml(n, true), ins = relationHtml(n, false);
+    return `<article class="read-node" id="read-node-${n.idx}" tabindex="-1" data-node-id="${esc(n.id)}" data-selected="${selected === n}">
+      <p class="badge">${esc(spineIds.has(n.id) ? T().spineNode : T().supportNode)} · ${esc(typeName(n.type))}</p>
+      <h2>${esc(L(n, "label"))}</h2><p class="sec">${esc(L(n, "section"))}</p>
+      <div class="detail">${esc(L(n, "detail"))}</div>${evidenceHtml(n)}${quoteHtml(n)}${figureHtml(n)}
+      ${outs ? `<h3>${esc(T().leadsTo)}</h3>${outs}` : ""}${ins ? `<h3>${esc(T().comesFrom)}</h3>${ins}` : ""}</article>`;
+  }).join("");
+  wireNodeContent(readerNodes);
+  readerNodes.querySelectorAll(".read-node").forEach(row => row.addEventListener("click", ev => {
+    if (ev.target.closest && ev.target.closest("button, figure")) return;
+    const n = byId.get(row.dataset.nodeId); if (n) select(n);
+  }));
+}
+function setReading(on) {
+  readingMode = on || !gl;
+  closeSearch(); toggleSettings(false);
+  document.body.classList.toggle("reading", readingMode);
+  reader.hidden = !readingMode;
+  btGraph.setAttribute("aria-pressed", String(!readingMode)); btGraph.classList.toggle("on", !readingMode);
+  btReading.setAttribute("aria-pressed", String(readingMode)); btReading.classList.toggle("on", readingMode);
+  panel.classList.remove("open"); panel.inert = true; panel.setAttribute("aria-hidden", "true");
+  document.body.classList.remove("panel-open");
+  goalOX = 0; goalOY = 0;
+  if (readingMode) {
+    cancelAnimationFrame(animationFrame); animationFrame = 0;
+    renderReader();
+    const row = selected && document.getElementById(`read-node-${selected.idx}`);
+    if (row) row.scrollIntoView({block:"start", behavior:"auto"});
+  } else {
+    lastNow = 0; frameAcc = []; resize();
+    if (selected) select(selected);
+    scheduleRender();
+  }
+  syncSpineNav();
+}
+function syncSpineNav() {
+  const idx = spineOrder.indexOf(selected);
+  document.getElementById("spine-nav").hidden = !spineOrder.length || !selected;
+  document.getElementById("spine-prev").disabled = idx <= 0;
+  document.getElementById("spine-next").disabled = idx === spineOrder.length - 1;
+  document.getElementById("spine-position").textContent = `${idx + 1} / ${spineOrder.length}`;
+}
+btGraph.addEventListener("click", () => setReading(false));
+btReading.addEventListener("click", () => setReading(true));
+document.getElementById("spine-prev").addEventListener("click", () => select(spineOrder[spineOrder.indexOf(selected) - 1]));
+document.getElementById("spine-next").addEventListener("click", () => select(spineOrder[spineOrder.indexOf(selected) + 1]));
+document.getElementById("st-print").addEventListener("click", () => { setReading(true); window.print(); });
+document.addEventListener("visibilitychange", () => { if (document.hidden) { cancelAnimationFrame(animationFrame); animationFrame = 0; } else { lastNow = 0; frameAcc = []; scheduleRender(); } });
+
+/* ---------- header, legend, toolbar ---------- */
+function renderHeader() {
+  document.getElementById("hdr-title").textContent = L(DATA, "title");
+  document.getElementById("hdr-summary").textContent = L(DATA, "summary");
+  const t = L(DATA, "short_title") || L(DATA, "title");
+  if (t) document.title = t;
+}
+renderHeader();
+const meta = DATA.meta || {};
+document.getElementById("hdr-meta").textContent = [meta.authors, meta.venue, meta.year].filter(Boolean).join(" · ");
+
+// provenance: which file this graph describes, and whether its numbers were checked against it
+function sourceHashText(src) {
+  const files = Array.isArray(src && src.files) ? src.files : [];
+  const hashes = files.map(f => String(f && f.sha256 || "").slice(0, 12)).filter(Boolean);
+  return hashes.length ? hashes.join("+") : String(src && src.sha256 || "").slice(0, 12);
+}
+function renderProv() {
+  const prov = document.getElementById("hdr-prov");
+  const src = DATA.source;
+  if (!prov) return;
+  if (src) {
+    const total = src.numbers_checked || 0, ok = src.numbers_verified || 0;
+    const head = `${esc(T().provSrc)} ${esc(src.file)} · ${esc(sourceHashText(src))} · `;
+    // quotations are the stronger claim of the two, so they are said out loud rather than
+    // left in the data for whoever thinks to look
+    const qt = src.quotes_checked || 0, qok = src.quotes_verified || 0;
+    prov.classList.toggle("unverified", !(total + qt > 0 && ok === total && qok === qt));
+    const quotes = qt > 0 ? ` · <b>${esc(T().provQuotes(qok, qt))}</b>` : "";
+    prov.innerHTML = total > 0
+      ? head + `<b>${esc(T().provFound(ok, total))}</b>${quotes} · ${esc(String(src.built || "").slice(0, 10))}`
+      : head + `<b>${esc(T().noNumbers)}</b>${quotes}`;
+    if (!qt) prov.innerHTML += ` · ${esc(T().noQuotes)}`;
+    prov.title = T().verifyHint;
+  } else {
+    prov.classList.add("unverified");
+    prov.innerHTML = `<b>${esc(T().provNone)}</b> · ${esc(T().provNoneTail)}`;
+  }
+  prov.hidden = false;
+}
+renderProv();
+
+const legend = document.getElementById("legend");
+const typeCounts = {};
+for (const n of nodes) typeCounts[n.type] = (typeCounts[n.type] || 0) + 1;
+for (const t of Object.keys(typeCounts)) {
+  const chip = document.createElement("button");
+  chip.type = "button"; chip.setAttribute("aria-pressed", "true");
+  chip.className = "chip";
+  const col = cssVar(`--t-${TYPES[t] ? t : "unknown"}`);
+  chip.dataset.type = t;
+  chip.innerHTML = `<span class="dot" style="background:${col};color:${col}"></span><span class="tn">${esc(typeName(t))}</span> <span class="n">${typeCounts[t]}</span>`;
+  chip.addEventListener("click", () => {
+    if (hiddenTypes.has(t)) hiddenTypes.delete(t); else hiddenTypes.add(t);
+    chip.classList.toggle("off", hiddenTypes.has(t)); chip.setAttribute("aria-pressed", String(!hiddenTypes.has(t))); touchGeom();
+  });
+  legend.appendChild(chip);
+}
+const btRotate = document.getElementById("bt-rotate");
+btRotate.classList.toggle("on", autoRotate);
+btRotate.setAttribute("aria-pressed", String(autoRotate));
+btRotate.addEventListener("click", () => { autoRotate = !autoRotate; btRotate.classList.toggle("on", autoRotate); btRotate.setAttribute("aria-pressed", String(autoRotate)); });
+const btSpine = document.getElementById("bt-spine");
+btSpine.setAttribute("aria-pressed", "false");
+if (spineIds.size) {
+  btSpine.addEventListener("click", () => { spineMode = !spineMode; btSpine.classList.toggle("on", spineMode); btSpine.setAttribute("aria-pressed", String(spineMode)); touchGeom(); if (readingMode) renderReader(); });
+} else {
+  // nothing is marked main:true — the filter would just blank the whole graph
+  btSpine.disabled = true;
+  btSpine.title = T().noSpine;
+}
+const btLabels = document.getElementById("bt-labels");
+btLabels.setAttribute("aria-pressed", "true");
+btLabels.addEventListener("click", () => { labelsOn = !labelsOn; btLabels.classList.toggle("on", labelsOn); btLabels.setAttribute("aria-pressed", String(labelsOn)); });
+document.getElementById("bt-reset").addEventListener("click", () => {
+  hiddenTypes.clear(); touchGeom();
+  legend.querySelectorAll(".chip").forEach(c => { c.classList.remove("off"); c.setAttribute("aria-pressed", "true"); });
+  spineMode = false; btSpine.classList.remove("on"); btSpine.setAttribute("aria-pressed", "false");
+  autoRotate = false; drift = 0; btRotate.classList.remove("on"); btRotate.setAttribute("aria-pressed", "false");
+  cam.yaw = -0.55; cam.pitch = 0.3;
+  closeSearch(); deselect();
+});
+/* ---------- the header card: fold, resize, scroll ----------
+   It is an overlay on top of the graph, and on a long summary it used to cover most of the
+   argument. So: a caret folds it to its title, the corner grip sets its width and the height
+   of its text, and the text scrolls inside whatever height is left. All three are remembered. */
+const hdr = document.getElementById("hdr");
+const hdrBody = document.getElementById("hdr-body");
+const hdrFold = document.getElementById("hdr-fold");
+const hdrGrip = document.getElementById("hdr-grip");
+function setFolded(on) {
+  hdr.classList.toggle("folded", on);
+  hdrFold.setAttribute("aria-expanded", String(!on));
+  hdrFold.title = on ? T().unfold : T().fold;
+  store("p3g-hdr-fold", on ? "1" : "0");
+}
+function setHdrSize(w, h) {
+  const maxW = Math.max(240, window.innerWidth - 44);
+  const maxH = Math.max(80, window.innerHeight - hdr.getBoundingClientRect().top - 90);
+  if (w) hdr.style.width = Math.round(Math.max(260, Math.min(maxW, w))) + "px";
+  if (h) hdrBody.style.maxHeight = Math.round(Math.max(56, Math.min(maxH, h))) + "px";
+  store("p3g-hdr-size", JSON.stringify([parseInt(hdr.style.width) || 0, parseInt(hdrBody.style.maxHeight) || 0]));
+}
+hdrFold.addEventListener("click", () => setFolded(!hdr.classList.contains("folded")));
+hdr.querySelector("h1").addEventListener("click", () => {
+  if (String(getSelection())) return;   // the reader is selecting the title, not folding the card
+  setFolded(!hdr.classList.contains("folded"));
+});
+hdrGrip.addEventListener("pointerdown", ev => {
+  ev.preventDefault();
+  const x0 = ev.clientX, y0 = ev.clientY;
+  const w0 = hdr.getBoundingClientRect().width, h0 = hdrBody.getBoundingClientRect().height;
+  // the move/up listeners go on window, not on the grip: pointer capture can be lost mid-drag,
+  // and then the moves land on whatever happens to be under the cursor — the card just stops
+  // following, and the pointer selects the text it is passing over instead
+  const move = e => setHdrSize(w0 + (e.clientX - x0), h0 + (e.clientY - y0));
+  const up = () => {
+    removeEventListener("pointermove", move);
+    removeEventListener("pointerup", up);
+    removeEventListener("pointercancel", up);
+    document.body.style.userSelect = "";
+  };
+  document.body.style.userSelect = "none";
+  addEventListener("pointermove", move);
+  addEventListener("pointerup", up);
+  addEventListener("pointercancel", up);
+});
+try {
+  const saved = JSON.parse(store("p3g-hdr-size") || "null");
+  if (Array.isArray(saved)) setHdrSize(saved[0], saved[1]);
+} catch (e) { /* a corrupt entry just means the default size */ }
+setFolded(store("p3g-hdr-fold") === "1");
+
+// The legend wraps to a different number of rows per language and window width, and the hint
+// was pinned to the same bottom offset — in Chinese it landed square on the second row and hid
+// whole chips. Lift it above whatever the legend currently occupies.
+const hintEl = document.getElementById("hint");
+function placeHint() {
+  const h = legend.getBoundingClientRect().height;
+  hintEl.style.bottom = Math.round(22 + (h > 0 ? h + 8 : 0)) + "px";
+}
+placeHint();
+addEventListener("resize", placeHint);
+try { new ResizeObserver(placeHint).observe(legend); } catch (e) { /* older browsers: resize only */ }
+
+/* ---------- settings: language and theme ---------- */
+/* ---------- PNG export ----------
+   Two obstacles, neither of them a flag. The WebGL context is not created with
+   preserveDrawingBuffer, so its pixels are only readable inside the same task that drew them —
+   hence the fresh synchronous render immediately before the copy. And the labels live on a
+   second, 2D canvas stacked over the first, so a copy of either one alone is half a picture.
+   Both get composited into an offscreen canvas, and a footer carrying the title and the
+   provenance line is drawn underneath: a figure that lands in a talk should say what it is and
+   what it was checked against, or it is just a picture of a graph. */
+function exportPNG() {
+  if (!gl || readingMode) return;
+  {
+    render(performance.now(), true);
+    const w = glc.width, h = glc.height;
+    // a window mid-resize can report zero; drawImage throws on a zero-sized source, and a
+    // thrown export looks to the reader exactly like a broken page
+    if (!(w > 0 && h > 0)) { btPng.classList.add("warn"); setTimeout(() => btPng.classList.remove("warn"), 1500); return; }
+    const scale = w / Math.max(1, W);          // device pixels per CSS pixel, whatever DPR is now
+    const pad = Math.round(14 * scale);
+    const t1 = Math.round(15 * scale), t2 = Math.round(11 * scale);
+    const foot = Math.round(t1 * 1.5 + t2 * 2.9 + pad * 2);   // title, file, and the counts
+    const out = document.createElement("canvas");
+    out.width = w; out.height = h + foot;
+    const g = out.getContext("2d");
+    if (!g) return;
+    g.drawImage(glc, 0, 0);
+    g.drawImage(lbl, 0, 0);
+    g.fillStyle = css(C.paper, 1);
+    g.fillRect(0, h, w, foot);
+    g.fillStyle = css(C.inkDim, 0.35);
+    g.fillRect(0, h, w, Math.max(1, Math.round(scale)));
+    g.textAlign = "left"; g.textBaseline = "top";
+    g.fillStyle = css(C.ink, 1);
+    g.font = `600 ${t1}px -apple-system, "PingFang SC", sans-serif`;
+    g.fillText(elide(g, L(DATA, "title") || "", w - pad * 2), pad, h + pad);
+    g.fillStyle = css(C.inkDim, 1);
+    g.font = `${t2}px -apple-system, "PingFang SC", sans-serif`;
+    // Two lines, because the counts are the substance and must never be the thing that gets
+    // shortened. Only the file name is elastic, and it is elided in the middle so both ends of
+    // it stay readable.
+    const [file, bits] = provenanceParts();
+    const room = w - pad * 2;
+    let y = h + pad + Math.round(t1 * 1.5);
+    g.fillText(elide(g, file, room), pad, y);
+    g.fillText(dropToFit(g, bits, room), pad, y + Math.round(t2 * 1.45));
+    const name = (L(DATA, "short_title") || L(DATA, "title") || "graph")
+      .replace(/[\\/:*?"<>|]/g, "").slice(0, 60).trim() || "graph";
+    out.toBlob(b => {
+      if (!b) return;
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(b);
+      a.download = `${name}.png`;
+      a.click();
+      setTimeout(() => URL.revokeObjectURL(a.href), 10000);
+    }, "image/png");
+  }
+}
+
+// When the counts line will not fit, throw away whole pieces from the back — the date first,
+// then the hash — rather than eating through the middle of "93/93 numbers found in the source".
+// A half-eaten count is worse than no date: it reads as if the number itself were uncertain.
+function dropToFit(g, bits, room) {
+  const keep = bits.slice();
+  while (keep.length > 1 && g.measureText(keep.join(" · ")).width > room) keep.pop();
+  const line = keep.join(" · ");
+  return g.measureText(line).width <= room ? line : elide(g, line, room);
+}
+
+
+// Cut a string down to a width from the middle, so both ends of a file name stay readable.
+function elide(g, text, room) {
+  if (g.measureText(text).width <= room) return text;
+  let lo = 0, hi = text.length, best = "…";
+  while (lo <= hi) {
+    const k = (lo + hi) >> 1;
+    const head = Math.ceil(k / 2), tail = k - head;
+    const cand = text.slice(0, head) + "…" + (tail ? text.slice(text.length - tail) : "");
+    if (g.measureText(cand).width <= room) { best = cand; lo = k + 1; } else { hi = k - 1; }
+  }
+  return best;
+}
+
+// what makes an exported image checkable rather than merely decorative: the file it was built
+// from, and how much of it was actually confirmed
+const rank = b => (/\d+\s*\/\s*\d+/.test(b) ? 0 : /^[0-9a-f]{12}(?:\+[0-9a-f]{12})*$/.test(b) ? 1 : 2);
+function provenanceParts() {
+  const s = DATA.source;
+  if (!s) return [T().provNone, [T().provNoneTail]];
+  const bits = [sourceHashText(s)];
+  if (s.numbers_checked) bits.push(T().provFound(s.numbers_verified, s.numbers_checked));
+  if (s.quotes_checked) bits.push(T().provQuotes(s.quotes_verified, s.quotes_checked));
+  if (s.built) bits.push(String(s.built).slice(0, 10));
+  // most important last-to-go first: the counts, then the hash, then the date
+  bits.sort((a, b) => rank(a) - rank(b));
+  return [`${T().provSrc} ${s.file}`, bits];
+}
+
+const btPng = document.getElementById("st-png");
+btPng.addEventListener("click", exportPNG);
+
+const THEMES = ["auto", "light", "dark", "blueprint"];
+let THEME = THEMES.includes(store("p3g-theme")) ? store("p3g-theme") : "auto";
+
+function applyTheme(t) {
+  THEME = t; store("p3g-theme", t);
+  if (t === "auto") document.documentElement.removeAttribute("data-theme");
+  else document.documentElement.setAttribute("data-theme", t);
+  readTheme();
+  document.querySelectorAll("#st-theme button").forEach(b => b.classList.toggle("on", b.dataset.v === t));
+}
+function applyLang(l) {
+  LANG = l; store("p3g-lang", l);
+  document.documentElement.lang = l === "zh" ? "zh" : "en";
+  btRotate.textContent = T().rotate;
+  btSpine.textContent = T().spine;
+  btLabels.textContent = T().labels;
+  document.getElementById("bt-reset").textContent = T().reset;
+  btGraph.textContent = T().graphView; btReading.textContent = T().readingView;
+  document.getElementById("st-print").textContent = T().print;
+  document.getElementById("spine-prev").title = T().previous;
+  document.getElementById("spine-prev").setAttribute("aria-label", T().previous);
+  document.getElementById("spine-next").title = T().next;
+  document.getElementById("spine-next").setAttribute("aria-label", T().next);
+  btSearch.title = T().search;
+  btSearch.setAttribute("aria-label", T().search);
+  searchInput.placeholder = T().searchPlaceholder;
+  searchInput.setAttribute("aria-label", T().search);
+  searchClose.setAttribute("aria-label", T().searchClose);
+  document.getElementById("hint").textContent = T().hint;
+  document.getElementById("fallback").textContent = T().noWebGL;
+  document.getElementById("st-lang-h").textContent = T().lang;
+  document.getElementById("st-theme-h").textContent = T().theme;
+  btPng.innerHTML = `${esc(T().png)}<span class="sub">${esc(T().pngSub(glc.width, glc.height))}</span>`;
+  if (btSpine.disabled) btSpine.title = T().noSpine;
+  legend.querySelectorAll(".chip").forEach(c => {
+    const tn = c.querySelector(".tn"); if (tn) tn.textContent = typeName(c.dataset.type);
+  });
+  document.querySelectorAll("#st-theme button").forEach(b => { b.textContent = T().themeNames[b.dataset.v]; });
+  document.querySelectorAll("#st-lang button").forEach(b => b.classList.toggle("on", b.dataset.v === l));
+  hdrFold.title = hdr.classList.contains("folded") ? T().unfold : T().fold;
+  placeHint();
+  renderHeader();
+  renderProv();
+  if (readingMode) renderReader();
+  if (searchPanel.classList.contains("open")) renderSearchResults();
+  if (selected) select(selected);            // the open panel is full of translated headings
+}
+
+const segLang = document.getElementById("st-lang");
+for (const [v, name] of [["en", "English"], ["zh", "中文"]]) {
+  const b = document.createElement("button");
+  b.dataset.v = v; b.textContent = name;
+  b.addEventListener("click", () => applyLang(v));
+  segLang.appendChild(b);
+}
+const segTheme = document.getElementById("st-theme");
+for (const v of THEMES) {
+  const b = document.createElement("button");
+  b.dataset.v = v;
+  b.addEventListener("click", () => applyTheme(v));
+  segTheme.appendChild(b);
+}
+const settings = document.getElementById("settings");
+const btSettings = document.getElementById("bt-settings");
+function toggleSettings(open) {
+  if (open) closeSearch();
+  settings.classList.toggle("open", open);
+  btSettings.classList.toggle("on", open);
+  btPng.disabled = !gl || readingMode;
+}
+btSettings.addEventListener("click", () => toggleSettings(!settings.classList.contains("open")));
+// close on an outside click, decided by where the click landed rather than by propagation
+addEventListener("pointerdown", ev => {
+  if (ev.target.closest && (ev.target.closest("#settings") || ev.target.closest("#bt-settings"))) return;
+  toggleSettings(false);
+}, true);
+addEventListener("keydown", ev => { if (ev.key === "Escape") toggleSettings(false); });
+
+applyTheme(THEME);
+applyLang(LANG);
+setTimeout(() => document.getElementById("hint").classList.add("fade"), 7000);
+
+btGraph.disabled = !gl;
+btGraph.title = gl ? T().graphView : T().noWebGL;
+setReading(!gl);
+scheduleRender();
+</script>
+</html>

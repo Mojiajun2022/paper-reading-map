@@ -1,0 +1,117 @@
+{
+  "title": "Temperature Scaling for a Small Classifier",
+  "title_en": "Temperature Scaling for a Small Classifier",
+  "short_title": "Temperature Scaling",
+  "summary": "Temperature scaling improves calibration on a held-out evaluation while preserving the predicted class.",
+  "summary_en": "Temperature scaling improves calibration on a held-out evaluation while preserving the predicted class.",
+  "meta": {
+    "authors": "Tutorial example",
+    "venue": "argument-map",
+    "year": "2026"
+  },
+  "nodes": [
+    {
+      "id": "deployment",
+      "type": "background",
+      "importance": 3,
+      "label": "Deployment confidence",
+      "label_en": "Deployment confidence",
+      "detail": "Confidence estimates are needed for deployment decisions. The tutorial paper studies whether a simple calibration step can make those estimates more reliable.",
+      "detail_en": "Confidence estimates are needed for deployment decisions. The tutorial paper studies whether a simple calibration step can make those estimates more reliable.",
+      "section": "Introduction"
+    },
+    {
+      "id": "baseline",
+      "type": "problem",
+      "importance": 3,
+      "label": "Baseline miscalibration",
+      "label_en": "Baseline miscalibration",
+      "detail": "On 1,000 held-out examples, the uncalibrated baseline reached 78.0% accuracy and had an expected calibration error of 0.12.",
+      "detail_en": "On 1,000 held-out examples, the uncalibrated baseline reached 78.0% accuracy and had an expected calibration error of 0.12.",
+      "section": "Results"
+    },
+    {
+      "id": "scaling",
+      "type": "method",
+      "importance": 3,
+      "label": "Temperature scaling",
+      "label_en": "Temperature scaling",
+      "detail": "The proposed calibration step applies temperature scaling with a temperature of 1.5. This changes confidence values while preserving the predicted class.",
+      "detail_en": "The proposed calibration step applies temperature scaling with a temperature of 1.5. This changes confidence values while preserving the predicted class.",
+      "section": "Method",
+      "quote": "Calibration improves reliability without changing the predicted class."
+    },
+    {
+      "id": "evaluation",
+      "type": "experiment",
+      "importance": 2,
+      "label": "Held-out evaluation",
+      "label_en": "Held-out evaluation",
+      "detail": "The calibrated and uncalibrated models are compared on the same 1,000 held-out examples. The evaluation measures both accuracy and expected calibration error.",
+      "detail_en": "The calibrated and uncalibrated models are compared on the same 1,000 held-out examples. The evaluation measures both accuracy and expected calibration error.",
+      "section": "Evaluation"
+    },
+    {
+      "id": "result",
+      "type": "result",
+      "importance": 3,
+      "label": "Improved calibration",
+      "label_en": "Improved calibration",
+      "detail": "The calibrated model retained 78.0% accuracy and reduced expected calibration error to 0.07. The comparison is limited to the 1,000-example held-out set.",
+      "detail_en": "The calibrated model retained 78.0% accuracy and reduced expected calibration error to 0.07. The comparison is limited to the 1,000-example held-out set.",
+      "section": "Results"
+    },
+    {
+      "id": "conclusion",
+      "type": "conclusion",
+      "importance": 3,
+      "label": "Reliable confidence",
+      "label_en": "Reliable confidence",
+      "detail": "The result supports using temperature scaling when confidence estimates are needed for deployment. The evidence does not establish performance outside the held-out evaluation.",
+      "detail_en": "The result supports using temperature scaling when confidence estimates are needed for deployment. The evidence does not establish performance outside the held-out evaluation.",
+      "section": "Conclusion"
+    }
+  ],
+  "edges": [
+    {
+      "source": "deployment",
+      "target": "baseline",
+      "relation": "motivates",
+      "label": "motivates",
+      "label_en": "motivates",
+      "main": true
+    },
+    {
+      "source": "baseline",
+      "target": "scaling",
+      "relation": "addresses",
+      "label": "addressed by",
+      "label_en": "addressed by",
+      "main": true
+    },
+    {
+      "source": "scaling",
+      "target": "evaluation",
+      "relation": "uses",
+      "label": "tested with",
+      "label_en": "tested with",
+      "main": true
+    },
+    {
+      "source": "evaluation",
+      "target": "result",
+      "relation": "produces",
+      "label": "produces",
+      "label_en": "produces",
+      "main": true
+    },
+    {
+      "source": "result",
+      "target": "conclusion",
+      "relation": "supports",
+      "label": "supports",
+      "label_en": "supports",
+      "main": true
+    }
+  ]
+}

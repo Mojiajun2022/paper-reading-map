@@ -1,0 +1,16 @@
+TUTORIAL PAPER: Temperature Scaling for a Small Classifier
+
+This example is a small text source used by the README tutorial. It is not a
+real publication.
+
+The classifier was evaluated on 1,000 held-out examples. The uncalibrated
+baseline reached 78.0% accuracy and had an expected calibration error of 0.12.
+
+We applied temperature scaling with a temperature of 1.5. The calibrated model
+retained 78.0% accuracy and reduced the expected calibration error to 0.07.
+
+Calibration improves reliability without changing the predicted class.
+
+The result supports using temperature scaling when confidence estimates are
+needed for deployment. The evaluation does not test performance outside the
+1,000-example held-out set.

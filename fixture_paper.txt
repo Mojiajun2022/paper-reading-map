@@ -1,0 +1,18 @@
+SYNTHETIC FIXTURE PAPER — NOT A REAL PUBLICATION
+
+This file exists only so the test suite has something to check numbers and
+quotations against. Nothing in it is a real result.
+
+We measured the widget at T = 12 K and found a response of 3.45(2) units.
+The sample mass was 21.7 mg and the disorder parameter was x = 0.031.
+
+An identical molecular field acts on all the sites, which is the sentence the
+quotation tests look for.
+
+A hyphenated word is split across a line here so that the dehyphenation
+fallback has something to chew on: the response is substan-
+tial across the whole range.
+The bar chart in Fig. 2 shows a | pipe | character in prose, which the
+Markdown table parser must not mistake for a row.
+Below 40 K the response departs from the expected law.
+We conclude that the widget is dominated by the third neighbour.

@@ -13,7 +13,7 @@ Source-checked claims. Interactive 3D reasoning. One self-contained HTML file.
 
 [**Open the live demo**](https://htmlpreview.github.io/?https://raw.githubusercontent.com/Mojiajun2022/argument-map/main/demo.html) | [Download demo HTML](demo.html) | [Quick start](#quick-start)
 
-![argument-map demo](docs/overview.png)
+![argument-map demo](overview.png)
 
 <sub>If this helps you read one difficult paper faster, <a href="https://github.com/Mojiajun2022/argument-map">give it a star</a> and share it with a researcher.</sub>
 

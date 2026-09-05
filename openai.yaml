@@ -1,8 +1,8 @@
 interface:
-  display_name: "Argument Map"
-  short_description: "Build a source-checked 3D argument map from a paper"
+  display_name: "Paper Reading Map"
+  short_description: "Read papers faster with a source-checked interactive map"
   brand_color: "#5566A8"
-  default_prompt: "Use $argument-map to read this paper, build a source-checked interactive 3D argument map, and explain its main spine."
+  default_prompt: "Use $argument-map to read this paper, build a source-checked Paper Reading Map, and explain its main spine and evidence branches."
 
 policy:
   allow_implicit_invocation: true

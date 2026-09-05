@@ -3,7 +3,7 @@ name: argument-map
 description: "Build a source-grounded, interactive 3D argument map from an academic paper PDF or extracted text. Use when the user asks for a paper's logic chain, argument structure, research-gap-to-conclusion path, knowledge graph, mind map, or help understanding a paper (论文逻辑、论证链、知识图谱、论文结构、思维导图); do not use for an abstract-only summary, ordinary translation, or a cross-paper literature map."
 ---
 
-# Paper to 3D Argument Map
+# Paper Reading Map
 
 Turn one paper's reasoning into a self-contained interactive HTML graph. The graph is a model of
 the paper's claims and evidence, not a decorative 3D illustration. A reader should be able to
@@ -91,6 +91,24 @@ Use the number of nodes the paper supports. Fifteen to thirty-five is common, bu
 target. A review may have no experiments; a position paper may have no results; a theory paper may
 have no dataset. Do not invent a stage to satisfy a taxonomy.
 
+### Demo Quality Bar
+
+When the user asks for a demo or visual explanation, optimize for whole-paper comprehension rather
+than a short abstract summary:
+
+- Build a visible spine from the motivating problem to the conclusion, with a real branch-and-rejoin
+  when the paper has independent evidence strands.
+- Cover the major sections in the map: motivation or gap, proposal, core mechanism or derivation,
+  evaluation, generalization or controls, and limitations or future work.
+- For a substantial empirical or systems paper, prefer roughly 12-25 connected nodes. Give important
+  baselines, metrics, experiments, and boundary conditions their own nodes instead of hiding them
+  inside one result node.
+- Attach a paper figure, schematic, or table crop when it clarifies the method or result. Label an
+  original explanatory schematic as such; never present an agent-created drawing as the paper's
+  original figure.
+- Keep the first viewport legible. Use `importance: 3` for the spine, `2` for evidence and mechanism
+  branches, and `1` for peripheral context. Put dense detail in the click-open panel and Reading view.
+
 ### Node Quality
 
 For each node:
@@ -111,10 +129,15 @@ derived numeral still has to appear in the source or be explicitly approved with
 
 ### Language
 
-If the user wants a bilingual graph, provide matching fields such as `label` / `label_en`,
-`detail` / `detail_en`, `title` / `title_en`, `summary` / `summary_en`, and edge `label` /
-`label_en`. Both versions must preserve the same values, measurements, and meaning. Do not create
-`quote_en` or `quote_zh`: a quotation has one canonical form, the paper's own words.
+If the user wants a bilingual graph, provide matching fields such as `label` / `label_zh`,
+`detail` / `detail_zh`, `section` / `section_zh`, `title` / `title_zh`, `summary` /
+`summary_zh`, and edge `label` / `label_zh`. The bare field is the canonical English value; `_en`
+twins may be included for compatibility, but `_zh` fields are required for a real Chinese switch.
+Both versions must preserve the same values, measurements, and meaning. Do not create `quote_en`
+or `quote_zh`: a quotation has one canonical form, the paper's own words. After building, open the
+HTML, switch to 中文, and verify that the title, summary, node labels, details, section names, edge
+labels, settings, and figure labels visibly change. A button that changes only the toolbar is not
+a completed bilingual deliverable.
 
 If the user wants one language only, omit the twins rather than producing a poor translation. The
 renderer falls back to the bare field when a language twin is absent.
@@ -302,6 +325,9 @@ Before responding to the user, confirm:
 - the HTML is self-contained and contains no external runtime dependency;
 - the main spine is explained in prose from entry to endpoint;
 - the page was opened or otherwise inspected when preview tooling is available.
+- the first viewport shows more than a single chain when the paper contains independent evidence;
+- the Chinese switch was clicked and translated title, nodes, details, and settings were observed;
+- any public demo URL points to the current repository and generated HTML.
 
 The page supports orbit, pan, zoom, node selection, details, figures, upstream/downstream links,
 type filters, spine-only mode, node search with `/` and arrow keys, a stable Reading view ordered

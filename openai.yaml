@@ -2,7 +2,7 @@ interface:
   display_name: "Paper Reading Map"
   short_description: "Read papers faster with a source-checked interactive map"
   brand_color: "#5566A8"
-  default_prompt: "Use $argument-map to read this paper, build a source-checked Paper Reading Map, and explain its main spine and evidence branches."
+  default_prompt: "Use $argument-map to read the whole paper, build a source-checked Paper Reading Map with a main spine, evidence branches, experiments, and limitations, then explain how the claims connect."
 
 policy:
   allow_implicit_invocation: true

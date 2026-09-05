@@ -1,12 +1,12 @@
 # Paper Reading Map（论文阅读地图）
 
-[English](README.md) | **简体中文**
+[English](https://github.com/Mojiajun2022/paper-reading-map/blob/main/README.md) | **简体中文**
 
 <div align="center">
 
 **把难读的论文，变成一张可以探索的阅读地图。**
 
-Paper Reading Map 将论文转换为经过来源核验的交互式地图：先看主线，再展开证据分支；点击节点即可查看解释、原文引文和相关图片。
+Paper Reading Map 将真实论文转换为经过来源核验的交互式地图：先看主线，再展开证据分支；点击节点即可查看解释、原文引文和相关图片。
 
 [![CI](https://github.com/Mojiajun2022/paper-reading-map/actions/workflows/ci.yml/badge.svg)](https://github.com/Mojiajun2022/paper-reading-map/actions/workflows/ci.yml)
 [![GitHub stars](https://img.shields.io/github/stars/Mojiajun2022/paper-reading-map?style=flat&logo=github)](https://github.com/Mojiajun2022/paper-reading-map/stargazers)
@@ -39,22 +39,22 @@ Use $argument-map to build a Paper Reading Map. Keep every number and quotation 
 ### 本地生成 Demo
 
 ```bash
-python3 scripts/build_graph.py examples/tutorial-graph.json \
-  -o demo.html --source examples/tutorial-paper.txt
+python3 scripts/build_graph.py examples/transformer-graph.json \
+  -o demo.html --source examples/transformer-paper.txt
 open demo.html
 ```
 
 ## 体验示例
 
 1. 打开[在线 Demo](https://htmlpreview.github.io/?https://raw.githubusercontent.com/Mojiajun2022/paper-reading-map/main/demo.html)。
-2. 从部署问题沿主线走到结论。
-3. 观察两个证据分支：**Accuracy check** 和 **Calibration check**。
-4. 点击 **Two checks agree**，查看节点详情和附带的地图预览图。
+2. 沿着《Attention Is All You Need》的论证主线阅读：瓶颈 → Transformer → 注意力 → 实验结果。
+3. 观察架构、位置编码、效率、翻译和句法分析等分支。
+4. 点击 **Attention replaces recurrence**，查看来源核验和 Transformer 示意图。
 5. 需要连贯阅读时，切换到 **Reading view**。
 
 ![论文主线与证据分支](spine.png)
 
-这个 Demo 是仓库中的真实、自包含 HTML 文件。启用 GitHub Pages 后，也可以直接用 Pages 托管同一个文件。
+这个 Demo 基于真实的 NeurIPS 2017 论文《Attention Is All You Need》([arXiv](https://arxiv.org/abs/1706.03762))，是仓库中的自包含 HTML 文件。启用 GitHub Pages 后，也可以直接用 Pages 托管同一个文件。
 
 ## 最小图谱格式
 
@@ -74,7 +74,7 @@ open demo.html
 ## 验证
 
 ```bash
-python3 scripts/build_graph.py --validate examples/tutorial-graph.json --strict
+python3 scripts/build_graph.py --validate examples/transformer-graph.json --strict
 python3 scripts/release_check.py
 ```
 

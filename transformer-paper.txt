@@ -1,0 +1,60 @@
+Attention Is All You Need
+
+Ashish Vaswani, Noam Shazeer, Niki Parmar, Jakob Uszkoreit, Llion Jones,
+Aidan N. Gomez, Lukasz Kaiser, and Illia Polosukhin. NeurIPS 2017.
+arXiv:1706.03762. This file is a compact, source-linked reading extract from
+the official paper PDF, retaining the claims and measurements used in the demo.
+
+ABSTRACT AND INTRODUCTION
+The paper describes recurrent and convolutional sequence models as difficult to
+parallelize because computation is sequential. The paper states: "The fundamental
+constraint of sequential computation, however, remains."
+
+The proposed Transformer is "based solely on attention mechanisms, dispensing
+with recurrence and convolutions entirely." It relies entirely on attention to
+draw global dependencies and is designed to allow more parallelization.
+
+MODEL ARCHITECTURE
+The Transformer uses an encoder-decoder structure. The encoder is a stack of
+N = 6 identical layers, and the decoder is also a stack of N = 6 identical
+layers. The model uses representation dimension dmodel = 512. Each encoder
+layer has multi-head self-attention and a position-wise feed-forward network;
+the decoder adds encoder-decoder attention and masks future positions.
+
+ATTENTION MECHANISM
+The paper defines scaled dot-product attention using queries, keys, and values.
+It says: "The output is computed as a weighted sum of the values."
+The dot products are divided by the square root of dk before softmax. Multi-head
+attention uses h = 8 parallel attention layers, with dk = dv = dmodel/h = 64.
+The paper explains that multi-head attention can attend to information from
+different representation subspaces at different positions.
+
+POSITION AND COMPUTATION
+Because the model has no recurrence or convolution, positional encodings are
+added to token embeddings. The paper uses sine and cosine functions and says:
+"The wavelengths form a geometric progression from 2π to 10000 · 2π."
+For self-attention, the table reports O(n^2 · d) per-layer operations, O(1)
+sequential operations, and O(1) maximum path length. Recurrent layers require
+O(n) sequential operations and O(n) maximum path length.
+
+TRANSLATION RESULTS
+On WMT 2014 English-to-German, the best Transformer reaches 28.4 BLEU and
+improves over the existing best results, including ensembles, by over 2 BLEU.
+On WMT 2014 English-to-French, the paper reports 41.8 BLEU after training for
+3.5 days on 8 GPUs. The paper says the model can reach a new state of the art
+after being trained for as little as 12 hours on 8 P100 GPUs.
+
+GENERALIZATION AND LIMITS
+For English constituency parsing, the 4-layer Transformer reaches 91.3 F1 in
+the WSJ-only setting and 92.7 F1 in the semi-supervised setting. A multi-task
+baseline reaches 93.0 F1 and a generative baseline reaches 93.3 F1 in the table.
+The paper evaluates translation and parsing; it does not claim that every
+sequence task will benefit equally, and it notes future work on local attention
+for large inputs and outputs.
+
+CONCLUSION
+The paper presents the Transformer as a sequence transduction model based
+entirely on attention, replacing recurrent layers with multi-headed self-attention.
+It reports new state-of-the-art results on both WMT 2014 translation tasks and
+makes the training process more parallelizable. The code used for training and
+evaluation is identified as tensor2tensor.

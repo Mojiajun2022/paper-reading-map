@@ -1,12 +1,12 @@
 # Paper Reading Map
 
-[English](README.md) | [Chinese](README.zh-CN.md)
+[English](https://github.com/Mojiajun2022/paper-reading-map/blob/main/README.md) | [Chinese](https://github.com/Mojiajun2022/paper-reading-map/blob/main/README.zh-CN.md)
 
 <div align="center">
 
 **Read difficult papers faster, one claim at a time.**
 
-Paper Reading Map turns a paper into a source-checked, interactive map: follow the main argument, branch into evidence, click any node for its explanation and quotation, and inspect figures in context.
+Paper Reading Map turns a real paper into a source-checked, interactive map: follow the main argument, branch into evidence, click any node for its explanation and quotation, and inspect figures in context.
 
 [![CI](https://github.com/Mojiajun2022/paper-reading-map/actions/workflows/ci.yml/badge.svg)](https://github.com/Mojiajun2022/paper-reading-map/actions/workflows/ci.yml)
 [![GitHub stars](https://img.shields.io/github/stars/Mojiajun2022/paper-reading-map?style=flat&logo=github)](https://github.com/Mojiajun2022/paper-reading-map/stargazers)
@@ -39,22 +39,22 @@ Use $argument-map to build a Paper Reading Map. Keep every number and quotation 
 ### Build locally
 
 ```bash
-python3 scripts/build_graph.py examples/tutorial-graph.json \
-  -o demo.html --source examples/tutorial-paper.txt
+python3 scripts/build_graph.py examples/transformer-graph.json \
+  -o demo.html --source examples/transformer-paper.txt
 open demo.html
 ```
 
 ## Explore the example
 
 1. Open the [live demo](https://htmlpreview.github.io/?https://raw.githubusercontent.com/Mojiajun2022/paper-reading-map/main/demo.html).
-2. Follow the main spine from the deployment question to the conclusion.
-3. Notice the two evidence branches: **Accuracy check** and **Calibration check**.
-4. Click **Two checks agree** to open its details and the attached map preview.
+2. Follow the argument in *Attention Is All You Need*: bottleneck -> Transformer -> attention -> results.
+3. Notice the branches for architecture, positional encoding, efficiency, translation, and parsing.
+4. Click **Attention replaces recurrence** to open source checks and the attached Transformer schematic.
 5. Use **Reading view** when you want a compact, linear explanation.
 
 ![Main spine and evidence branches](spine.png)
 
-The demo is a real self-contained HTML file hosted from this repository. GitHub Pages can host the same file when Pages is enabled for the repository.
+The demo is based on the real NeurIPS 2017 paper [Attention Is All You Need](https://arxiv.org/abs/1706.03762). It is a self-contained HTML file hosted from this repository. GitHub Pages can host the same file when Pages is enabled for the repository.
 
 ## Minimal graph format
 
@@ -74,7 +74,7 @@ Use `label_en`, `detail_en`, and `label_zh` / `detail_zh` for bilingual maps. A 
 ## Verification
 
 ```bash
-python3 scripts/build_graph.py --validate examples/tutorial-graph.json --strict
+python3 scripts/build_graph.py --validate examples/transformer-graph.json --strict
 python3 scripts/release_check.py
 ```
 
@@ -86,7 +86,7 @@ The strict validator checks graph structure, source-backed numbers, quotations, 
 
 ## Detailed Tutorial
 
-Start with `examples/tutorial-paper.txt`, inspect `examples/tutorial-graph.json`, then rebuild `demo.html`. Replace the tutorial source and nodes with the paper you want to read.
+Start with `examples/transformer-paper.txt`, inspect `examples/transformer-graph.json`, then rebuild `demo.html`. Replace the source and nodes with the paper you want to read.
 
 ## Graph Data Reference
 

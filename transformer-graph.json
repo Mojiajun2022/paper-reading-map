@@ -1,0 +1,248 @@
+{
+  "title": "Attention Is All You Need",
+  "title_en": "Attention Is All You Need",
+  "short_title": "The Transformer",
+  "summary": "The Transformer replaces recurrence with attention, creating a more parallelizable sequence model and strong translation results.",
+  "summary_en": "The Transformer replaces recurrence with attention, creating a more parallelizable sequence model and strong translation results.",
+  "meta": {
+    "authors": "Vaswani et al.",
+    "venue": "NeurIPS 2017",
+    "year": "2017",
+    "paper_url": "https://arxiv.org/abs/1706.03762"
+  },
+  "source": "transformer-paper.txt",
+  "nodes": [
+    {
+      "id": "bottleneck",
+      "type": "problem",
+      "importance": 3,
+      "label": "Sequential bottleneck",
+      "label_en": "Sequential bottleneck",
+      "detail": "Recurrent sequence models process positions sequentially, which limits parallelization during training. The paper identifies this as the fundamental constraint of sequential computation.",
+      "detail_en": "Recurrent sequence models process positions sequentially, which limits parallelization during training. The paper identifies this as the fundamental constraint of sequential computation.",
+      "section": "Introduction",
+      "quote": "The fundamental constraint of sequential computation, however, remains.",
+      "label_zh": "序列计算瓶颈",
+      "detail_zh": "循环序列模型按位置依次处理输入，限制了训练时的并行化。论文将其称为序列计算的根本约束",
+      "section_zh": "引言"
+    },
+    {
+      "id": "transformer",
+      "type": "method",
+      "importance": 3,
+      "label": "Transformer architecture",
+      "label_en": "Transformer architecture",
+      "detail": "The proposed Transformer is based solely on attention mechanisms and removes recurrence and convolution from the sequence transduction architecture.",
+      "detail_en": "The proposed Transformer is based solely on attention mechanisms and removes recurrence and convolution from the sequence transduction architecture.",
+      "section": "Introduction",
+      "quote": "based solely on attention mechanisms, dispensing with recurrence and convolutions entirely",
+      "label_zh": "Transformer 架构",
+      "detail_zh": "论文提出完全基于注意力机制的 Transformer，去掉序列转换架构中的循环和卷积。",
+      "section_zh": "引言"
+    },
+    {
+      "id": "stacks",
+      "type": "method",
+      "importance": 3,
+      "label": "Encoder-decoder stacks",
+      "label_en": "Encoder-decoder stacks",
+      "detail": "The encoder and decoder each contain N = 6 layers. Every sub-layer produces dmodel = 512 dimensional representations, with residual connections and layer normalization.",
+      "detail_en": "The encoder and decoder each contain N = 6 layers. Every sub-layer produces dmodel = 512 dimensional representations, with residual connections and layer normalization.",
+      "section": "Model architecture",
+      "label_zh": "编码器-解码器堆栈",
+      "detail_zh": "编码器和解码器各包含 N = 6 层。每个子层输出 dmodel = 512 维表示，并使用残差连接和层归一化。",
+      "section_zh": "模型架构"
+    },
+    {
+      "id": "multihead",
+      "type": "method",
+      "importance": 3,
+      "label": "Multi-head attention",
+      "label_en": "Multi-head attention",
+      "detail": "The model runs h = 8 attention heads in parallel. Each head uses dk = dv = 64, while the combined representation remains dmodel = 512.",
+      "detail_en": "The model runs h = 8 attention heads in parallel. Each head uses dk = dv = 64, while the combined representation remains dmodel = 512.",
+      "section": "Attention",
+      "quote": "The output is computed as a weighted sum of the values.",
+      "label_zh": "多头注意力",
+      "detail_zh": "模型并行运行 h = 8 个注意力头。每个头使用 dk = dv = 64，合并后的表示维度仍为 dmodel = 512。",
+      "section_zh": "注意力机制"
+    },
+    {
+      "id": "position",
+      "type": "method",
+      "importance": 2,
+      "label": "Positional encoding",
+      "label_en": "Positional encoding",
+      "detail": "Without recurrence or convolution, the model adds sinusoidal positional encodings so token order remains available to the network.",
+      "detail_en": "Without recurrence or convolution, the model adds sinusoidal positional encodings so token order remains available to the network.",
+      "section": "Position",
+      "quote": "The wavelengths form a geometric progression from 2π to 10000 · 2π.",
+      "label_zh": "位置编码",
+      "detail_zh": "由于没有循环或卷积，模型加入正弦位置编码，让网络保留词元顺序信息。",
+      "section_zh": "位置编码"
+    },
+    {
+      "id": "efficiency",
+      "type": "result",
+      "importance": 3,
+      "label": "Parallel computation",
+      "label_en": "Parallel computation",
+      "detail": "Self-attention has O(n^2 · d) per-layer operations, O(1) sequential operations, and O(1) maximum path length, compared with O(n) sequential operations for recurrent layers.",
+      "detail_en": "Self-attention has O(n^2 · d) per-layer operations, O(1) sequential operations, and O(1) maximum path length, compared with O(n) sequential operations for recurrent layers.",
+      "section": "Why self-attention",
+      "label_zh": "并行计算",
+      "detail_zh": "自注意力每层的运算量为 O(n^2 · d)，顺序运算为 O(1)，最大路径长度为 O(1)；循环层需要 O(n) 次顺序运算。",
+      "section_zh": "自注意力的优势"
+    },
+    {
+      "id": "translation",
+      "type": "result",
+      "importance": 3,
+      "label": "WMT translation results",
+      "label_en": "WMT translation results",
+      "detail": "The best model reaches 28.4 BLEU on WMT 2014 English-to-German and 41.8 BLEU on English-to-French after 3.5 days on 8 GPUs.",
+      "detail_en": "The best model reaches 28.4 BLEU on WMT 2014 English-to-German and 41.8 BLEU on English-to-French after 3.5 days on 8 GPUs.",
+      "section": "Experiments",
+      "label_zh": "WMT 翻译结果",
+      "detail_zh": "最佳模型在 WMT 2014 英德翻译上达到 28.4 BLEU，在英法翻译上达到 41.8 BLEU，并在 8 个 GPU 上训练 3.5 天。",
+      "section_zh": "实验结果"
+    },
+    {
+      "id": "generalization",
+      "type": "experiment",
+      "importance": 2,
+      "label": "Parsing generalization",
+      "label_en": "Parsing generalization",
+      "detail": "On English constituency parsing, a 4-layer Transformer reaches 91.3 F1 in the WSJ-only setting and 92.7 F1 in the semi-supervised setting.",
+      "detail_en": "On English constituency parsing, a 4-layer Transformer reaches 91.3 F1 in the WSJ-only setting and 92.7 F1 in the semi-supervised setting.",
+      "section": "Experiments",
+      "label_zh": "句法分析泛化",
+      "detail_zh": "在英文成分句法分析上，4 层 Transformer 在仅 WSJ 设置达到 91.3 F1，在半监督设置达到 92.7 F1。",
+      "section_zh": "实验结果"
+    },
+    {
+      "id": "conclusion",
+      "type": "conclusion",
+      "importance": 3,
+      "label": "Attention replaces recurrence",
+      "label_en": "Attention replaces recurrence",
+      "detail": "The paper presents attention-only sequence transduction as a strong and more parallelizable alternative to recurrent and convolutional architectures.",
+      "detail_en": "The paper presents attention-only sequence transduction as a strong and more parallelizable alternative to recurrent and convolutional architectures.",
+      "section": "Conclusion",
+      "quote": "attention, replacing recurrent layers with multi-headed self-attention",
+      "figure": "transformer_schematic",
+      "label_zh": "注意力取代循环",
+      "detail_zh": "论文展示了只使用注意力的序列转换模型，成为循环和卷积架构的高并行替代方案。",
+      "section_zh": "结论"
+    }
+  ],
+  "edges": [
+    {
+      "source": "bottleneck",
+      "target": "transformer",
+      "relation": "motivates",
+      "label": "motivates",
+      "label_en": "motivates",
+      "main": true
+    },
+    {
+      "source": "transformer",
+      "target": "stacks",
+      "relation": "uses",
+      "label": "implemented with",
+      "label_en": "implemented with",
+      "main": true
+    },
+    {
+      "source": "transformer",
+      "target": "multihead",
+      "relation": "uses",
+      "label": "built from",
+      "label_en": "built from",
+      "main": true
+    },
+    {
+      "source": "transformer",
+      "target": "position",
+      "relation": "uses",
+      "label": "requires",
+      "label_en": "requires",
+      "main": true
+    },
+    {
+      "source": "multihead",
+      "target": "efficiency",
+      "relation": "supports",
+      "label": "enables",
+      "label_en": "enables",
+      "main": true
+    },
+    {
+      "source": "position",
+      "target": "efficiency",
+      "relation": "supports",
+      "label": "preserves order",
+      "label_en": "preserves order",
+      "main": true
+    },
+    {
+      "source": "stacks",
+      "target": "translation",
+      "relation": "produces",
+      "label": "evaluated on",
+      "label_en": "evaluated on",
+      "main": true
+    },
+    {
+      "source": "multihead",
+      "target": "translation",
+      "relation": "supports",
+      "label": "supports",
+      "label_en": "supports",
+      "main": false
+    },
+    {
+      "source": "efficiency",
+      "target": "translation",
+      "relation": "supports",
+      "label": "supports",
+      "label_en": "supports",
+      "main": true
+    },
+    {
+      "source": "translation",
+      "target": "conclusion",
+      "relation": "supports",
+      "label": "supports",
+      "label_en": "supports",
+      "main": true
+    },
+    {
+      "source": "generalization",
+      "target": "conclusion",
+      "relation": "supports",
+      "label": "also supports",
+      "label_en": "also supports",
+      "main": false
+    },
+    {
+      "source": "transformer",
+      "target": "generalization",
+      "relation": "leads_to",
+      "label": "generalizes to",
+      "label_en": "generalizes to",
+      "main": false
+    }
+  ],
+  "figures": {
+    "transformer_schematic": {
+      "label": "Transformer architecture schematic",
+      "label_en": "Transformer architecture schematic",
+      "uri": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI5NjAiIGhlaWdodD0iNDIwIiB2aWV3Qm94PSIwIDAgOTYwIDQyMCI+PHJlY3Qgd2lkdGg9Ijk2MCIgaGVpZ2h0PSI0MjAiIGZpbGw9IiNmOGZhZmMiLz48ZyBmb250LWZhbWlseT0iQXJpYWwsc2Fucy1zZXJpZiIgdGV4dC1hbmNob3I9Im1pZGRsZSI+PHJlY3QgeD0iNjAiIHk9IjE1MCIgd2lkdGg9IjE1MCIgaGVpZ2h0PSI4MCIgcng9IjE0IiBmaWxsPSIjZGJlYWZlIiBzdHJva2U9IiMyNTYzZWIiIHN0cm9rZS13aWR0aD0iMyIvPjx0ZXh0IHg9IjEzNSIgeT0iMTg0IiBmb250LXNpemU9IjE4IiBmaWxsPSIjMGYxNzJhIj5FbmNvZGVyPC90ZXh0Pjx0ZXh0IHg9IjEzNSIgeT0iMjEwIiBmb250LXNpemU9IjE0IiBmaWxsPSIjMzM0MTU1Ij42IGxheWVyczwvdGV4dD48cmVjdCB4PSI0MDUiIHk9IjE1MCIgd2lkdGg9IjE1MCIgaGVpZ2h0PSI4MCIgcng9IjE0IiBmaWxsPSIjZGNmY2U3IiBzdHJva2U9IiMxNmEzNGEiIHN0cm9rZS13aWR0aD0iMyIvPjx0ZXh0IHg9IjQ4MCIgeT0iMTg0IiBmb250LXNpemU9IjE4IiBmaWxsPSIjMGYxNzJhIj5BdHRlbnRpb248L3RleHQ+PHRleHQgeD0iNDgwIiB5PSIyMTAiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiMzMzQxNTUiPjggaGVhZHM8L3RleHQ+PHJlY3QgeD0iNzUwIiB5PSIxNTAiIHdpZHRoPSIxNTAiIGhlaWdodD0iODAiIHJ4PSIxNCIgZmlsbD0iI2ZjZTdmMyIgc3Ryb2tlPSIjZGIyNzc3IiBzdHJva2Utd2lkdGg9IjMiLz48dGV4dCB4PSI4MjUiIHk9IjE4NCIgZm9udC1zaXplPSIxOCIgZmlsbD0iIzBmMTcyYSI+RGVjb2RlcjwvdGV4dD48dGV4dCB4PSI4MjUiIHk9IjIxMCIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzMzNDE1NSI+NiBsYXllcnM8L3RleHQ+PHBhdGggZD0iTTIxNSAxOTBINDAwTTU2MCAxOTBINzQ1IiBzdHJva2U9IiM0NzU1NjkiIHN0cm9rZS13aWR0aD0iNCIgbWFya2VyLWVuZD0idXJsKCNhKSIvPjx0ZXh0IHg9IjQ4MCIgeT0iODAiIGZvbnQtc2l6ZT0iMjQiIGZpbGw9IiMwZjE3MmEiPlRyYW5zZm9ybWVyOiBhdHRlbnRpb24gcmVwbGFjZXMgcmVjdXJyZW5jZTwvdGV4dD48dGV4dCB4PSI0ODAiIHk9IjMyMCIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzQ3NTU2OSI+T3JpZ2luYWwgc2NoZW1hdGljIGZvciB0aGUgUGFwZXIgUmVhZGluZyBNYXAgZGVtbzwvdGV4dD48L2c+PGRlZnM+PG1hcmtlciBpZD0iYSIgbWFya2VyV2lkdGg9IjEwIiBtYXJrZXJIZWlnaHQ9IjEwIiByZWZYPSI4IiByZWZZPSIzIiBvcmllbnQ9ImF1dG8iPjxwYXRoIGQ9Ik0wLDAgTDAsNiBMOSwzIHoiIGZpbGw9IiM0NzU1NjkiLz48L21hcmtlcj48L2RlZnM+PC9zdmc+",
+      "label_zh": "Transformer 架构示意图"
+    }
+  },
+  "title_zh": "你只需要注意力",
+  "short_title_zh": "Transformer",
+  "summary_zh": "Transformer 用注意力取代循环结构，让序列模型更易并行训练，并在机器翻译上取得强劲结果。"
+}

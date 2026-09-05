@@ -24,6 +24,8 @@ Paper Reading Map turns a real paper into a source-checked, interactive map: fol
 - **Branching evidence:** separate accuracy, ablation, comparison, or limitation paths instead of flattening them into one list.
 - **Source checks:** numbers and quotations are checked against the supplied text; missing evidence is flagged.
 - **Click-to-read details:** a node opens its explanation, evidence status, quotation, page, relations, and attached figures.
+- **Evidence cards:** click the architecture, attention equation, complexity table, translation chart,
+  parsing table, positional encoding, or qualitative attention nodes to open the visual evidence behind the claim.
 - **Reading view:** switch from the 3D map to a linear, citation-friendly reading order when you need it.
 
 ## Quick start
@@ -49,8 +51,9 @@ open demo.html
 1. Open the [live demo](https://htmlpreview.github.io/?https://raw.githubusercontent.com/Mojiajun2022/paper-reading-map/main/demo.html).
 2. Follow the argument in *Attention Is All You Need*: bottleneck -> Transformer -> attention -> results.
 3. Notice the branches for architecture, positional encoding, efficiency, translation, and parsing.
-4. Click **Attention replaces recurrence** to open source checks and the attached Transformer schematic.
-5. Use **Reading view** when you want a compact, linear explanation.
+4. Click **Transformer thesis**, **Complexity table**, **Translation scorecard**, or **Parsing results table** to open the corresponding visual evidence.
+5. Click **Attention visualization** or **Positional encoding** to inspect qualitative and mechanism figures.
+6. Use **Reading view** when you want a compact, linear explanation.
 
 ![Main spine and evidence branches](spine.png)
 
@@ -69,7 +72,7 @@ The demo is based on the real NeurIPS 2017 paper [Attention Is All You Need](htt
 }
 ```
 
-Use `label_en`, `detail_en`, and `label_zh` / `detail_zh` for bilingual maps. A node may reference a local, embedded figure with `"figure": "figure-key"`.
+Use `label_en`, `detail_en`, and `label_zh` / `detail_zh` for bilingual maps. A node may reference a local, embedded figure with `"figure": "figure-key"`. Important tables and measurements can be represented as dedicated evidence nodes with their own embedded visual card.
 
 ## Verification
 

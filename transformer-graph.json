@@ -58,7 +58,8 @@
       "section": "Proposal",
       "section_en": "Proposal",
       "section_zh": "核心提案",
-      "quote": "based solely on attention mechanisms, dispensing with recurrence and convolutions entirely"
+      "quote": "based solely on attention mechanisms, dispensing with recurrence and convolutions entirely",
+      "figure": "transformer_architecture"
     },
     {
       "id": "encoder",
@@ -101,7 +102,8 @@
       "section": "Attention",
       "section_en": "Attention",
       "section_zh": "注意力",
-      "quote": "The output is computed as a weighted sum of the values."
+      "quote": "The output is computed as a weighted sum of the values.",
+      "figure": "attention_mechanism"
     },
     {
       "id": "multihead",
@@ -158,7 +160,8 @@
       "section": "Position",
       "section_en": "Position",
       "section_zh": "位置编码",
-      "quote": "The wavelengths form a geometric progression from 2π to 10000 · 2π."
+      "quote": "The wavelengths form a geometric progression from 2π to 10000 · 2π.",
+      "figure": "positional_encoding"
     },
     {
       "id": "efficiency",
@@ -214,7 +217,8 @@
       "detail_zh": "4 层 Transformer 在 WSJ-only 句法分析上达到 91.3 F1，半监督设置达到 92.7 F1，说明它可以泛化到翻译之外。",
       "section": "Generalization",
       "section_en": "Generalization",
-      "section_zh": "泛化"
+      "section_zh": "泛化",
+      "figure": "parsing_results"
     },
     {
       "id": "visual",
@@ -229,7 +233,8 @@
       "section": "Interpretability",
       "section_en": "Interpretability",
       "section_zh": "可解释性",
-      "quote": "Different colors represent different heads."
+      "quote": "Different colors represent different heads.",
+      "figure": "attention_visualization"
     },
     {
       "id": "limits",
@@ -260,6 +265,36 @@
       "section_zh": "结论",
       "quote": "attention, replacing recurrent layers with multi-headed self-attention",
       "figure": "transformer_schematic"
+    },
+    {
+      "id": "complexity_table",
+      "type": "result",
+      "importance": 2,
+      "label": "Complexity table",
+      "label_en": "Complexity table",
+      "label_zh": "复杂度对比表",
+      "detail": "Table 1 compares self-attention, recurrent, and restricted self-attention by operations, sequential depth, and maximum path length. The self-attention row is O(n^2 · d), O(1), O(1).",
+      "detail_en": "Table 1 compares self-attention, recurrent, and restricted self-attention by operations, sequential depth, and maximum path length. The self-attention row is O(n^2 · d), O(1), O(1).",
+      "detail_zh": "表 1 从运算量、顺序深度和最大路径长度比较自注意力、循环和受限注意力。自注意力一行分别为 O(n^2 · d)、O(1)、O(1)。",
+      "section": "Complexity",
+      "section_en": "Complexity",
+      "section_zh": "复杂度",
+      "figure": "complexity_table"
+    },
+    {
+      "id": "translation_results",
+      "type": "experiment",
+      "importance": 2,
+      "label": "Translation scorecard",
+      "label_en": "Translation scorecard",
+      "label_zh": "翻译结果看板",
+      "detail": "The WMT14 scorecard puts the two headline measurements side by side: 28.4 BLEU for English-to-German and 41.8 BLEU for English-to-French. The attached chart keeps the training context visible.",
+      "detail_en": "The WMT14 scorecard puts the two headline measurements side by side: 28.4 BLEU for English-to-German and 41.8 BLEU for English-to-French. The attached chart keeps the training context visible.",
+      "detail_zh": "WMT14 结果看板并列展示两个核心指标：英德 28.4 BLEU、英法 41.8 BLEU。附图同时保留训练条件。",
+      "section": "Experiments",
+      "section_en": "Experiments",
+      "section_zh": "实验",
+      "figure": "translation_results"
     }
   ],
   "edges": [
@@ -451,6 +486,33 @@
       "label_en": "qualifies",
       "label_zh": "限定",
       "main": false
+    },
+    {
+      "source": "efficiency",
+      "target": "complexity_table",
+      "relation": "supports",
+      "label": "quantified by",
+      "label_en": "quantified by",
+      "label_zh": "由此量化",
+      "main": false
+    },
+    {
+      "source": "en_de",
+      "target": "translation_results",
+      "relation": "produces",
+      "label": "shown in",
+      "label_en": "shown in",
+      "label_zh": "见图表",
+      "main": false
+    },
+    {
+      "source": "translation_results",
+      "target": "conclusion",
+      "relation": "supports",
+      "label": "supports",
+      "label_en": "supports",
+      "label_zh": "支持",
+      "main": false
     }
   ],
   "figures": {
@@ -459,6 +521,48 @@
       "label_en": "Transformer architecture schematic",
       "uri": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI5NjAiIGhlaWdodD0iNDIwIiB2aWV3Qm94PSIwIDAgOTYwIDQyMCI+PHJlY3Qgd2lkdGg9Ijk2MCIgaGVpZ2h0PSI0MjAiIGZpbGw9IiNmOGZhZmMiLz48ZyBmb250LWZhbWlseT0iQXJpYWwsc2Fucy1zZXJpZiIgdGV4dC1hbmNob3I9Im1pZGRsZSI+PHJlY3QgeD0iNjAiIHk9IjE1MCIgd2lkdGg9IjE1MCIgaGVpZ2h0PSI4MCIgcng9IjE0IiBmaWxsPSIjZGJlYWZlIiBzdHJva2U9IiMyNTYzZWIiIHN0cm9rZS13aWR0aD0iMyIvPjx0ZXh0IHg9IjEzNSIgeT0iMTg0IiBmb250LXNpemU9IjE4IiBmaWxsPSIjMGYxNzJhIj5FbmNvZGVyPC90ZXh0Pjx0ZXh0IHg9IjEzNSIgeT0iMjEwIiBmb250LXNpemU9IjE0IiBmaWxsPSIjMzM0MTU1Ij42IGxheWVyczwvdGV4dD48cmVjdCB4PSI0MDUiIHk9IjE1MCIgd2lkdGg9IjE1MCIgaGVpZ2h0PSI4MCIgcng9IjE0IiBmaWxsPSIjZGNmY2U3IiBzdHJva2U9IiMxNmEzNGEiIHN0cm9rZS13aWR0aD0iMyIvPjx0ZXh0IHg9IjQ4MCIgeT0iMTg0IiBmb250LXNpemU9IjE4IiBmaWxsPSIjMGYxNzJhIj5BdHRlbnRpb248L3RleHQ+PHRleHQgeD0iNDgwIiB5PSIyMTAiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiMzMzQxNTUiPjggaGVhZHM8L3RleHQ+PHJlY3QgeD0iNzUwIiB5PSIxNTAiIHdpZHRoPSIxNTAiIGhlaWdodD0iODAiIHJ4PSIxNCIgZmlsbD0iI2ZjZTdmMyIgc3Ryb2tlPSIjZGIyNzc3IiBzdHJva2Utd2lkdGg9IjMiLz48dGV4dCB4PSI4MjUiIHk9IjE4NCIgZm9udC1zaXplPSIxOCIgZmlsbD0iIzBmMTcyYSI+RGVjb2RlcjwvdGV4dD48dGV4dCB4PSI4MjUiIHk9IjIxMCIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzMzNDE1NSI+NiBsYXllcnM8L3RleHQ+PHBhdGggZD0iTTIxNSAxOTBINDAwTTU2MCAxOTBINzQ1IiBzdHJva2U9IiM0NzU1NjkiIHN0cm9rZS13aWR0aD0iNCIgbWFya2VyLWVuZD0idXJsKCNhKSIvPjx0ZXh0IHg9IjQ4MCIgeT0iODAiIGZvbnQtc2l6ZT0iMjQiIGZpbGw9IiMwZjE3MmEiPlRyYW5zZm9ybWVyOiBhdHRlbnRpb24gcmVwbGFjZXMgcmVjdXJyZW5jZTwvdGV4dD48dGV4dCB4PSI0ODAiIHk9IjMyMCIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzQ3NTU2OSI+T3JpZ2luYWwgc2NoZW1hdGljIGZvciB0aGUgUGFwZXIgUmVhZGluZyBNYXAgZGVtbzwvdGV4dD48L2c+PGRlZnM+PG1hcmtlciBpZD0iYSIgbWFya2VyV2lkdGg9IjEwIiBtYXJrZXJIZWlnaHQ9IjEwIiByZWZYPSI4IiByZWZZPSIzIiBvcmllbnQ9ImF1dG8iPjxwYXRoIGQ9Ik0wLDAgTDAsNiBMOSwzIHoiIGZpbGw9IiM0NzU1NjkiLz48L21hcmtlcj48L2RlZnM+PC9zdmc+",
       "label_zh": "Transformer 架构示意图"
+    },
+    "transformer_architecture": {
+      "label": "Transformer architecture schematic",
+      "label_en": "Transformer architecture schematic",
+      "label_zh": "Transformer 架构示意图",
+      "uri": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI5NjAiIGhlaWdodD0iNDIwIiB2aWV3Qm94PSIwIDAgOTYwIDQyMCI+CjxyZWN0IHdpZHRoPSI5NjAiIGhlaWdodD0iNDIwIiByeD0iMjQiIGZpbGw9IiNmOGZhZmMiLz4KPHRleHQgeD0iNDgiIHk9IjUyIiBmb250LWZhbWlseT0iQXJpYWwsc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyNiIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iIzBmMTcyYSI+VHJhbnNmb3JtZXIgYXJjaGl0ZWN0dXJlIOKAlCBlbmNvZGVyIC8gYXR0ZW50aW9uIC8gZGVjb2RlcjwvdGV4dD4KPHJlY3QgeD0iNzAiIHk9IjE1MCIgd2lkdGg9IjIxMCIgaGVpZ2h0PSIxMTAiIHJ4PSIxNCIgZmlsbD0iI2RiZWFmZSIgc3Ryb2tlPSIjMjU2M2ViIiBzdHJva2Utd2lkdGg9IjIiLz48dGV4dCB4PSIxNzUuMCIgeT0iMTg0IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iQXJpYWwsc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxOCIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iIzBmMTcyYSI+RW5jb2RlcjwvdGV4dD48dGV4dCB4PSIxNzUuMCIgeT0iMjEwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iQXJpYWwsc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzQ3NTU2OSI+TiA9IDYgbGF5ZXJzPC90ZXh0PjxyZWN0IHg9IjM3NSIgeT0iMTUwIiB3aWR0aD0iMjEwIiBoZWlnaHQ9IjExMCIgcng9IjE0IiBmaWxsPSIjZGNmY2U3IiBzdHJva2U9IiMxNmEzNGEiIHN0cm9rZS13aWR0aD0iMiIvPjx0ZXh0IHg9IjQ4MC4wIiB5PSIxODQiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJBcmlhbCxzYW5zLXNlcmlmIiBmb250LXNpemU9IjE4IiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjMGYxNzJhIj5NdWx0aS1oZWFkIGF0dGVudGlvbjwvdGV4dD48dGV4dCB4PSI0ODAuMCIgeT0iMjEwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iQXJpYWwsc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzQ3NTU2OSI+aCA9IDggaGVhZHM8L3RleHQ+PHJlY3QgeD0iNjgwIiB5PSIxNTAiIHdpZHRoPSIyMTAiIGhlaWdodD0iMTEwIiByeD0iMTQiIGZpbGw9IiNmY2U3ZjMiIHN0cm9rZT0iI2RiMjc3NyIgc3Ryb2tlLXdpZHRoPSIyIi8+PHRleHQgeD0iNzg1LjAiIHk9IjE4NCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTgiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiMwZjE3MmEiPkRlY29kZXI8L3RleHQ+PHRleHQgeD0iNzg1LjAiIHk9IjIxMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM0NzU1NjkiPk4gPSA2IGxheWVyczwvdGV4dD48cGF0aCBkPSJNMjgwIDIwNUgzNjUgTTU4NSAyMDVINjcwIiBzdHJva2U9IiM0NzU1NjkiIHN0cm9rZS13aWR0aD0iNCIgbWFya2VyLWVuZD0idXJsKCNhcnJvdykiLz48dGV4dCB4PSIzMzAiIHk9IjE4MCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjE0IiBmaWxsPSIjNDc1NTY5Ij5lbmNvZGVzPC90ZXh0Pjx0ZXh0IHg9IjYzMCIgeT0iMTgwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM0NzU1NjkiPmdlbmVyYXRlczwvdGV4dD48dGV4dCB4PSI0ODAiIHk9IjMyMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjE4IiBmaWxsPSIjMGYxNzJhIj5kbW9kZWwgPSA1MTIgwrcgcmVzaWR1YWwgKyBsYXllciBub3JtIMK3IG5vIHJlY3VycmVuY2Ugb3IgY29udm9sdXRpb248L3RleHQ+PGRlZnM+PG1hcmtlciBpZD0iYXJyb3ciIG1hcmtlcldpZHRoPSIxMCIgbWFya2VySGVpZ2h0PSIxMCIgcmVmWD0iOCIgcmVmWT0iMyIgb3JpZW50PSJhdXRvIj48cGF0aCBkPSJNMCwwIEwwLDYgTDksMyB6IiBmaWxsPSIjNDc1NTY5Ii8+PC9tYXJrZXI+PC9kZWZzPgo8dGV4dCB4PSI0OCIgeT0iMzk2IiBmb250LWZhbWlseT0iQXJpYWwsc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzY0NzQ4YiI+UGFwZXIgUmVhZGluZyBNYXAgZXZpZGVuY2UgY2FyZCDCtyBleHBsYW5hdG9yeSByZWNvbnN0cnVjdGlvbiBmcm9tIHRoZSBwYXBlcjwvdGV4dD4KPC9zdmc+"
+    },
+    "attention_mechanism": {
+      "label": "Scaled dot-product attention",
+      "label_en": "Scaled dot-product attention",
+      "label_zh": "缩放点积注意力流程图",
+      "uri": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI5NjAiIGhlaWdodD0iNDIwIiB2aWV3Qm94PSIwIDAgOTYwIDQyMCI+CjxyZWN0IHdpZHRoPSI5NjAiIGhlaWdodD0iNDIwIiByeD0iMjQiIGZpbGw9IiNmOGZhZmMiLz4KPHRleHQgeD0iNDgiIHk9IjUyIiBmb250LWZhbWlseT0iQXJpYWwsc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyNiIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iIzBmMTcyYSI+U2NhbGVkIGRvdC1wcm9kdWN0IGF0dGVudGlvbjwvdGV4dD4KPHJlY3QgeD0iOTAiIHk9IjEzMCIgd2lkdGg9IjE1MCIgaGVpZ2h0PSI3MCIgcng9IjEyIiBmaWxsPSIjZGJlYWZlIiBzdHJva2U9IiMyNTYzZWIiIHN0cm9rZS13aWR0aD0iMiIvPjx0ZXh0IHg9IjE2NSIgeT0iMTczIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMjIiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiMwZjE3MmEiPlE8L3RleHQ+PHJlY3QgeD0iMzAwIiB5PSIxMzAiIHdpZHRoPSIxNTAiIGhlaWdodD0iNzAiIHJ4PSIxMiIgZmlsbD0iI2RjZmNlNyIgc3Ryb2tlPSIjMTZhMzRhIiBzdHJva2Utd2lkdGg9IjIiLz48dGV4dCB4PSIzNzUiIHk9IjE3MyIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjIyIiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjMGYxNzJhIj5LPC90ZXh0PjxyZWN0IHg9IjUxMCIgeT0iMTMwIiB3aWR0aD0iMTUwIiBoZWlnaHQ9IjcwIiByeD0iMTIiIGZpbGw9IiNmZWYzYzciIHN0cm9rZT0iI2Q5NzcwNiIgc3Ryb2tlLXdpZHRoPSIyIi8+PHRleHQgeD0iNTg1IiB5PSIxNzMiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIyMiIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iIzBmMTcyYSI+VjwvdGV4dD48cGF0aCBkPSJNMjQwIDE2NUgyOTAgTTQ1MCAxNjVINTAwIiBzdHJva2U9IiM2NDc0OGIiIHN0cm9rZS13aWR0aD0iMyIgbWFya2VyLWVuZD0idXJsKCNhcnIpIi8+PHJlY3QgeD0iMTgwIiB5PSIyNjUiIHdpZHRoPSI2MDAiIGhlaWdodD0iNzIiIHJ4PSIxNiIgZmlsbD0iI2VlZjJmZiIgc3Ryb2tlPSIjNjM2NmYxIiBzdHJva2Utd2lkdGg9IjIiLz48dGV4dCB4PSI0ODAiIHk9IjMxMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjI0IiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjMzEyZTgxIj5zb2Z0bWF4KFFL4bWAIC8g4oiaZGspVjwvdGV4dD48dGV4dCB4PSI0ODAiIHk9IjIzNSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjE2IiBmaWxsPSIjNDc1NTY5Ij5kb3QgcHJvZHVjdCDihpIgc2NhbGUg4oaSIHNvZnRtYXggd2VpZ2h0cyDihpIgd2VpZ2h0ZWQgc3VtIG9mIHZhbHVlczwvdGV4dD48ZGVmcz48bWFya2VyIGlkPSJhcnIiIG1hcmtlcldpZHRoPSIxMCIgbWFya2VySGVpZ2h0PSIxMCIgcmVmWD0iOCIgcmVmWT0iMyIgb3JpZW50PSJhdXRvIj48cGF0aCBkPSJNMCwwIEwwLDYgTDksMyB6IiBmaWxsPSIjNjQ3NDhiIi8+PC9tYXJrZXI+PC9kZWZzPgo8dGV4dCB4PSI0OCIgeT0iMzk2IiBmb250LWZhbWlseT0iQXJpYWwsc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzY0NzQ4YiI+UGFwZXIgUmVhZGluZyBNYXAgZXZpZGVuY2UgY2FyZCDCtyBleHBsYW5hdG9yeSByZWNvbnN0cnVjdGlvbiBmcm9tIHRoZSBwYXBlcjwvdGV4dD4KPC9zdmc+"
+    },
+    "complexity_table": {
+      "label": "Complexity comparison table",
+      "label_en": "Complexity comparison table",
+      "label_zh": "复杂度对比表",
+      "uri": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI5NjAiIGhlaWdodD0iNDIwIiB2aWV3Qm94PSIwIDAgOTYwIDQyMCI+CjxyZWN0IHdpZHRoPSI5NjAiIGhlaWdodD0iNDIwIiByeD0iMjQiIGZpbGw9IiNmOGZhZmMiLz4KPHRleHQgeD0iNDgiIHk9IjUyIiBmb250LWZhbWlseT0iQXJpYWwsc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyNiIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iIzBmMTcyYSI+Q29tcGxleGl0eSBjb21wYXJpc29uIGZyb20gVGFibGUgMTwvdGV4dD4KPHJlY3QgeD0iNjAiIHk9Ijk1IiB3aWR0aD0iODQwIiBoZWlnaHQ9IjI0NSIgcng9IjEyIiBmaWxsPSIjZmZmZmZmIiBzdHJva2U9IiNjYmQ1ZTEiIHN0cm9rZS13aWR0aD0iMiIvPjxwYXRoIGQ9Ik02MCAxNDVIOTAwIE02MCAxOTVIOTAwIE02MCAyNDVIOTAwIE02MCAyOTVIOTAwIE0yOTAgOTVWMzQwIE01MTAgOTVWMzQwIE03MDAgOTVWMzQwIiBzdHJva2U9IiNjYmQ1ZTEiIHN0cm9rZS13aWR0aD0iMSIvPjxnIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzBmMTcyYSI+PHRleHQgeD0iMTc1IiB5PSIxMjgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtd2VpZ2h0PSI3MDAiPkxheWVyPC90ZXh0Pjx0ZXh0IHg9IjQwMCIgeT0iMTI4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXdlaWdodD0iNzAwIj5PcGVyYXRpb25zIC8gbGF5ZXI8L3RleHQ+PHRleHQgeD0iNjA1IiB5PSIxMjgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtd2VpZ2h0PSI3MDAiPlNlcXVlbnRpYWw8L3RleHQ+PHRleHQgeD0iODAwIiB5PSIxMjgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtd2VpZ2h0PSI3MDAiPk1heCBwYXRoPC90ZXh0Pjx0ZXh0IHg9IjE3NSIgeT0iMTc4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5TZWxmLWF0dGVudGlvbjwvdGV4dD48dGV4dCB4PSI0MDAiIHk9IjE3OCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+TyhuwrIgwrcgZCk8L3RleHQ+PHRleHQgeD0iNjA1IiB5PSIxNzgiIHRleHQtYW5jaG9yPSJtaWRkbGUiPk8oMSk8L3RleHQ+PHRleHQgeD0iODAwIiB5PSIxNzgiIHRleHQtYW5jaG9yPSJtaWRkbGUiPk8oMSk8L3RleHQ+PHRleHQgeD0iMTc1IiB5PSIyMjgiIHRleHQtYW5jaG9yPSJtaWRkbGUiPlJlY3VycmVudDwvdGV4dD48dGV4dCB4PSI0MDAiIHk9IjIyOCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+TyhuIMK3IGTCsik8L3RleHQ+PHRleHQgeD0iNjA1IiB5PSIyMjgiIHRleHQtYW5jaG9yPSJtaWRkbGUiPk8obik8L3RleHQ+PHRleHQgeD0iODAwIiB5PSIyMjgiIHRleHQtYW5jaG9yPSJtaWRkbGUiPk8obik8L3RleHQ+PHRleHQgeD0iMTc1IiB5PSIyNzgiIHRleHQtYW5jaG9yPSJtaWRkbGUiPlJlc3RyaWN0ZWQgYXR0ZW50aW9uPC90ZXh0Pjx0ZXh0IHg9IjQwMCIgeT0iMjc4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5PKHIgwrcgbiDCtyBkKTwvdGV4dD48dGV4dCB4PSI2MDUiIHk9IjI3OCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+TygxKTwvdGV4dD48dGV4dCB4PSI4MDAiIHk9IjI3OCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+TyhuL3IpPC90ZXh0PjwvZz48dGV4dCB4PSI0ODAiIHk9IjM4MCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjE2IiBmaWxsPSIjNDc1NTY5Ij5TZWxmLWF0dGVudGlvbiB0cmFkZXMgcXVhZHJhdGljIHRva2VuIGludGVyYWN0aW9uIGZvciBjb25zdGFudCBzZXF1ZW50aWFsIGRlcHRoLjwvdGV4dD4KPHRleHQgeD0iNDgiIHk9IjM5NiIgZm9udC1mYW1pbHk9IkFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM2NDc0OGIiPlBhcGVyIFJlYWRpbmcgTWFwIGV2aWRlbmNlIGNhcmQgwrcgZXhwbGFuYXRvcnkgcmVjb25zdHJ1Y3Rpb24gZnJvbSB0aGUgcGFwZXI8L3RleHQ+Cjwvc3ZnPg=="
+    },
+    "translation_results": {
+      "label": "WMT14 translation results",
+      "label_en": "WMT14 translation results",
+      "label_zh": "WMT14 翻译结果图",
+      "uri": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI5NjAiIGhlaWdodD0iNDIwIiB2aWV3Qm94PSIwIDAgOTYwIDQyMCI+CjxyZWN0IHdpZHRoPSI5NjAiIGhlaWdodD0iNDIwIiByeD0iMjQiIGZpbGw9IiNmOGZhZmMiLz4KPHRleHQgeD0iNDgiIHk9IjUyIiBmb250LWZhbWlseT0iQXJpYWwsc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyNiIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iIzBmMTcyYSI+V01UMTQgdHJhbnNsYXRpb24gcmVzdWx0czwvdGV4dD4KPGxpbmUgeDE9IjE0MCIgeTE9IjMxNSIgeDI9Ijg1MCIgeTI9IjMxNSIgc3Ryb2tlPSIjNjQ3NDhiIiBzdHJva2Utd2lkdGg9IjIiLz48bGluZSB4MT0iMTQwIiB5MT0iMTE1IiB4Mj0iMTQwIiB5Mj0iMzE1IiBzdHJva2U9IiM2NDc0OGIiIHN0cm9rZS13aWR0aD0iMiIvPjxyZWN0IHg9IjI2MCIgeT0iMTcyIiB3aWR0aD0iMTUwIiBoZWlnaHQ9IjE0MyIgcng9IjEyIiBmaWxsPSIjMjU2M2ViIi8+PHJlY3QgeD0iNTcwIiB5PSIxMDUiIHdpZHRoPSIxNTAiIGhlaWdodD0iMjEwIiByeD0iMTIiIGZpbGw9IiMxNmEzNGEiLz48dGV4dCB4PSIzMzUiIHk9IjE1OCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjIyIiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjMGYxNzJhIj4yOC40PC90ZXh0Pjx0ZXh0IHg9IjY0NSIgeT0iOTEiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIyMiIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iIzBmMTcyYSI+NDEuODwvdGV4dD48dGV4dCB4PSIzMzUiIHk9IjM0NSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjE2IiBmaWxsPSIjMGYxNzJhIj5FbmdsaXNoIOKGkiBHZXJtYW4gQkxFVTwvdGV4dD48dGV4dCB4PSI2NDUiIHk9IjM0NSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjE2IiBmaWxsPSIjMGYxNzJhIj5FbmdsaXNoIOKGkiBGcmVuY2ggQkxFVTwvdGV4dD48cmVjdCB4PSIyMzAiIHk9IjY1IiB3aWR0aD0iNTAwIiBoZWlnaHQ9IjM0IiByeD0iMTciIGZpbGw9IiNmZWYzYzciLz48dGV4dCB4PSI0ODAiIHk9Ijg4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTUiIGZpbGw9IiM5MjQwMGUiPkVuZ2xpc2jigJNGcmVuY2g6IDMuNSBkYXlzIMK3IDggR1BVcyDCtyAxMi1ob3VyIHN0YXRlLW9mLXRoZS1hcnQgcnVuPC90ZXh0Pgo8dGV4dCB4PSI0OCIgeT0iMzk2IiBmb250LWZhbWlseT0iQXJpYWwsc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzY0NzQ4YiI+UGFwZXIgUmVhZGluZyBNYXAgZXZpZGVuY2UgY2FyZCDCtyBleHBsYW5hdG9yeSByZWNvbnN0cnVjdGlvbiBmcm9tIHRoZSBwYXBlcjwvdGV4dD4KPC9zdmc+"
+    },
+    "parsing_results": {
+      "label": "Parsing results table",
+      "label_en": "Parsing results table",
+      "label_zh": "句法分析结果表",
+      "uri": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI5NjAiIGhlaWdodD0iNDIwIiB2aWV3Qm94PSIwIDAgOTYwIDQyMCI+CjxyZWN0IHdpZHRoPSI5NjAiIGhlaWdodD0iNDIwIiByeD0iMjQiIGZpbGw9IiNmOGZhZmMiLz4KPHRleHQgeD0iNDgiIHk9IjUyIiBmb250LWZhbWlseT0iQXJpYWwsc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyNiIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iIzBmMTcyYSI+RW5nbGlzaCBjb25zdGl0dWVuY3kgcGFyc2luZyByZXN1bHRzPC90ZXh0Pgo8cmVjdCB4PSI3MCIgeT0iMTA1IiB3aWR0aD0iODIwIiBoZWlnaHQ9IjIyMCIgcng9IjEyIiBmaWxsPSIjZmZmZmZmIiBzdHJva2U9IiNjYmQ1ZTEiIHN0cm9rZS13aWR0aD0iMiIvPjxwYXRoIGQ9Ik03MCAxNTVIODkwIE03MCAyMDVIODkwIE03MCAyNTVIODkwIiBzdHJva2U9IiNjYmQ1ZTEiIHN0cm9rZS13aWR0aD0iMSIvPjxnIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzBmMTcyYSI+PHRleHQgeD0iMjUwIiB5PSIxMzciIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtd2VpZ2h0PSI3MDAiPlNldHRpbmcgLyBtb2RlbDwvdGV4dD48dGV4dCB4PSI2NTAiIHk9IjEzNyIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC13ZWlnaHQ9IjcwMCI+RjE8L3RleHQ+PHRleHQgeD0iMjUwIiB5PSIxODciIHRleHQtYW5jaG9yPSJtaWRkbGUiPlRyYW5zZm9ybWVyLCBXU0otb25seTwvdGV4dD48dGV4dCB4PSI2NTAiIHk9IjE4NyIgdGV4dC1hbmNob3I9Im1pZGRsZSI+OTEuMzwvdGV4dD48dGV4dCB4PSIyNTAiIHk9IjIzNyIgdGV4dC1hbmNob3I9Im1pZGRsZSI+VHJhbnNmb3JtZXIsIHNlbWktc3VwZXJ2aXNlZDwvdGV4dD48dGV4dCB4PSI2NTAiIHk9IjIzNyIgdGV4dC1hbmNob3I9Im1pZGRsZSI+OTIuNzwvdGV4dD48dGV4dCB4PSIyNTAiIHk9IjI4NyIgdGV4dC1hbmNob3I9Im1pZGRsZSI+TXVsdGktdGFzayAvIGdlbmVyYXRpdmUgYmFzZWxpbmVzPC90ZXh0Pjx0ZXh0IHg9IjY1MCIgeT0iMjg3IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj45My4wIC8gOTMuMzwvdGV4dD48L2c+PHRleHQgeD0iNDgwIiB5PSIzNjUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzQ3NTU2OSI+VGhlIHJlc3VsdCBzaG93cyB0cmFuc2ZlciBiZXlvbmQgdHJhbnNsYXRpb247IGl0IGlzIG5vdCB0aGUgc3Ryb25nZXN0IGJhc2VsaW5lIGluIGV2ZXJ5IGNvbXBhcmlzb24uPC90ZXh0Pgo8dGV4dCB4PSI0OCIgeT0iMzk2IiBmb250LWZhbWlseT0iQXJpYWwsc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzY0NzQ4YiI+UGFwZXIgUmVhZGluZyBNYXAgZXZpZGVuY2UgY2FyZCDCtyBleHBsYW5hdG9yeSByZWNvbnN0cnVjdGlvbiBmcm9tIHRoZSBwYXBlcjwvdGV4dD4KPC9zdmc+"
+    },
+    "attention_visualization": {
+      "label": "Attention visualization",
+      "label_en": "Attention visualization",
+      "label_zh": "注意力可视化图",
+      "uri": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI5NjAiIGhlaWdodD0iNDIwIiB2aWV3Qm94PSIwIDAgOTYwIDQyMCI+CjxyZWN0IHdpZHRoPSI5NjAiIGhlaWdodD0iNDIwIiByeD0iMjQiIGZpbGw9IiNmOGZhZmMiLz4KPHRleHQgeD0iNDgiIHk9IjUyIiBmb250LWZhbWlseT0iQXJpYWwsc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyNiIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iIzBmMTcyYSI+UXVhbGl0YXRpdmUgYXR0ZW50aW9uIHZpc3VhbGl6YXRpb248L3RleHQ+CjxnIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxOCIgZmlsbD0iIzBmMTcyYSI+PHRleHQgeD0iMTMwIiB5PSIxNjAiPlRoZTwvdGV4dD48dGV4dCB4PSIyMjAiIHk9IjE2MCI+cHJvY2VzczwvdGV4dD48dGV4dCB4PSIzMzUiIHk9IjE2MCI+b2Y8L3RleHQ+PHRleHQgeD0iNDEwIiB5PSIxNjAiPm1ha2luZzwvdGV4dD48dGV4dCB4PSI1NTUiIHk9IjE2MCI+dGhpbmdzPC90ZXh0Pjx0ZXh0IHg9IjY4MCIgeT0iMTYwIj5tb3JlPC90ZXh0Pjx0ZXh0IHg9IjgwMCIgeT0iMTYwIj5kaWZmaWN1bHQ8L3RleHQ+PC9nPjxwYXRoIGQ9Ik00NTAgMTgwIEM0NzAgMzAwLCA3MTAgMzAwLCA3MTAgMTgwIiBmaWxsPSJub25lIiBzdHJva2U9IiMyNTYzZWIiIHN0cm9rZS13aWR0aD0iNCIvPjxwYXRoIGQ9Ik00NTAgMTgyIEM0OTAgMjcwLCA3ODAgMjcwLCA4MjUgMTgyIiBmaWxsPSJub25lIiBzdHJva2U9IiMxNmEzNGEiIHN0cm9rZS13aWR0aD0iNCIvPjxwYXRoIGQ9Ik00NTAgMTg0IEM1MDAgMjQwLCA2NzAgMjQwLCA2ODAgMTgyIiBmaWxsPSJub25lIiBzdHJva2U9IiNkYjI3NzciIHN0cm9rZS13aWR0aD0iNCIvPjxjaXJjbGUgY3g9IjQ1MCIgY3k9IjE2MCIgcj0iNyIgZmlsbD0iIzBmMTcyYSIvPjxjaXJjbGUgY3g9IjcxMCIgY3k9IjE2MCIgcj0iNyIgZmlsbD0iIzI1NjNlYiIvPjxjaXJjbGUgY3g9IjgyNSIgY3k9IjE2MCIgcj0iNyIgZmlsbD0iIzE2YTM0YSIvPjx0ZXh0IHg9IjQ4MCIgeT0iMzUwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IiM0NzU1NjkiPkxheWVyIDUgLyA2IMK3IGRpZmZlcmVudCBjb2xvcnMgcmVwcmVzZW50IGRpZmZlcmVudCBoZWFkcyDCtyBsb25nLWRpc3RhbmNlIGRlcGVuZGVuY3k8L3RleHQ+Cjx0ZXh0IHg9IjQ4IiB5PSIzOTYiIGZvbnQtZmFtaWx5PSJBcmlhbCxzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmaWxsPSIjNjQ3NDhiIj5QYXBlciBSZWFkaW5nIE1hcCBldmlkZW5jZSBjYXJkIMK3IGV4cGxhbmF0b3J5IHJlY29uc3RydWN0aW9uIGZyb20gdGhlIHBhcGVyPC90ZXh0Pgo8L3N2Zz4="
+    },
+    "positional_encoding": {
+      "label": "Sinusoidal positional encoding",
+      "label_en": "Sinusoidal positional encoding",
+      "label_zh": "正弦位置编码图",
+      "uri": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI5NjAiIGhlaWdodD0iNDIwIiB2aWV3Qm94PSIwIDAgOTYwIDQyMCI+CjxyZWN0IHdpZHRoPSI5NjAiIGhlaWdodD0iNDIwIiByeD0iMjQiIGZpbGw9IiNmOGZhZmMiLz4KPHRleHQgeD0iNDgiIHk9IjUyIiBmb250LWZhbWlseT0iQXJpYWwsc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyNiIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iIzBmMTcyYSI+U2ludXNvaWRhbCBwb3NpdGlvbmFsIGVuY29kaW5nPC90ZXh0Pgo8bGluZSB4MT0iOTUiIHkxPSIyOTUiIHgyPSI4NzUiIHkyPSIyOTUiIHN0cm9rZT0iIzY0NzQ4YiIgc3Ryb2tlLXdpZHRoPSIyIi8+PGxpbmUgeDE9Ijk1IiB5MT0iMTAwIiB4Mj0iOTUiIHkyPSIyOTUiIHN0cm9rZT0iIzY0NzQ4YiIgc3Ryb2tlLXdpZHRoPSIyIi8+PHBhdGggZD0iTTk1IDIwMCBDMTU1IDExNSwyMTUgMjg1LDI3NSAyMDAgUzM5NSAxMTUsNDU1IDIwMCBTNTc1IDI4NSw2MzUgMjAwIFM3NTUgMTE1LDgxNSAyMDAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzI1NjNlYiIgc3Ryb2tlLXdpZHRoPSI0Ii8+PHBhdGggZD0iTTk1IDIwMCBDMTc1IDI3MCwyNTUgMTMwLDMzNSAyMDAgUzQ5NSAyNzAsNTc1IDIwMCBTNzM1IDEzMCw4MTUgMjAwIiBmaWxsPSJub25lIiBzdHJva2U9IiNkYjI3NzciIHN0cm9rZS13aWR0aD0iNCIvPjx0ZXh0IHg9IjQ4MCIgeT0iMzQ1IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IiM0NzU1NjkiPnNpbiAvIGNvcyBzaWduYWxzIGFyZSBhZGRlZCB0byB0b2tlbiBlbWJlZGRpbmdzOyB3YXZlbGVuZ3RocyBzcGFuIDLPgCB0byAxMDAwMCDCtyAyz4A8L3RleHQ+Cjx0ZXh0IHg9IjQ4IiB5PSIzOTYiIGZvbnQtZmFtaWx5PSJBcmlhbCxzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmaWxsPSIjNjQ3NDhiIj5QYXBlciBSZWFkaW5nIE1hcCBldmlkZW5jZSBjYXJkIMK3IGV4cGxhbmF0b3J5IHJlY29uc3RydWN0aW9uIGZyb20gdGhlIHBhcGVyPC90ZXh0Pgo8L3N2Zz4="
     }
   }
 }

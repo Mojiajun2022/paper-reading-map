@@ -106,6 +106,15 @@ than a short abstract summary:
 - Attach a paper figure, schematic, or table crop when it clarifies the method or result. Label an
   original explanatory schematic as such; never present an agent-created drawing as the paper's
   original figure.
+- Audit the paper for evidence that deserves a visual card: architecture diagrams, equations,
+  complexity tables, ablations, benchmark tables, metric charts, qualitative visualizations, and
+  training or data-scale facts. Put high-value items on the graph as clickable figure or evidence
+  nodes instead of leaving them buried in prose. A substantial empirical paper will often have
+  several evidence cards, not just one overview image.
+- Keep the paper's numbers and labels attached to the relevant card. If a card is a faithful
+  reconstruction rather than the original crop, say so in its label and detail; do not imply that
+  an agent-created chart is the paper's artwork. Values read only from pixels must be marked as
+  not text-verified unless they are confirmed against the source.
 - Keep the first viewport legible. Use `importance: 3` for the spine, `2` for evidence and mechanism
   branches, and `1` for peripheral context. Put dense detail in the click-open panel and Reading view.
 
@@ -228,6 +237,25 @@ map and reference them from a node:
   ]
 }
 ```
+
+Use the same mechanism for tables and data cards. Give an important comparison its own node when
+that makes the evidence discoverable, then connect it to the claim it supports:
+
+```json
+{
+  "id": "complexity-table",
+  "type": "result",
+  "label": "Complexity comparison",
+  "detail": "Table 1 compares operations, sequential depth, and maximum path length.",
+  "figure": "table1-reconstruction"
+}
+```
+
+For each paper with meaningful visual evidence, check the major method figure, the main result or
+benchmark table, the most informative ablation or comparison, and any qualitative visualization.
+Attach only the items that explain the argument; do not turn every decorative figure into a node.
+The reader must be able to click from a claim to its supporting visual and return to the source
+section or page.
 
 Use a crop that includes the caption and inspect it before delivery. External image URLs are
 rejected so the generated HTML remains offline-capable. Supported image data must use a recognized

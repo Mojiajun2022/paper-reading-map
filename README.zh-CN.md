@@ -24,6 +24,7 @@ Paper Reading Map 将真实论文转换为经过来源核验的交互式地图�
 - **证据分支：** 将准确率、消融、对比实验和局限分别展开，不再压成一条线。
 - **来源核验：** 数字和引文会对照输入文本检查，缺少证据时会提示。
 - **点击阅读：** 点击节点查看解释、证据状态、引文、页码、关系和附图。
+- **证据卡片：** 点击架构图、注意力公式、复杂度表、翻译结果、句法分析表、位置编码或注意力可视化节点，直接查看支撑结论的图表和数据。
 - **阅读视图：** 需要连续阅读时，可切换到适合引用的线性顺序。
 
 ## 快速开始
@@ -49,8 +50,9 @@ open demo.html
 1. 打开[在线 Demo](https://htmlpreview.github.io/?https://raw.githubusercontent.com/Mojiajun2022/paper-reading-map/main/demo.html)。
 2. 沿着《Attention Is All You Need》的论证主线阅读：瓶颈 → Transformer → 注意力 → 实验结果。
 3. 观察架构、位置编码、效率、翻译和句法分析等分支。
-4. 点击 **Attention replaces recurrence**，查看来源核验和 Transformer 示意图。
-5. 需要连贯阅读时，切换到 **Reading view**。
+4. 点击 **Transformer thesis**、**Complexity table**、**Translation scorecard** 或 **Parsing results table**，查看对应的图表证据。
+5. 点击 **Attention visualization** 或 **Positional encoding**，查看机制和定性分析图。
+6. 需要连贯阅读时，切换到 **Reading view**。
 
 ![论文主线与证据分支](spine.png)
 
@@ -69,7 +71,7 @@ open demo.html
 }
 ```
 
-双语地图可使用 `label_en`、`detail_en` 和 `label_zh` / `detail_zh`。节点可通过 `"figure": "figure-key"` 引用本地或内嵌图片。
+双语地图可使用 `label_en`、`detail_en` 和 `label_zh` / `detail_zh`。节点可通过 `"figure": "figure-key"` 引用本地或内嵌图片；重要表格和数据也可以作为独立证据节点，点击后打开对应的图表卡片。
 
 ## 验证
 

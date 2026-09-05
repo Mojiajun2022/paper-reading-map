@@ -1,6 +1,6 @@
 # Paper Reading Map（论文阅读地图）
 
-[English](https://github.com/Mojiajun2022/paper-reading-map/blob/main/README.md) | **简体中文**
+[English](https://github.com/Mojiajun2022/paper-reading-map/blob/main/README.md) | [简体中文](https://github.com/Mojiajun2022/paper-reading-map/blob/main/README.zh-CN.md)
 
 <div align="center">
 

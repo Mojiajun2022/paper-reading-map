@@ -39,8 +39,8 @@ Use $argument-map to build a Paper Reading Map. Keep every number and quotation 
 ### Build locally
 
 ```bash
-python3 scripts/build_graph.py examples/transformer-graph.json \
-  -o demo.html --source examples/transformer-paper.txt
+python3 scripts/build_graph.py transformer-graph.json \
+  -o demo.html --source transformer-paper.txt
 open demo.html
 ```
 
@@ -74,7 +74,7 @@ Use `label_en`, `detail_en`, and `label_zh` / `detail_zh` for bilingual maps. A 
 ## Verification
 
 ```bash
-python3 scripts/build_graph.py --validate examples/transformer-graph.json --strict
+python3 scripts/build_graph.py --validate transformer-graph.json --strict
 python3 scripts/release_check.py
 ```
 
@@ -86,7 +86,7 @@ The strict validator checks graph structure, source-backed numbers, quotations, 
 
 ## Detailed Tutorial
 
-Start with `examples/transformer-paper.txt`, inspect `examples/transformer-graph.json`, then rebuild `demo.html`. Replace the source and nodes with the paper you want to read.
+Start with `transformer-paper.txt`, inspect `transformer-graph.json`, then rebuild `demo.html`. Replace the source and nodes with the paper you want to read.
 
 ## Graph Data Reference
 
@@ -106,7 +106,8 @@ Run the strict validator, release checks, and browser smoke test before publishi
 | --- | --- |
 | `SKILL.md` | Codex skill instructions |
 | `scripts/build_graph.py` | Validator and HTML/Markdown builder |
-| `examples/` | Tutorial graph and source text |
+| `transformer-graph.json` | Paper Reading Map graph |
+| `transformer-paper.txt` | Source-linked paper extract |
 | `demo.html` | Generated, shareable demo |
 | `docs/` | Screenshots and generated documentation |
 

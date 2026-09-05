@@ -39,8 +39,8 @@ Use $argument-map to build a Paper Reading Map. Keep every number and quotation 
 ### 本地生成 Demo
 
 ```bash
-python3 scripts/build_graph.py examples/transformer-graph.json \
-  -o demo.html --source examples/transformer-paper.txt
+python3 scripts/build_graph.py transformer-graph.json \
+  -o demo.html --source transformer-paper.txt
 open demo.html
 ```
 
@@ -74,7 +74,7 @@ open demo.html
 ## 验证
 
 ```bash
-python3 scripts/build_graph.py --validate examples/transformer-graph.json --strict
+python3 scripts/build_graph.py --validate transformer-graph.json --strict
 python3 scripts/release_check.py
 ```
 
@@ -86,7 +86,8 @@ python3 scripts/release_check.py
 | --- | --- |
 | `SKILL.md` | Codex skill 说明 |
 | `scripts/build_graph.py` | 验证器和 HTML/Markdown 构建器 |
-| `examples/` | 教程图谱和来源文本 |
+| `transformer-graph.json` | 论文阅读地图图谱 |
+| `transformer-paper.txt` | 与来源关联的论文摘录 |
 | `demo.html` | 可分享的生成结果 |
 | `docs/` | 截图和生成文档 |
 
